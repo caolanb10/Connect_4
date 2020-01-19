@@ -249,6 +249,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1812353739021353776, guid: 6c85b222c975c8d47bbbeda7895ff2e1,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1812353739021353779, guid: 6c85b222c975c8d47bbbeda7895ff2e1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -317,6 +322,11 @@ PrefabInstance:
     - target: {fileID: 6474117345256655430, guid: 6c85b222c975c8d47bbbeda7895ff2e1,
         type: 3}
       propertyPath: slotsBounds.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474117345256655430, guid: 6c85b222c975c8d47bbbeda7895ff2e1,
+        type: 3}
+      propertyPath: slotsColliders.Array.size
       value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2050,7 +2060,7 @@ PrefabInstance:
     - target: {fileID: 4101187182211209449, guid: a2bf1456c37814941b7bb463b51e549c,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2bf1456c37814941b7bb463b51e549c, type: 3}
