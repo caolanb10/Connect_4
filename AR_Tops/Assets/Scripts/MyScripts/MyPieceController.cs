@@ -6,13 +6,14 @@ public class MyPieceController : MonoBehaviour
 {
     private Vector3 mousePosition;
 	private GameObject highlightedObject;
+	private Quaternion rotation;
 	public float Speed = 5.0f;
 	public Camera cam;
 	public float Distance = 20.0f;
 
     void Start()
     {
-        
+		rotation = Quaternion.Euler(90, 0, 0);
     }
 
 	void Update()
@@ -30,8 +31,7 @@ public class MyPieceController : MonoBehaviour
 				{
 					mousePos.z = Distance;
 					Vector3 point = cam.ScreenToWorldPoint(mousePos);
-					Quaternion currentRotation = highlightedObject.transform.rotation;
-					highlightedObject.transform.SetPositionAndRotation(point, currentRotation);
+					highlightedObject.transform.SetPositionAndRotation(point, rotation);
 				}
 			}
 		}

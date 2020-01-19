@@ -206,6 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 262605015}
+  - component: {fileID: 262605016}
   m_Layer: 0
   m_Name: CameraController
   m_TagString: Untagged
@@ -227,6 +228,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &262605016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262605014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34b35d4928f8a874eaabe5bc4a393573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1341642592}
+  speed: 5
 --- !u!1001 &349916893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -298,6 +313,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Piece
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474117345256655430, guid: 6c85b222c975c8d47bbbeda7895ff2e1,
+        type: 3}
+      propertyPath: slotsBounds.Array.size
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c85b222c975c8d47bbbeda7895ff2e1, type: 3}
@@ -2025,6 +2045,11 @@ PrefabInstance:
     - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101187182211209449, guid: a2bf1456c37814941b7bb463b51e549c,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
