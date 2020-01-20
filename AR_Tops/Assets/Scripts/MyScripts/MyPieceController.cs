@@ -10,8 +10,12 @@ public class MyPieceController : MonoBehaviour
 	public float Speed = 5.0f;
 	public Camera cam;
 	public float Distance = 20.0f;
+	public Vector3 zeroVelocity = new Vector3(0, 0, 0);
+	public MyPiecePlacer placer;
+	public bool LeftMouseDown = false;
+	public Rigidbody highlightedObjectRb;
 
-    void Start()
+	void Start()
     {
 		// Set absolute rotation
 		rotation = Quaternion.Euler(90, 0, 0);
@@ -21,8 +25,12 @@ public class MyPieceController : MonoBehaviour
 	{
 		Vector3 mousePos = Input.mousePosition;
 
+		LeftMouseDown = Input.GetMouseButton(0);
+  
+		Debug.Log(LeftMouseDown);
+
 		// Left Click
-		if (Input.GetMouseButton(0))
+		if (LeftMouseDown)
 		{
 			Ray ray = cam.ScreenPointToRay(mousePos);
 			RaycastHit hit;
@@ -34,15 +42,40 @@ public class MyPieceController : MonoBehaviour
 				highlightedObject = selection.gameObject;
 
 				// If the game object is a movable piece
-				if(highlightedObject.tag == "Piece")
+				if (highlightedObject.tag == "Piece")
 				{
+
+					placer = highlightedObject.GetComponent<MyPiecePlacer>();
+					highlightedObject.GetComponent<Rigidbody>().useGravity = false;
+
+					placer.isSelected = true;
+
 					mousePos.z = Distance;
+
+					// Point in world space
 					Vector3 point = cam.ScreenToWorldPoint(mousePos);
 
-					//Move object to mouse point
-					highlightedObject.transform.SetPositionAndRotation(point, rotation);
+					if (placer.isColliding == false)
+					{
+						// Move object to mouse point
+						highlightedObject.transform.position
+							= Vector3.MoveTowards(highlightedObject.transform.position, point, Speed * Time.deltaTime);
+
+						// Apply no velocity
+						// highlightedObject.GetComponent<Rigidbody>().velocity = zeroVelocity;
+					}
 				}
 			}
+		}
+
+		// No left click, clear highlighted object
+		else
+		{
+			if (highlightedObject != null)
+			{
+				highlightedObject.GetComponent<Rigidbody>().useGravity = true;
+			}
+			highlightedObject = null;
 		}
 	}
 }

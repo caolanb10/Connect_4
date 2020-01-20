@@ -24,12 +24,17 @@ public class MyPiecePlacer : MonoBehaviour
 
 	// Used to determine whether to take control away from the user
 	public bool isColliding;
-	
+
+	// Used to determine whether to follow the input of the user
+	public bool isSelected;
+
 	// The Slot it is colliding with
 	public GameObject colliding_slot;
 
 	void Start()
 	{
+		GetComponent<Rigidbody>().freezeRotation = true;
+
 		slotsParent = GameObject.Find(parent_name);
 
 		this_collider = GetComponent<CapsuleCollider>();
@@ -43,20 +48,31 @@ public class MyPiecePlacer : MonoBehaviour
 		}
     }
 
-    void Update()
+    void FixedUpdate()
     {
+		// Assume no collision to begin
+		isColliding = false;
+
 		this_collider = GetComponent<CapsuleCollider>();
 
 		foreach (Collider c in slotsColliders)
 		{
-			if (this_collider.bounds.Intersects(c.bounds))
+			if (this_collider.bounds.Intersects(c.bounds) && Input.GetMouseButton(0))
 			{
 				isColliding = true;
 				colliding_slot = c.gameObject;
+
+				Debug.Log("Colliding with" + c.gameObject.name);
+				Debug.Log("Colliding is" + isColliding);
+
+				bool magnet = colliding_slot.GetComponent<MyMagnetismScript>().WillMagnetise;
+				if (magnet)
+				{
+					transform.SetPositionAndRotation(colliding_slot.transform.position, Quaternion.Euler(90, 0, 0));
+				}
 			}
 			else
 			{
-				isColliding = false;
 				colliding_slot = null;
 			}
 		}
