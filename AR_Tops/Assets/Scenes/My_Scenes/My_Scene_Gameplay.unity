@@ -262,12 +262,12 @@ PrefabInstance:
     - target: {fileID: 1812353739021353779, guid: 6c85b222c975c8d47bbbeda7895ff2e1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 50.3
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 1812353739021353779, guid: 6c85b222c975c8d47bbbeda7895ff2e1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 49.92
+      value: 40.46
       objectReference: {fileID: 0}
     - target: {fileID: 1812353739021353779, guid: 6c85b222c975c8d47bbbeda7895ff2e1,
         type: 3}
@@ -927,13 +927,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62becbf0934ef0b46a2e4293c5bde98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
   cam: {fileID: 1341642592}
+  mousePosition: {x: 0, y: 0, z: 0}
   Distance: 49.82
-  zeroVelocity: {x: 0, y: 0, z: 0}
-  placer: {fileID: 0}
-  LeftMouseDown: 0
-  highlightedObjectRb: {fileID: 0}
 --- !u!4 &1323997431
 Transform:
   m_ObjectHideFlags: 0
@@ -2137,7 +2133,7 @@ PrefabInstance:
     - target: {fileID: 4101187182211209449, guid: a2bf1456c37814941b7bb463b51e549c,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1209807010183475252, guid: a2bf1456c37814941b7bb463b51e549c, type: 3}

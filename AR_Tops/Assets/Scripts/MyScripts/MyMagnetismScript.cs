@@ -10,7 +10,7 @@ public class MyMagnetismScript : MonoBehaviour
 
     void Start()
     {
-        
+		GetComponent<SphereCollider>().enabled = false;
     }
 
     void Update()
