@@ -13,9 +13,6 @@ public class MyPiecePlacer : MonoBehaviour
 	// The Slots
 	private GameObject[] slots;
 
-	// The bounds of the slots
-	private Bounds[] slotsColliders;
-
 	// The Slot it is colliding with
 	private GameObject colliding_slot;
 
@@ -45,16 +42,14 @@ public class MyPiecePlacer : MonoBehaviour
 		InitialisePiecePlacer();
 	}
 
-    void FixedUpdate()
-    {
+	void FixedUpdate()
+	{
 		// Move toward mouse if selected
-		if(isSelected && !isColliding)
+		if (isSelected && !isColliding)
 		{
-			GetComponent<Rigidbody>().useGravity = false;
-			GetComponent<Rigidbody>().velocity = ZeroSpeed;
-			transform.position = 
-				Vector3.MoveTowards(transform.position, pieceController.mousePosition, Speed * Time.deltaTime);
+			MoveTowardCursor();
 		}
+		// Otherwise, re-enable gravity
 		else
 		{
 			GetComponent<Rigidbody>().useGravity = true;
@@ -64,62 +59,31 @@ public class MyPiecePlacer : MonoBehaviour
 		isColliding = false;
 
 		this_collider = GetComponent<CapsuleCollider>();
-		Debug.Log(pieceController.mousePosition);
-
-
-		float distanceFromSlotToMouse = Vector3.Distance(slots[0].transform.position, pieceController.mousePosition);
-
-		bool cursorOutside = distanceFromSlotToMouse > radius;
-
-		Debug.Log("cursor outside" + cursorOutside);
-		Debug.Log("distance from slot to cursor" + distanceFromSlotToMouse);
-
-		if (this_collider.bounds.Intersects(slotsColliders[0])
-			&& Input.GetMouseButton(0)
-			&& !cursorOutside)
+		foreach (GameObject slot in slots)
 		{
-			isColliding = true;
-			colliding_slot = slots[0].gameObject;
-			if (colliding_slot.GetComponent<MyMagnetismScript>().WillMagnetise)
-			{ 
-				Vector3 slotPosition = colliding_slot.transform.position;
-				transform.SetPositionAndRotation(colliding_slot.transform.position, rotation);
-			}
-		}
-		else
-		{
-			colliding_slot = null;
-		}
-	}
-		/*
-		foreach (Collider c in slotsColliders)
-		{
-			if (this_collider.bounds.Intersects(c.bounds) && Input.GetMouseButton(0))
+			Bounds slotBounds = slot.GetComponent<SphereCollider>().bounds;
+
+			float slotToPiece = Vector3.Distance(slot.transform.position, pieceController.mousePosition);
+
+			bool cursorOutsideSlot = slotToPiece > radius;
+
+			if (this_collider.bounds.Intersects(slotBounds) && Input.GetMouseButton(0) && !cursorOutsideSlot)
 			{
 				isColliding = true;
-				colliding_slot = c.gameObject;
-
-				Debug.Log("Colliding with" + c.gameObject.name);
-				Debug.Log("Colliding is" + isColliding);
-
-				bool magnet = colliding_slot.GetComponent<MyMagnetismScript>().WillMagnetise;
-				if (magnet)
+				colliding_slot = slot;
+				if (colliding_slot.GetComponent<MyMagnetismScript>().WillMagnetise)
 				{
-					transform.SetPositionAndRotation(colliding_slot.transform.position, Quaternion.Euler(90, 0, 0));
+					Vector3 slotPosition = colliding_slot.transform.position;
+					transform.SetPositionAndRotation(colliding_slot.transform.position, rotation);
 				}
 			}
-			else
-			{
-				colliding_slot = null;
-			}
 		}
-		*/
+	}
 
 	// Sets variables
 	void InitialisePiecePlacer()
 	{
 		slots = new GameObject[size];
-		slotsColliders = new Bounds[size];
 
 		pieceController = GameObject.Find("PieceController").GetComponent<MyPieceController>();
 		GameObject g = GameObject.Find("Connect_4_Board_Slots");
@@ -135,7 +99,14 @@ public class MyPiecePlacer : MonoBehaviour
 		for (int i = 0; i < g.transform.childCount; i++)
 		{
 			slots[i] = g.transform.GetChild(i).gameObject;
-			slotsColliders[i] = slots[i].GetComponent<SphereCollider>().bounds;
 		}
+	}
+
+	void MoveTowardCursor()
+	{
+		GetComponent<Rigidbody>().useGravity = false;
+		GetComponent<Rigidbody>().velocity = ZeroSpeed;
+		transform.position = 
+			Vector3.MoveTowards(transform.position, pieceController.mousePosition, Speed * Time.deltaTime);
 	}
 }
