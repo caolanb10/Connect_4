@@ -16,7 +16,7 @@ public class MyPieceController : MonoBehaviour
 	public float Distance = 20.0f;
 
 	// Left click state
-	public bool LeftMouseDown = false;
+	private bool LeftMouseDown = false;
 
 	// Gameobject that mouse ray has intersected with
 	private GameObject highlightedObject;

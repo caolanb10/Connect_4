@@ -33,7 +33,7 @@ public class MyPiecePlacer : MonoBehaviour
 	private bool isColliding;
 
 	// Used to determine whether to follow the input of the user
-	private bool isSelected;
+	public bool isSelected;
 
 	void Start()
 	{
@@ -45,12 +45,16 @@ public class MyPiecePlacer : MonoBehaviour
 
 		this_collider = GetComponent<CapsuleCollider>();
 
-		int i = 0;
-		foreach(Transform t in GameObject.Find("Connect_4_Board_Slots").transform)
+		GameObject g = GameObject.Find("Connect_4_Board_Slots");
+
+		Debug.Log(g.name);
+		Debug.Log(g.transform.childCount);
+		Debug.Log(g.transform.GetChild(0).gameObject.name);
+
+		for(int i = 0; i < g.transform.childCount; i++)
 		{
-			slots[i] = t.gameObject;
-			slotsColliders[i] = t.gameObject.GetComponent<SphereCollider>();
-			i += 1;
+			slots[i] = g.transform.GetChild(i).gameObject;
+			slotsColliders[i] = slots[i].GetComponent<SphereCollider>();
 		}
     }
 
@@ -73,6 +77,26 @@ public class MyPiecePlacer : MonoBehaviour
 
 		this_collider = GetComponent<CapsuleCollider>();
 
+		if(this_collider.bounds.Intersects(slotsColliders[0].bounds) && Input.GetMouseButton(0))
+		{
+			isColliding = true;
+			colliding_slot = slotsColliders[0].gameObject;
+
+			Debug.Log("Colliding with" + slotsColliders[0].gameObject.name);
+			Debug.Log("Colliding is" + isColliding);
+
+			bool magnet = colliding_slot.GetComponent<MyMagnetismScript>().WillMagnetise;
+			if (magnet)
+			{
+				transform.SetPositionAndRotation(colliding_slot.transform.position, rotation);
+			}
+		}
+		else
+		{
+			colliding_slot = null;
+		}
+	}
+		/*
 		foreach (Collider c in slotsColliders)
 		{
 			if (this_collider.bounds.Intersects(c.bounds) && Input.GetMouseButton(0))
@@ -94,5 +118,5 @@ public class MyPiecePlacer : MonoBehaviour
 				colliding_slot = null;
 			}
 		}
-    }
+		*/
 }
