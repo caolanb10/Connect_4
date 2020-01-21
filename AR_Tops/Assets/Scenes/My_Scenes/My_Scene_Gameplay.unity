@@ -931,6 +931,9 @@ MonoBehaviour:
   cam: {fileID: 1341642592}
   Distance: 49.82
   zeroVelocity: {x: 0, y: 0, z: 0}
+  placer: {fileID: 0}
+  LeftMouseDown: 0
+  highlightedObjectRb: {fileID: 0}
 --- !u!4 &1323997431
 Transform:
   m_ObjectHideFlags: 0

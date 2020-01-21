@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class MyPieceController : MonoBehaviour
 {
-    private Vector3 mousePosition;
-	private GameObject highlightedObject;
-	private Quaternion rotation;
-	public float Speed = 5.0f;
+	[Header("Input")]
+	// Players camera object
 	public Camera cam;
+
+	// Vector that stores the mouse position in world space to be used by the active piece
+	public Vector3 mousePosition;
+
+	[Header("Game Object Detection and Movement")]
+	// Distance away from camera that piece should move to
 	public float Distance = 20.0f;
-	public Vector3 zeroVelocity = new Vector3(0, 0, 0);
-	public MyPiecePlacer placer;
+
+	// Left click state
 	public bool LeftMouseDown = false;
-	public Rigidbody highlightedObjectRb;
+
+	// Gameobject that mouse ray has intersected with
+	private GameObject highlightedObject;
 
 	void Start()
     {
-		// Set absolute rotation
-		rotation = Quaternion.Euler(90, 0, 0);
+
     }
 
 	void FixedUpdate()
@@ -26,17 +31,18 @@ public class MyPieceController : MonoBehaviour
 		Vector3 mousePos = Input.mousePosition;
 
 		LeftMouseDown = Input.GetMouseButton(0);
-  
-		Debug.Log(LeftMouseDown);
 
-		// Left Click
+		// Left Click Down
 		if (LeftMouseDown)
 		{
 			Ray ray = cam.ScreenPointToRay(mousePos);
 			RaycastHit hit;
 
-			// If it hits a game object
-			if (Physics.Raycast(ray, out hit))
+			// Point in world space
+			mousePosition = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Distance));
+
+			// If it hits a game object AND we havent previously selected one
+			if (Physics.Raycast(ray, out hit) && highlightedObject == null)
 			{
 				Transform selection = hit.transform;
 				highlightedObject = selection.gameObject;
@@ -44,37 +50,26 @@ public class MyPieceController : MonoBehaviour
 				// If the game object is a movable piece
 				if (highlightedObject.tag == "Piece")
 				{
-
-					placer = highlightedObject.GetComponent<MyPiecePlacer>();
-					highlightedObject.GetComponent<Rigidbody>().useGravity = false;
-
-					placer.isSelected = true;
-
-					mousePos.z = Distance;
-
-					// Point in world space
-					Vector3 point = cam.ScreenToWorldPoint(mousePos);
-
-					if (placer.isColliding == false)
-					{
-						// Move object to mouse point
-						highlightedObject.transform.position
-							= Vector3.MoveTowards(highlightedObject.transform.position, point, Speed * Time.deltaTime);
-
-						// Apply no velocity
-						// highlightedObject.GetComponent<Rigidbody>().velocity = zeroVelocity;
-					}
+					// Select the object
+					highlightedObject.GetComponent<MyPiecePlacer>().isSelected = true;
 				}
 			}
 		}
 
-		// No left click, clear highlighted object
+		// Left Click Up
 		else
 		{
+			// If we have selected an object previously
 			if (highlightedObject != null)
 			{
-				highlightedObject.GetComponent<Rigidbody>().useGravity = true;
+				// If the game object is a movable piece
+				if (highlightedObject.tag == "Piece")
+				{
+					// De-select the object
+					highlightedObject.GetComponent<MyPiecePlacer>().isSelected = false;
+				}
 			}
+			// Delete reference
 			highlightedObject = null;
 		}
 	}

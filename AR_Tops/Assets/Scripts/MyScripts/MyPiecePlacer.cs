@@ -4,43 +4,49 @@ using UnityEngine;
 
 public class MyPiecePlacer : MonoBehaviour
 {
+	/* Game Board */
 	// Number of Slots
-	public int size = 7;
+	private float size = 7.0f;
 
 	// The Slots
-	public GameObject[] slots;
+	private GameObject[] slots;
 
 	// The bounds of the slots
-	public Collider[] slotsColliders;	
-	
-	// The parent game object
-	private GameObject slotsParent;
-	
-	// The game object name for the parent
-	private string parent_name = "Connect_4_Board_Slots";
-	
-	// This objects bounds
-	public Collider this_collider;
-
-	// Used to determine whether to take control away from the user
-	public bool isColliding;
-
-	// Used to determine whether to follow the input of the user
-	public bool isSelected;
+	private Collider[] slotsColliders;
 
 	// The Slot it is colliding with
-	public GameObject colliding_slot;
+	private GameObject colliding_slot;
+
+	// Speed that the object should move at
+	private float Speed = 20.0f;
+
+	// The controller
+	private MyPieceController pieceController;
+
+	// Used to preserve rotation
+	private Quaternion rotation = Quaternion.Euler(90, 0, 0);
+	
+	// This objects bounds
+	private Collider this_collider;
+
+	// Used to determine whether to take control away from the user
+	private bool isColliding;
+
+	// Used to determine whether to follow the input of the user
+	private bool isSelected;
 
 	void Start()
 	{
-		GetComponent<Rigidbody>().freezeRotation = true;
+		pieceController = GameObject.Find("PieceController").GetComponent<MyPieceController>();
 
-		slotsParent = GameObject.Find(parent_name);
+		// Preserve rotation
+		transform.rotation = rotation;
+		GetComponent<Rigidbody>().freezeRotation = true;
 
 		this_collider = GetComponent<CapsuleCollider>();
 
 		int i = 0;
-		foreach(Transform t in slotsParent.transform)
+		foreach(Transform t in GameObject.Find("Connect_4_Board_Slots").transform)
 		{
 			slots[i] = t.gameObject;
 			slotsColliders[i] = t.gameObject.GetComponent<SphereCollider>();
@@ -50,6 +56,18 @@ public class MyPiecePlacer : MonoBehaviour
 
     void FixedUpdate()
     {
+		// Move toward mouse if selected
+		if(isSelected)
+		{
+			GetComponent<Rigidbody>().useGravity = false;
+			transform.position = 
+				Vector3.MoveTowards(transform.position, pieceController.mousePosition, Speed * Time.deltaTime);
+		}
+		else
+		{
+			GetComponent<Rigidbody>().useGravity = true;
+		}
+
 		// Assume no collision to begin
 		isColliding = false;
 
