@@ -31,11 +31,17 @@ public class MyPiecePlacer : MonoBehaviour
 	// This objects bounds
 	private Collider this_collider;
 
+	// Gameplay Manager
+	private MyGameplayManager gameplayManager;
+
 	// Used to determine whether to take control away from the user
 	public bool isColliding;
 
 	// Used to determine whether to follow the input of the user
 	public bool isSelected;
+
+	// Used for placing in the board
+	public bool isPlaced;
 
 	void Start()
 	{
@@ -67,30 +73,51 @@ public class MyPiecePlacer : MonoBehaviour
 
 			bool cursorOutsideSlot = slotToPiece > radius;
 
-			if (this_collider.bounds.Intersects(slotBounds) && Input.GetMouseButton(0) && !cursorOutsideSlot)
+			if (this_collider.bounds.Intersects(slotBounds) && !cursorOutsideSlot)
 			{
 				isColliding = true;
-				colliding_slot = slot;
-				if (colliding_slot.GetComponent<MyMagnetismScript>().WillMagnetise)
+				if (Input.GetMouseButton(0))
 				{
-					Vector3 slotPosition = colliding_slot.transform.position;
-					transform.SetPositionAndRotation(colliding_slot.transform.position, rotation);
+					colliding_slot = slot;
+					Magnetise(null);
 				}
 			}
 		}
+
+		// Piece Placed
+		if(!isSelected && isColliding)
+		{
+			isPlaced = true;
+			gameplayManager.ItemJustPlaced = gameObject;
+		}
 	}
 
+	public void Magnetise(GameObject slot)
+	{
+		if (slot == null) slot = colliding_slot;
+		if (slot.GetComponent<MyMagnetismScript>().WillMagnetise)
+		{
+			Vector3 slotPosition = slot.transform.position;
+			transform.SetPositionAndRotation(slot.transform.position, rotation);
+		}
+	}
+
+	/*
 	public void InBoard()
 	{
 		if(this_collider)
 	}
-
+	*/
+	
 	// Sets variables
 	void InitialisePiecePlacer()
 	{
 		slots = new GameObject[size];
 
+		gameplayManager = GameObject.Find("GameplayManager").GetComponent<MyGameplayManager>();
+
 		pieceController = GameObject.Find("PieceController").GetComponent<MyPieceController>();
+
 		GameObject g = GameObject.Find("Connect_4_Board_Slots");
 
 		radius = gameObject.transform.localScale.x / 2;

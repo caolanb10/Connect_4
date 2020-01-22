@@ -17,7 +17,7 @@ public class MyGameplayManager : MonoBehaviour
 
 	private bool[,] IsOccupied;
 
-	private bool ItemJustPlaced = false;
+	public GameObject PieceJustPlaced = null;
 	
 	// Board Dimensions
 	private int height = 6;
@@ -30,6 +30,69 @@ public class MyGameplayManager : MonoBehaviour
 	void Start()
 	{
 		InitializeBoard();
+	}
+
+	void Update()
+	{
+		if (PieceJustPlaced != null)
+		{
+			CheckForCollision();
+		}
+		/*
+		if (ItemJustPlaced)
+		{
+			if (IsGameOver())
+			{
+				UI_Inform_Text.text = GameOver;
+			}
+		}
+		*/
+	}
+
+	public void CheckForCollision()
+	{
+		Bounds piecePlaced = PieceJustPlaced.GetComponent<CapsuleCollider>().bounds;
+
+		for (int i = 0; i < width; i++)
+		{
+			GameObject position = GetAvailablePosition(i);
+			Bounds positionBounds = position.GetComponent<SphereCollider>().bounds;
+			if (position.GetComponent<MyMagnetismScript>().WillMagnetise)
+			{
+				if (piecePlaced.Intersects(positionBounds))
+				{
+					// Move to position on board
+					PieceJustPlaced.GetComponent<MyPiecePlacer>().Magnetise(position);
+
+					// Then remove its rigid body component attached
+					Destroy(PieceJustPlaced.GetComponent<Rigidbody>());
+
+					SetOccupied(PieceJustPlaced, position);
+				}
+			}
+		}
+	}
+
+	public void SetOccupied(GameObject piece, int position)
+	{
+
+	}
+
+	public GameObject GetAvailablePosition(int index)
+	{
+		// No piece in column
+		if (IsOccupied[0, index] == false)
+		{
+			return (BoardPositions[0, index]);
+		}
+		for (int i = 0; i < height; i++)
+		{
+			if(IsOccupied[i, index])
+			{
+				return (BoardPositions[i + 1, index]);
+			}
+		}
+		return null;
 	}
 
 	public void SetMagnetism(GameObject position, bool val)
@@ -83,16 +146,6 @@ public class MyGameplayManager : MonoBehaviour
 		return false;
 	}
 
-	void Update()
-	{
-		if (ItemJustPlaced)
-		{
-			if (IsGameOver())
-			{
-				UI_Inform_Text.text = GameOver;
-			}
-		}
-	}
 	// public void 
 
 	public void InitializeBoard()
