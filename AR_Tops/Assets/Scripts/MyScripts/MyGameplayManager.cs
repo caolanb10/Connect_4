@@ -8,63 +8,40 @@ public class MyGameplayManager : MonoBehaviour
 	public TextMeshProUGUI UI_Inform_Text;
 
 	// Game board slots
-	public GameObject Positions;
-	public GameObject[,] BoardPositions;
+	private GameObject Positions;
+	private GameObject[,] BoardPositions;
 
 	// Top slots to place pieces
-	public GameObject Slots;
-	public GameObject[] TopSlots;
+	private GameObject Slots;
+	private GameObject[] TopSlots;
 
-	public bool[,] IsOccupied;
+	private bool[,] IsOccupied;
 
-	public bool ItemJustPlaced = false;
+	private bool ItemJustPlaced = false;
 	
 	// Board Dimensions
-	public int height = 6;
-	public int width = 7;
+	private int height = 6;
+	private int width = 7;
 
-	public string SlotsName = "Connect_4_Board_Slots";
-	public string PositionsName = "Positions";
-
-	public string GameOver = "GameOver";
+	private string SlotsName = "Connect_4_Board_Slots";
+	private string PositionsName = "Connect_4_Board_Positions";
+	private string GameOver = "GameOver";
 
 	void Start()
 	{
-		// Initialize board
-		BoardPositions = new GameObject[height, width];
-		IsOccupied = new bool[height, width];
-		TopSlots = new GameObject[width];
-
-		// Get parent game object for the board
-		Positions = GameObject.Find(PositionsName);
-
-		// Get Top Slots Parent
-		Slots = GameObject.Find(SlotsName);
-
-		// Initialize the positions of the board with their game objects and set the positions to free (true)
-		for (int i = 0; i < height; i++)
-		{
-			for (int j = 0; j < width; j++)
-			{
-				BoardPositions[i, j] = Positions.transform.GetChild(i).gameObject.transform.GetChild(j).gameObject;
-				IsOccupied[i, j] = true;
-
-				// Initialize the slots that will collide with the pieces (bottom)
-				if (i == 0)
-				{
-					SetMagnetism(BoardPositions[i, j], true);
-				}
-				SetMagnetism(BoardPositions[i, j], false);
-			}
-		}
-
-		// Top Slots will always magnetise
-		InitialiseTopSlots();
-    }
+		InitializeBoard();
+	}
 
 	public void SetMagnetism(GameObject position, bool val)
 	{
+		Debug.Log(position);
+		Debug.Log(val);
 		position.GetComponent<MyMagnetismScript>().WillMagnetise = val;
+	}
+
+	public void IsBoardPiece(GameObject position)
+	{
+		position.GetComponent<MyMagnetismScript>().IsBoardPiece = true;
 	}
 
 	public void InitialiseTopSlots()
@@ -106,11 +83,6 @@ public class MyGameplayManager : MonoBehaviour
 		return false;
 	}
 
-	void SetPositionOccupied(int i, int j)
-	{
-		IsOccupied[i, j] = false;
-	}
-
 	void Update()
 	{
 		if (ItemJustPlaced)
@@ -120,5 +92,44 @@ public class MyGameplayManager : MonoBehaviour
 				UI_Inform_Text.text = GameOver;
 			}
 		}
+	}
+	// public void 
+
+	public void InitializeBoard()
+	{
+		// Initialize board
+		BoardPositions = new GameObject[height, width];
+		IsOccupied = new bool[height, width];
+		TopSlots = new GameObject[width];
+
+		// Get parent game object for the board
+		Positions = GameObject.Find(PositionsName);
+
+		// Get Top Slots Parent
+		Slots = GameObject.Find(SlotsName);
+
+		// Initialize the positions of the board with their game objects and set the positions to free (true)
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				BoardPositions[i, j] = Positions.transform.GetChild(i).gameObject.transform.GetChild(j).gameObject;
+				IsOccupied[i, j] = false;
+				IsBoardPiece(BoardPositions[i, j]);
+
+				// Initialize the slots that will collide with the pieces (bottom)
+				if (i == 0)
+				{
+					SetMagnetism(BoardPositions[i, j], true);
+				}
+				else
+				{
+					SetMagnetism(BoardPositions[i, j], false);
+				}
+			}
+		}
+
+		// Top Slots will always magnetise
+		InitialiseTopSlots();
 	}
 }

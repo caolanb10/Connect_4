@@ -5,6 +5,7 @@ using UnityEngine;
 public class MyMagnetismScript : MonoBehaviour
 {
 	public bool WillMagnetise;
+	public bool IsBoardPiece = false;
 
 	public GameObject CollidingPiece;
 

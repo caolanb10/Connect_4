@@ -80,6 +80,11 @@ public class MyPiecePlacer : MonoBehaviour
 		}
 	}
 
+	public void InBoard()
+	{
+		if(this_collider)
+	}
+
 	// Sets variables
 	void InitialisePiecePlacer()
 	{
