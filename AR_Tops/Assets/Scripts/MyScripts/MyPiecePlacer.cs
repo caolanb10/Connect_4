@@ -14,7 +14,7 @@ public class MyPiecePlacer : MonoBehaviour
 	private GameObject[] slots;
 
 	// The Slot it is colliding with
-	private GameObject colliding_slot;
+	public GameObject colliding_slot;
 
 	// Speed that the object should move at
 	private float Speed = 20.0f;
@@ -34,6 +34,9 @@ public class MyPiecePlacer : MonoBehaviour
 	// Gameplay Manager
 	private MyGameplayManager gameplayManager;
 
+	// Color of the piece
+	public string Colour;
+
 	// Used to determine whether to take control away from the user
 	public bool isColliding;
 
@@ -51,14 +54,17 @@ public class MyPiecePlacer : MonoBehaviour
 	void FixedUpdate()
 	{
 		// Move toward mouse if selected
-		if (isSelected && !isColliding)
+		if (isSelected && !isColliding && !isPlaced)
 		{
 			MoveTowardCursor();
 		}
 		// Otherwise, re-enable gravity
 		else
 		{
-			GetComponent<Rigidbody>().useGravity = true;
+			if (GetComponent<Rigidbody>() != null)
+			{
+				GetComponent<Rigidbody>().useGravity = true;
+			}
 		}
 
 		// Assume no collision to begin
@@ -88,7 +94,7 @@ public class MyPiecePlacer : MonoBehaviour
 		if(!isSelected && isColliding)
 		{
 			isPlaced = true;
-			gameplayManager.ItemJustPlaced = gameObject;
+			gameplayManager.PieceJustPlaced = gameObject;
 		}
 	}
 

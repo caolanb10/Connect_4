@@ -6,6 +6,8 @@ public class MyMagnetismScript : MonoBehaviour
 {
 	public bool WillMagnetise;
 	public bool IsBoardPiece = false;
+	public int PositionH;
+	public int PositionW;
 
 	public GameObject CollidingPiece;
 
