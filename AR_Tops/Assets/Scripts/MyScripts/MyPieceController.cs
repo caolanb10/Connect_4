@@ -46,9 +46,10 @@ public class MyPieceController : MonoBehaviour
 			{
 				Transform selection = hit.transform;
 				highlightedObject = selection.gameObject;
+				Debug.Log(highlightedObject.gameObject.GetComponent<MyPiecePlacer>().isOwned);
 
-				// If the game object is a movable piece
-				if (highlightedObject.tag == "Piece")
+				// If the game object is a movable piece AND we own the object
+				if (highlightedObject.tag == "Piece" && highlightedObject.GetComponent<MyPiecePlacer>().isOwned)
 				{
 					// Select the object
 					highlightedObject.GetComponent<MyPiecePlacer>().isSelected = true;

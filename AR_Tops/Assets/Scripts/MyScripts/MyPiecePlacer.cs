@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class MyPiecePlacer : MonoBehaviour
+public class MyPiecePlacer : MonoBehaviourPun
 {
 	/* Game Board */
 	// Number of Slots
@@ -46,8 +47,19 @@ public class MyPiecePlacer : MonoBehaviour
 	// Used for placing in the board
 	public bool isPlaced;
 
+	// Used for determining can I move this piece
+	public bool isOwned;
+
 	void Start()
 	{
+		if (photonView.IsMine)
+		{
+			isOwned = true;
+		}
+		else
+		{
+			isOwned = false;
+		}
 		InitialisePiecePlacer();
 	}
 
@@ -108,13 +120,6 @@ public class MyPiecePlacer : MonoBehaviour
 		}
 	}
 
-	/*
-	public void InBoard()
-	{
-		if(this_collider)
-	}
-	*/
-	
 	// Sets variables
 	void InitialisePiecePlacer()
 	{
@@ -125,6 +130,7 @@ public class MyPiecePlacer : MonoBehaviour
 		pieceController = GameObject.Find("PieceController").GetComponent<MyPieceController>();
 
 		GameObject g = GameObject.Find("Connect_4_Board_Slots");
+		Debug.Log(g.gameObject.name);
 
 		radius = gameObject.transform.localScale.x / 2;
 
