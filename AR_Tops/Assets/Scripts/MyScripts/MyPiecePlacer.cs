@@ -47,6 +47,9 @@ public class MyPiecePlacer : MonoBehaviourPun
 	// Used for placing in the board
 	public bool isPlaced;
 
+	// Used for determining whtether it is now placed into a position on the board
+	public bool isInPosition;
+
 	// Used for determining can I move this piece
 	public bool isOwned;
 
@@ -91,7 +94,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 			bool cursorOutsideSlot = slotToPiece > radius;
 
-			if (this_collider.bounds.Intersects(slotBounds) && !cursorOutsideSlot)
+			if (this_collider.bounds.Intersects(slotBounds) && !cursorOutsideSlot && isOwned)
 			{
 				isColliding = true;
 				if (Input.GetMouseButton(0))

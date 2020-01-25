@@ -130,6 +130,7 @@ MonoBehaviour:
   isColliding: 0
   isSelected: 0
   isPlaced: 0
+  isInPosition: 0
   isOwned: 0
 --- !u!114 &4506263716586460092
 MonoBehaviour:

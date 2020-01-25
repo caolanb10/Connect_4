@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
-public class MyGameplayManager : MonoBehaviour
+public class MyGameplayManager : MonoBehaviour//, PunObservable
 {
+	PhotonView PhotonView;
+
 	public Canvas UI;
 	public TextMeshProUGUI UI_Inform_Text;
 
@@ -27,6 +30,12 @@ public class MyGameplayManager : MonoBehaviour
 	private string PositionsName = "Connect_4_Board_Positions";
 	private string GameOver = "GameOver";
 
+
+	void Awake()
+	{
+		PhotonView = GetComponent<PhotonView>();
+	}
+
 	void Start()
 	{
 		InitializeBoard();
@@ -43,6 +52,7 @@ public class MyGameplayManager : MonoBehaviour
 
 	public void CheckForCollision()
 	{
+		Debug.Log("Checking for collision");
 		Bounds piecePlaced = PieceJustPlaced.GetComponent<CapsuleCollider>().bounds;
 		
 		// Find the index of the slot that it was dropped in
@@ -72,6 +82,9 @@ public class MyGameplayManager : MonoBehaviour
 
 		// Move to position on board
 		PieceJustPlaced.GetComponent<MyPiecePlacer>().Magnetise(position);
+
+		// Placed in board
+		PieceJustPlaced.GetComponent<MyPiecePlacer>().isInPosition = true;
 
 		// Then remove its rigid body component attached
 		Destroy(PieceJustPlaced.GetComponent<Rigidbody>());
@@ -211,3 +224,12 @@ public class MyGameplayManager : MonoBehaviour
 		}
 	}
 }
+/* 
+public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+{
+	if(!PhotonView.IsMine)
+	{
+
+	}
+}
+*/
