@@ -13,15 +13,15 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 	public TextMeshProUGUI UI_Inform_Text;
 
 	// Game board Positions
-	private GameObject[,] BoardPositions;
-	private bool[,] IsOccupied;
+	public GameObject[,] BoardPositions;
+	public bool[,] IsOccupied;
 
 	// Top slots to place pieces
 	private GameObject[] TopSlots;
 
 	public GameObject PieceJustPlaced = null;
 	public int SlotPlaced;
-	
+
 	// Board Dimensions
 	private int height = 6;
 	private int width = 7;
@@ -42,7 +42,7 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 		InitialiseTopSlots();
 	}
 
-	void Update()
+	void FixedUpdate()
 	{
 		if (PieceJustPlaced != null)
 		{
@@ -52,9 +52,8 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 
 	public void CheckForCollision()
 	{
-		Debug.Log("Checking for collision");
 		Bounds piecePlaced = PieceJustPlaced.GetComponent<CapsuleCollider>().bounds;
-		
+
 		// Find the index of the slot that it was dropped in
 
 		string slotName = PieceJustPlaced.GetComponent<MyPiecePlacer>().colliding_slot.gameObject.name;
@@ -62,7 +61,7 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 
 		GameObject position = GetAvailablePosition(SlotPlaced);
 		Bounds positionBounds = position.GetComponent<SphereCollider>().bounds;
-		
+
 		if (position.GetComponent<MyMagnetismScript>().WillMagnetise)
 		{
 			// Collision on board
@@ -75,27 +74,29 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 
 	public void PlacePiece(GameObject position)
 	{
-		int positionH = position.GetComponent<MyMagnetismScript>().PositionH;
-		int positionW = position.GetComponent<MyMagnetismScript>().PositionW;
+		// Colliding with centre of the position that it is to be placed in
+		if (Vector3.Distance(PieceJustPlaced.transform.position, position.transform.position) < 0.5f)
+		{
 
-		Debug.Log("Magnetised to " + position.gameObject.name);
+			int positionH = position.GetComponent<MyMagnetismScript>().PositionH;
+			int positionW = position.GetComponent<MyMagnetismScript>().PositionW;
 
-		// Move to position on board
-		PieceJustPlaced.GetComponent<MyPiecePlacer>().Magnetise(position);
+			Debug.Log("Magnetised to " + position.gameObject.name);
 
-		// Placed in board
-		PieceJustPlaced.GetComponent<MyPiecePlacer>().isInPosition = true;
+			// Freeze Piece
+			PieceJustPlaced.GetComponent<Rigidbody>().isKinematic = true;
 
-		// Then remove its rigid body component attached
-		Destroy(PieceJustPlaced.GetComponent<Rigidbody>());
+			// Placed in board
+			PieceJustPlaced.GetComponent<MyPiecePlacer>().isInPosition = true;
 
-		// Piece has been placed, delete reference
-		PieceJustPlaced = null;
+			// Piece has been placed, delete reference
+			PieceJustPlaced = null;
 
-		// Update board state and state of board positions objects
-		IsOccupied[positionH, positionW] = true;
-		BoardPositions[positionH, positionW].GetComponent<MyMagnetismScript>().WillMagnetise = false;
-		BoardPositions[positionH + 1, positionW].GetComponent<MyMagnetismScript>().WillMagnetise = true;
+			// Update board state and state of board positions objects
+			IsOccupied[positionH, positionW] = true;
+			BoardPositions[positionH, positionW].GetComponent<MyMagnetismScript>().WillMagnetise = false;
+			BoardPositions[positionH + 1, positionW].GetComponent<MyMagnetismScript>().WillMagnetise = true;
+		}
 
 		// IsGameOver
 		if(IsGameOver())
@@ -224,12 +225,3 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 		}
 	}
 }
-/* 
-public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-{
-	if(!PhotonView.IsMine)
-	{
-
-	}
-}
-*/

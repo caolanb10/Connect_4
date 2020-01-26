@@ -28,7 +28,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	// Used to preserve rotation
 	private Quaternion rotation = Quaternion.Euler(90, 0, 0);
-	
+
 	// This objects bounds
 	private Collider this_collider;
 
@@ -73,13 +73,9 @@ public class MyPiecePlacer : MonoBehaviourPun
 		{
 			MoveTowardCursor();
 		}
-		// Otherwise, re-enable gravity
-		else
+		else if(!isPlaced)
 		{
-			if (GetComponent<Rigidbody>() != null)
-			{
-				GetComponent<Rigidbody>().useGravity = true;
-			}
+			GetComponent<Rigidbody>().isKinematic = false;
 		}
 
 		// Assume no collision to begin
@@ -119,7 +115,9 @@ public class MyPiecePlacer : MonoBehaviourPun
 		if (slot.GetComponent<MyMagnetismScript>().WillMagnetise)
 		{
 			Vector3 slotPosition = slot.transform.position;
-			transform.SetPositionAndRotation(slot.transform.position, rotation);
+			//transform.SetPositionAndRotation(slot.transform.position, rotation);
+
+			GetComponent<Rigidbody>().position = slot.transform.position;
 		}
 	}
 
@@ -133,7 +131,6 @@ public class MyPiecePlacer : MonoBehaviourPun
 		pieceController = GameObject.Find("PieceController").GetComponent<MyPieceController>();
 
 		GameObject g = GameObject.Find("Connect_4_Board_Slots");
-		Debug.Log(g.gameObject.name);
 
 		radius = gameObject.transform.localScale.x / 2;
 
@@ -142,7 +139,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 		GetComponent<Rigidbody>().freezeRotation = true;
 
 		this_collider = GetComponent<CapsuleCollider>();
-		
+
 		for (int i = 0; i < g.transform.childCount; i++)
 		{
 			slots[i] = g.transform.GetChild(i).gameObject;
@@ -151,9 +148,9 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	void MoveTowardCursor()
 	{
-		GetComponent<Rigidbody>().useGravity = false;
-		GetComponent<Rigidbody>().velocity = ZeroSpeed;
-		transform.position = 
-			Vector3.MoveTowards(transform.position, pieceController.mousePosition, Speed * Time.deltaTime);
+		Rigidbody rb = GetComponent<Rigidbody>();
+		rb.velocity = ZeroSpeed;
+		rb.position = Vector3.MoveTowards(transform.position, pieceController.mousePosition, Speed * Time.deltaTime);
+		rb.isKinematic = false;
 	}
 }

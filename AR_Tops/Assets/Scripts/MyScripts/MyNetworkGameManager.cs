@@ -71,7 +71,7 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 		else
 		{
 			UI_Inform_Text.text = UI_String_Game_Full;
-			Debug.Log(UI_String_Game_Not_Full);
+			Debug.Log(UI_String_Game_Full);
 			StartCoroutine(DeactivateAfterSeconds(UI_Inform_Panel, 2.0f));
 		}
 	}

@@ -11,12 +11,9 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 	MyPiecePlacer Placer;
 
 	Vector3 NetworkPosition;
-	Quaternion NetworkRotation;
+	bool NetworkIsKinematic;
 
-	private float Angle;
 	private float Distance;
-
-	private bool SendRigidBody = true;
 
 	public bool SynchronizeVelocity = true;
 
@@ -34,7 +31,6 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 
     void Update()
     {
-        SendRigidBody = !Placer.isInPosition;
     }
 
 	void FixedUpdate()
@@ -43,26 +39,22 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		if (!PhotonView.IsMine)
 		{
 			Rb.position = Vector3.MoveTowards(Rb.position, NetworkPosition, Distance * (1.0f / PhotonNetwork.SerializationRate));
-			Rb.rotation = Quaternion.RotateTowards(Rb.rotation, NetworkRotation, Angle * (1.0f / PhotonNetwork.SerializationRate));
+			Rb.isKinematic = NetworkIsKinematic;
 		}
 	}
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 	{
-		// I have control over the pieces, so I can move them and then send pos + rot over network 
+		// I have control over the pieces, so I can move them and then send pos + rot over network
 		if (stream.IsWriting)
 		{
-			// If the piece isn't already placed into the board
-			if (SendRigidBody)
-			{
-				stream.SendNext(Rb.position);
-				stream.SendNext(Rb.rotation);
+			stream.SendNext(Rb.position);
+			stream.SendNext(Rb.isKinematic);
 
-				// Send Velocity data as well
-				if (SynchronizeVelocity)
-				{
-					stream.SendNext(Rb.velocity);
-				}
+			// Send Velocity data as well
+			if (SynchronizeVelocity)
+			{
+				stream.SendNext(Rb.velocity);
 			}
 		}
 
@@ -70,31 +62,27 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		// if (stream.IsReading)
 		else
 		{
-			// If the piece isn't already placed into the board
-			if (SendRigidBody)
-			{ 
-				NetworkPosition = (Vector3)stream.ReceiveNext();
-				NetworkRotation = (Quaternion)stream.ReceiveNext();
-
-				if (IsTeleportEnabled)
+			NetworkPosition = (Vector3)stream.ReceiveNext();
+			NetworkIsKinematic = (bool)stream.ReceiveNext();
+			
+			if (IsTeleportEnabled)
+			{
+				if (Vector3.Distance(Rb.position, NetworkPosition) > TeleportIfDistanceIsGreater)
 				{
-					if (Vector3.Distance(Rb.position, NetworkPosition) > TeleportIfDistanceIsGreater)
-					{
-						Rb.position = NetworkPosition;
-					}
+					Rb.position = NetworkPosition;
 				}
+			}
+			if (SynchronizeVelocity)
+			{
+				float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+
 				if (SynchronizeVelocity)
 				{
-					float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+					Rb.velocity = (Vector3)stream.ReceiveNext();
 
-					if (SynchronizeVelocity)
-					{
-						Rb.velocity = (Vector3)stream.ReceiveNext();
+					NetworkPosition += Rb.velocity * lag;
 
-						NetworkPosition += Rb.velocity * lag;
-
-						Distance = Vector3.Distance(Rb.position, NetworkPosition);
-					}
+					Distance = Vector3.Distance(Rb.position, NetworkPosition);
 				}
 			}
 		}
