@@ -5,17 +5,15 @@ using UnityEngine.XR.ARFoundation;
 
 public class MyARPlacementAndPlaneController : MonoBehaviour
 {
-
-	ARPlaneManager ARPlaneManager;
+	ARPlaneManager PlaneManager;
 	MyARPlacementManager MyARPlacementManager;
 
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
-		ARPlaneManager = GetComponent<ARPlaneManager>();
+		PlaneManager = GetComponent<ARPlaneManager>();
 		MyARPlacementManager = GetComponent<MyARPlacementManager>();
 	}
-
     // Update is called once per frame
     void Update()
     {
@@ -23,23 +21,21 @@ public class MyARPlacementAndPlaneController : MonoBehaviour
     }
 	public void DisableARPlacementAndPlaneDetection()
 	{
-		ARPlaneManager.enabled = false;
+		PlaneManager.enabled = false;
 		MyARPlacementManager.enabled = false;
 
 		SetAllPlanesActiveOrDeactive(false);
 	}
-
-
 	public void EnableARPlacementAndPlaneDetection()
 	{
-		ARPlaneManager.enabled = true;
+		PlaneManager.enabled = true;
 		MyARPlacementManager.enabled = true;
 
 		SetAllPlanesActiveOrDeactive(true);
 	}
 	private void SetAllPlanesActiveOrDeactive(bool value)
 	{
-		foreach(var plane in ARPlaneManager.trackables)
+		foreach(var plane in PlaneManager.trackables)
 		{
 			plane.gameObject.SetActive(value);
 		}
