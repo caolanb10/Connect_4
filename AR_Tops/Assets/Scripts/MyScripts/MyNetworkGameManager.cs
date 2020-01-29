@@ -17,13 +17,12 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 	public GameObject SearchForGamesButton;
 
 	[Header("String Constants")]
-	private string notSearching = "Search for Games to Play Connect 4";
+
 	private string searching = "Searching for room ....";
 
 	void Start()
 	{
 		UI_Inform_Panel.SetActive(true);
-		UI_Inform_Text.text = notSearching;
 	}
 
 	private void CreateAndJoinRoom()

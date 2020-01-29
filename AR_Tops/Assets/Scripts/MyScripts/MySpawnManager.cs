@@ -34,8 +34,8 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 	void Start()
     {
 		MainCamera = GameObject.Find("MainCamera");
-		YellowCameraTransform = GameObject.Find("Board_Objects/Yellow_Camera_Position").transform;
-		RedCameraTransform = GameObject.Find("Board_Objects/Red_Camera_Position").transform;
+		YellowCameraTransform = GameObject.Find("Board_Objects/Camera_Player_1_Position").transform;
+		RedCameraTransform = GameObject.Find("Board_Objects/Camera_Player_2_Position").transform;
 	}
 
 	void Update()
@@ -53,12 +53,11 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 				Debug.Log("Spawning Yellow  Pieces");
 				for(int i = 0; i < NumberOfPieces; i++)
 				{
+					Debug.Log("Can find child game object: " + YellowSpawnPositionsParent.transform.GetChild(i).gameObject.name);
 					Vector3 spawnPosition = YellowSpawnPositionsParent.transform.GetChild(i).transform.position;
 					PhotonNetwork.Instantiate(YellowPiecePrefabName, spawnPosition, Quaternion.identity);
 				}
-
-				// Move Camera to yellow camera position
-				MainCamera.transform.SetPositionAndRotation(YellowCameraTransform.position, YellowCameraTransform.rotation);
+				Debug.Log("Finished spawning yellow pieces");
 
 				// Enable controller and gameplay manager
 				GameplayObjects.SetActive(true);
@@ -73,9 +72,6 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 					Vector3 spawnPosition = RedSpawnPositionsParent.transform.GetChild(i).transform.position;
 					PhotonNetwork.Instantiate(RedPiecePrefabName, spawnPosition, Quaternion.identity);
 				}
-
-				// Move Camera to red camera position
-				MainCamera.transform.SetPositionAndRotation(RedCameraTransform.position, RedCameraTransform.rotation);
 
 				// Enable controller and gameplay manager
 				GameplayObjects.SetActive(true);
