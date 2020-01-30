@@ -8,6 +8,8 @@ using TMPro;
 
 public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 {
+	public MyUIManager UI_Manager;
+
 	[Header("Room Setup")]
 	public byte MaxPlayers;
 
@@ -34,6 +36,8 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 		// Create room with random integer ID
 		string randomRoomName = "Room " + Random.Range(0, 1000);
 		PhotonNetwork.CreateRoom(randomRoomName, roomOptions);
+
+		UI_Manager.IsInGame = true;
 	}
 
 	#region UI Callbacks

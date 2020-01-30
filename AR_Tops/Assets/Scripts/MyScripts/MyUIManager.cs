@@ -1,27 +1,88 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using Photon.Pun;
 
 public class MyUIManager : MonoBehaviour
 {
+
 	public GameObject SearchForGamesButton;
-	public GameObject UI_InformPanel;
-	public GameObject Placement_Buttons;
+
+	public GameObject DoneButton;
+
 	public GameObject Change_Rotation_Buttons;
+
 	public GameObject Change_Scale_Buttons;
-	public GameObject 
-	public GameObject
-	public GameObject
-	public GameObject
 
+	public GameObject Adjust;
 
-    void Start()
-    {
-        
-    }
+	public GameObject Place;
 
-    void Update()
-    {
-        
-    }
+	public GameObject Rotate;
+
+	public GameObject Scale;
+
+	public TextMeshProUGUI UI_InformPanel_Text;
+
+	public bool IsInGame = false;
+
+	public int[] states = new int[] {0,1,2,3};
+
+	private string NotPlaced = "Please place board to search for games";
+
+	private string Placed = "Board has been placed, you can now adjust the baord or search for a game";
+
+	public void Start()
+	{
+		DeactivateEverything();
+		StateZero();
+		UI_InformPanel_Text.text = NotPlaced;
+	}
+
+	public void StateZero()
+	{
+		DeactivateEverything();
+		Place.SetActive(true);
+	}
+
+	public void StateOne()
+	{
+		DeactivateEverything();
+		Scale.SetActive(true);
+		Rotate.SetActive(true);
+		Adjust.SetActive(true);
+		if(!IsInGame) SearchForGamesButton.SetActive(true);
+		if (!IsInGame) UI_InformPanel_Text.text = Placed;
+	}
+
+	// Scale
+	public void StateTwo()
+	{
+		DeactivateEverything();
+		Change_Scale_Buttons.SetActive(true);
+		DoneButton.SetActive(true);
+		if (!IsInGame) UI_InformPanel_Text.text = NotPlaced;
+	}
+
+	// Rotation
+	public void StateThree()
+	{
+		DeactivateEverything();
+		Change_Rotation_Buttons.SetActive(true);
+		DoneButton.SetActive(true);
+		if (!IsInGame) UI_InformPanel_Text.text = NotPlaced;
+	}
+
+	public void DeactivateEverything()
+	{
+		Adjust.SetActive(false);
+		Place.SetActive(false);
+		DoneButton.SetActive(false);
+		SearchForGamesButton.SetActive(false);
+		Scale.SetActive(false);
+		Rotate.SetActive(false);
+		Change_Rotation_Buttons.SetActive(false);
+		Change_Scale_Buttons.SetActive(false);
+	}
 }
