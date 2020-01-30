@@ -1831,6 +1831,7 @@ MonoBehaviour:
   Connect4Board: {fileID: 2102331889}
   DebugObject: {fileID: 1157419164}
   DebugEnabled: 0
+  ScaleFactor: {x: 0, y: 0, z: 0}
 --- !u!114 &896825917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4550,7 +4551,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1555978358
 MonoBehaviour:
@@ -4791,7 +4792,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1879840121
 MonoBehaviour:

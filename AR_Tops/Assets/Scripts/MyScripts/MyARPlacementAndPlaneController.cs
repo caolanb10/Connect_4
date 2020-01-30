@@ -9,9 +9,6 @@ public class MyARPlacementAndPlaneController : MonoBehaviour
 	ARPlaneManager PlaneManager;
 	MyARPlacementManager MyARPlacementManager;
 
-	string NotPlaced = "Connect 4 Board not placed, please place the board before searching for a game";
-	string IsPlaced = "Connect 4 Board has been placed, you can now search for a game or adjust the board";
-
     // Start is called before the first frame update
     private void Awake()
     {

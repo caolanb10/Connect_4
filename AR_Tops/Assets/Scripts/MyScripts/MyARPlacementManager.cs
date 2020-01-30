@@ -19,6 +19,8 @@ public class MyARPlacementManager : MonoBehaviour
 	public bool DebugEnabled;
 	Vector3 YAxis = new Vector3(0, 1, 0);
 
+	public Vector3 ScaleFactor = new Vector3(0, 0, 0);
+
 	private void Awake()
 	{
 		RayManager = GetComponent<ARRaycastManager>();
@@ -27,7 +29,7 @@ public class MyARPlacementManager : MonoBehaviour
     {
         
     }
-    void Update()
+    void FixedUpdate()
     {
 		Vector3 centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2);
 		Ray ray = ARCamera.ScreenPointToRay(centerOfScreen); 
@@ -54,7 +56,10 @@ public class MyARPlacementManager : MonoBehaviour
 	{
 		float multiplier = 0.1f;
 		float magnitude = increase ? speed * multiplier : - (speed * multiplier);
-		Connect4Board.transform.localScale = Connect4Board.transform.localScale + new Vector3(magnitude, magnitude, magnitude);
+		Vector3 boardScaleFactor = new Vector3(magnitude, magnitude, magnitude);
+
+		ScaleFactor += boardScaleFactor;
+		Connect4Board.transform.localScale += boardScaleFactor;
 	}
 	void ShowDebug()
 	{
