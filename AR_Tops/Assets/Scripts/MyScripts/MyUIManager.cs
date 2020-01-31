@@ -53,7 +53,7 @@ public class MyUIManager : MonoBehaviour
 	public void StateOne()
 	{
 		DeactivateEverything();
-		// Scale.SetActive(true);
+		Scale.SetActive(true);
 		Rotate.SetActive(true);
 		Adjust.SetActive(true);
 		if(!IsInGame) SearchForGamesButton.SetActive(true);

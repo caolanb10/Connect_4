@@ -49,8 +49,6 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 		{
 			MyARPlacementManager placementManager = GameObject.Find("AR Session Origin").GetComponent<MyARPlacementManager>();
 
-			Vector3 pieceScaleFactor = placementManager.ScaleFactor;
-
 			// Place yellow pieces into the game first
 			if ((int) PhotonNetwork.CurrentRoom.PlayerCount == 1)
 			{
@@ -73,7 +71,6 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 				{
 					Vector3 spawnPosition = RedSpawnPositionsParent.transform.GetChild(i).transform.position;
 					GameObject piece = PhotonNetwork.Instantiate(RedPiecePrefabName, spawnPosition, Quaternion.identity);
-					piece.transform.localScale += pieceScaleFactor;
 				}
 
 				// Enable controller and gameplay manager

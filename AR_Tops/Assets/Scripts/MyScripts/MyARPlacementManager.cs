@@ -9,6 +9,7 @@ using TMPro;
 public class MyARPlacementManager : MonoBehaviour
 {
 	ARRaycastManager RayManager;
+
 	float speed = 1.0f;
 	static List<ARRaycastHit> RayHits = new List<ARRaycastHit>();
 	public Camera ARCamera;
@@ -17,9 +18,6 @@ public class MyARPlacementManager : MonoBehaviour
 
 	public GameObject DebugObject;
 	public bool DebugEnabled;
-	Vector3 YAxis = new Vector3(0, 1, 0);
-
-	public Vector3 ScaleFactor = new Vector3(0, 0, 0);
 
 	private void Awake()
 	{
@@ -48,21 +46,23 @@ public class MyARPlacementManager : MonoBehaviour
 		}
     }
 
-	// Need to use ARCore session origin for this
+	// ARCore session origin for this
 	public void Rotate(bool increase)
 	{
 		float angle = increase ? speed * 20 : - (speed * 20);
-		Connect4Board.transform.Rotate(Vector3.up, angle);
+		gameObject.transform.Rotate(Vector3.up, angle);
 	}
+
 	public void Scale(bool increase)
 	{
-		float multiplier = 0.1f;
-		float magnitude = increase ? speed * multiplier : - (speed * multiplier);
+		float multiplier = 1f;
+		float magnitude = !increase ? speed * multiplier : - (speed * multiplier);
+		
 		Vector3 boardScaleFactor = new Vector3(magnitude, magnitude, magnitude);
 
-		ScaleFactor += boardScaleFactor;
-		Connect4Board.transform.localScale += boardScaleFactor;
+		gameObject.transform.localScale += boardScaleFactor;
 	}
+
 	void ShowDebug()
 	{
 		DebugObject.GetComponent<TextMeshProUGUI>().text =

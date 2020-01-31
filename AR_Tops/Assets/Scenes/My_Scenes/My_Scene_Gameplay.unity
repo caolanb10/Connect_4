@@ -440,6 +440,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6728832472910076719, guid: a2bf1456c37814941b7bb463b51e549c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2bf1456c37814941b7bb463b51e549c, type: 3}
 --- !u!1 &144124226 stripped
@@ -1831,7 +1836,6 @@ MonoBehaviour:
   Connect4Board: {fileID: 2102331889}
   DebugObject: {fileID: 1157419164}
   DebugEnabled: 0
-  ScaleFactor: {x: 0, y: 0, z: 0}
 --- !u!114 &896825917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3123,7 +3127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AR_Camera: {fileID: 1350487944}
   mousePosition: {x: 0, y: 0, z: 0}
-  Distance: 5
 --- !u!4 &1323997431
 Transform:
   m_ObjectHideFlags: 0

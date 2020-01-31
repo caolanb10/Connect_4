@@ -17,9 +17,6 @@ public class MyPieceController : MonoBehaviour
 	// Distance away from camera that piece should move to
 	private float Distance = 0.4f;
 
-	// Left click state
-	private bool LeftMouseDown = false;
-
 	// Gameobject that mouse ray has intersected with
 	private GameObject highlightedObject;
 
