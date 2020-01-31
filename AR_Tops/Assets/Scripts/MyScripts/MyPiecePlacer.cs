@@ -68,6 +68,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	void FixedUpdate()
 	{
+		// Debug.Log("position is " + transform.position + " scale is " + transform.localScale);
 		// Move toward mouse if selected
 		if (isSelected && !isColliding && !isPlaced)
 		{

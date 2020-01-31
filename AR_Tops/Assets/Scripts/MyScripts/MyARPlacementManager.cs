@@ -47,6 +47,8 @@ public class MyARPlacementManager : MonoBehaviour
 			}
 		}
     }
+
+	// Need to use ARCore session origin for this
 	public void Rotate(bool increase)
 	{
 		float angle = increase ? speed * 20 : - (speed * 20);

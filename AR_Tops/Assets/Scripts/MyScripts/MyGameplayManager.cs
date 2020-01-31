@@ -192,14 +192,12 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 
 		// Get parent game object for the board
 		GameObject Positions = GameObject.Find(PrefabParentName + "/" + BoardPiecesSlots + "/" + PositionsName);
-		Debug.Log(Positions.gameObject.name);
 		// Initialize the positions of the board with their game objects and set the positions to free (true)
 		for (int i = 0; i < height; i++)
 		{
 			for (int j = 0; j < width; j++)
 			{
 				BoardPositions[i, j] = Positions.transform.GetChild(i).gameObject.transform.GetChild(j).gameObject;
-				Debug.Log(BoardPositions[i, j].gameObject.name);
 				BoardPositions[i, j].GetComponent<MyMagnetismScript>().IsBoardPiece = true;
 				BoardPositions[i, j].GetComponent<MyMagnetismScript>().PositionH = i;
 				BoardPositions[i, j].GetComponent<MyMagnetismScript>().PositionW = j;
@@ -221,11 +219,9 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 	{
 		TopSlots = new GameObject[width];
 		GameObject Slots = Slots = GameObject.Find(PrefabParentName + "/" + BoardPiecesSlots + "/" + SlotsName);
-		Debug.Log(Slots.gameObject.name);
 		for (int i = 0; i < TopSlots.Length; i++)
 		{
 			TopSlots[i] = Slots.transform.GetChild(i).gameObject;
-			Debug.Log(TopSlots[i].gameObject.name);
 			SetMagnetism(TopSlots[i], true);
 		}
 	}

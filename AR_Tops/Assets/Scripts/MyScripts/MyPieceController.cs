@@ -1,25 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 public class MyPieceController : MonoBehaviour
 {
 	[Header("Input")]
 	// Players camera object
-	public Camera cam;
+	public Camera AR_Camera;
 
 	// Vector that stores the mouse position in world space to be used by the active piece
 	public Vector3 mousePosition;
 
 	[Header("Game Object Detection and Movement")]
 	// Distance away from camera that piece should move to
-	public float Distance = 20.0f;
+	private float Distance = 0.4f;
 
 	// Left click state
 	private bool LeftMouseDown = false;
 
 	// Gameobject that mouse ray has intersected with
 	private GameObject highlightedObject;
+
+	ARRaycastManager RaycastManager;
+	static List<ARRaycastHit> Rayhits = new List<ARRaycastHit>();
 
 	void Start()
     {
@@ -28,35 +33,39 @@ public class MyPieceController : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		Vector3 mousePos = Input.mousePosition;
-
-		LeftMouseDown = Input.GetMouseButton(0);
-
+		// Vector3 mousePos = Input.mousePosition;
 		// Left Click Down
-		if (LeftMouseDown)
+		if (Input.touchCount > 0)
 		{
-			Ray ray = cam.ScreenPointToRay(mousePos);
+			Touch touch = Input.GetTouch(0);
+
+			Vector3 touchPos = touch.position;
+
+			Ray ray = AR_Camera.ScreenPointToRay(touchPos);
+			
 			RaycastHit hit;
 
 			// Point in world space
-			mousePosition = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Distance));
+			mousePosition = AR_Camera.ScreenToWorldPoint(new Vector3(touchPos.x, touchPos.y, Distance));
 
 			// If it hits a game object AND we havent previously selected one
 			if (Physics.Raycast(ray, out hit) && highlightedObject == null)
 			{
 				Transform selection = hit.transform;
 				highlightedObject = selection.gameObject;
+				Debug.Log("Has hit game object " + highlightedObject.name);
 
 				// If the game object is a movable piece AND we own the object
 				if (highlightedObject.tag == "Piece" && highlightedObject.GetComponent<MyPiecePlacer>().isOwned)
 				{
+					Debug.Log("Touch has hit a piece");
 					// Select the object
 					highlightedObject.GetComponent<MyPiecePlacer>().isSelected = true;
 				}
 			}
 		}
 
-		// Left Click Up
+		// No touch
 		else
 		{
 			// If we have selected an object previously

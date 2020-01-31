@@ -638,7 +638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &262605015
 Transform:
   m_ObjectHideFlags: 0
@@ -3121,9 +3121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62becbf0934ef0b46a2e4293c5bde98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 199828607}
+  AR_Camera: {fileID: 1350487944}
   mousePosition: {x: 0, y: 0, z: 0}
-  Distance: 49.82
+  Distance: 5
 --- !u!4 &1323997431
 Transform:
   m_ObjectHideFlags: 0
@@ -5477,6 +5477,7 @@ MonoBehaviour:
   Rotate: {fileID: 2027247000}
   Scale: {fileID: 1016398453}
   UI_InformPanel_Text: {fileID: 409680469}
+  Pointer: {fileID: 157566012}
   IsInGame: 0
   states: 00000000010000000200000003000000
 --- !u!1 &2102331889 stripped
