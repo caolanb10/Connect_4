@@ -19,7 +19,7 @@ public class MyARPlacementAndPlaneController : MonoBehaviour
 	{
 		PlaneManager.enabled = false;
 		MyARPlacementManager.enabled = false;
-		// SetAllPlanesActiveOrDeactive(false);
+		SetAllPlanesActiveOrDeactive(false);
 	}
 	public void EnableARPlacementAndPlaneDetection()
 	{

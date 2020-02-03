@@ -74,32 +74,28 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 		}
 	}
 
-	public void PlacePiece(GameObject position)
+	public void PlacePiece(GameObject boardPosition)
 	{
-		// Colliding with centre of the position that it is to be placed in
-		if (Vector3.Distance(PieceJustPlaced.transform.position, position.transform.position) < 0.5f)
-		{
+		PieceJustPlaced.gameObject.transform.position = boardPosition.transform.position;
+		int positionH = boardPosition.GetComponent<MyMagnetismScript>().PositionH;
+		int positionW = boardPosition.GetComponent<MyMagnetismScript>().PositionW;
 
-			int positionH = position.GetComponent<MyMagnetismScript>().PositionH;
-			int positionW = position.GetComponent<MyMagnetismScript>().PositionW;
+		Debug.Log("Magnetised to " + boardPosition.gameObject.name);
 
-			Debug.Log("Magnetised to " + position.gameObject.name);
+		// Freeze Piece
+		PieceJustPlaced.GetComponent<Rigidbody>().isKinematic = true;
 
-			// Freeze Piece
-			PieceJustPlaced.GetComponent<Rigidbody>().isKinematic = true;
+		// Placed in board
+		PieceJustPlaced.GetComponent<MyPiecePlacer>().isInPosition = true;
 
-			// Placed in board
-			PieceJustPlaced.GetComponent<MyPiecePlacer>().isInPosition = true;
+		// Piece has been placed, delete reference
+		PieceJustPlaced = null;
 
-			// Piece has been placed, delete reference
-			PieceJustPlaced = null;
-
-			// Update board state and state of board positions objects
-			IsOccupied[positionH, positionW] = true;
-			BoardPositions[positionH, positionW].GetComponent<MyMagnetismScript>().WillMagnetise = false;
-			BoardPositions[positionH + 1, positionW].GetComponent<MyMagnetismScript>().WillMagnetise = true;
-		}
-
+		// Update board state and state of board positions objects
+		IsOccupied[positionH, positionW] = true;
+		BoardPositions[positionH, positionW].GetComponent<MyMagnetismScript>().WillMagnetise = false;
+		BoardPositions[positionH + 1, positionW].GetComponent<MyMagnetismScript>().WillMagnetise = true;
+		
 		// IsGameOver
 		if(IsGameOver())
 		{

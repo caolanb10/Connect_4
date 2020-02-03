@@ -37,7 +37,6 @@ public class MyUIManager : MonoBehaviour
 
 	public void Start()
 	{
-		DeactivateEverything();
 		StateZero();
 		UI_InformPanel_Text.text = NotPlaced;
 	}
@@ -47,6 +46,7 @@ public class MyUIManager : MonoBehaviour
 	{
 		DeactivateEverything();
 		Place.SetActive(true);
+		Scale.SetActive(true);
 	}
 	
 	// Board placed
@@ -56,6 +56,7 @@ public class MyUIManager : MonoBehaviour
 		Scale.SetActive(true);
 		Rotate.SetActive(true);
 		Adjust.SetActive(true);
+		Place.SetActive(true);
 		if(!IsInGame) SearchForGamesButton.SetActive(true);
 		if (!IsInGame) UI_InformPanel_Text.text = Placed;
 	}

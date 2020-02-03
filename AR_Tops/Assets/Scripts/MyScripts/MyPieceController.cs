@@ -23,11 +23,6 @@ public class MyPieceController : MonoBehaviour
 	ARRaycastManager RaycastManager;
 	static List<ARRaycastHit> Rayhits = new List<ARRaycastHit>();
 
-	void Start()
-    {
-
-    }
-
 	void FixedUpdate()
 	{
 		// Vector3 mousePos = Input.mousePosition;

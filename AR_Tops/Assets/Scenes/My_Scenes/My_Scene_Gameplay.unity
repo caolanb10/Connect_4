@@ -420,31 +420,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.011306807
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.011306807
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.011306807
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412705984398106998, guid: a2bf1456c37814941b7bb463b51e549c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6728832472910076719, guid: a2bf1456c37814941b7bb463b51e549c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.35
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2bf1456c37814941b7bb463b51e549c, type: 3}
 --- !u!1 &144124226 stripped
@@ -456,18 +431,6 @@ GameObject:
 --- !u!1 &144124227 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3202571767757732036, guid: a2bf1456c37814941b7bb463b51e549c,
-    type: 3}
-  m_PrefabInstance: {fileID: 144124225}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &144124228 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 305015216000992926, guid: a2bf1456c37814941b7bb463b51e549c,
-    type: 3}
-  m_PrefabInstance: {fileID: 144124225}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &144124229 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1209807010183475254, guid: a2bf1456c37814941b7bb463b51e549c,
     type: 3}
   m_PrefabInstance: {fileID: 144124225}
   m_PrefabAsset: {fileID: 0}
@@ -1163,12 +1126,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameplayObjects: {fileID: 1446493269}
   PieceController: {fileID: 1323997429}
-  YellowCamera: {fileID: 144124229}
-  RedCamera: {fileID: 144124228}
+  BoardParent: {fileID: 488176611}
   YellowSpawnPositionsParent: {fileID: 144124227}
   RedSpawnPositionsParent: {fileID: 144124226}
   NumberOfPieces: 14
   IsRoomEmpty: 1
+--- !u!1 &488176611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1209807010205860272, guid: a2bf1456c37814941b7bb463b51e549c,
+    type: 3}
+  m_PrefabInstance: {fileID: 144124225}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &508347116
 GameObject:
   m_ObjectHideFlags: 0
@@ -1832,8 +1800,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4bc9a2f1566ff4a8a12b19c68d8199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalAngle: 0
   ARCamera: {fileID: 1350487944}
-  Connect4Board: {fileID: 2102331889}
+  Connect4Board: {fileID: 488176611}
   DebugObject: {fileID: 1157419164}
   DebugEnabled: 0
 --- !u!114 &896825917
@@ -5483,12 +5452,6 @@ MonoBehaviour:
   Pointer: {fileID: 157566012}
   IsInGame: 0
   states: 00000000010000000200000003000000
---- !u!1 &2102331889 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 306398758952792200, guid: a2bf1456c37814941b7bb463b51e549c,
-    type: 3}
-  m_PrefabInstance: {fileID: 144124225}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2110776572
 GameObject:
   m_ObjectHideFlags: 0

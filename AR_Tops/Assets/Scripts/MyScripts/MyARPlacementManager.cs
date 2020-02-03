@@ -11,6 +11,8 @@ public class MyARPlacementManager : MonoBehaviour
 	ARRaycastManager RayManager;
 
 	float speed = 1.0f;
+	public float totalAngle = 0f;
+
 	static List<ARRaycastHit> RayHits = new List<ARRaycastHit>();
 	public Camera ARCamera;
 
@@ -50,12 +52,13 @@ public class MyARPlacementManager : MonoBehaviour
 	public void Rotate(bool increase)
 	{
 		float angle = increase ? speed * 20 : - (speed * 20);
-		gameObject.transform.Rotate(Vector3.up, angle);
+		Connect4Board.transform.Rotate(Vector3.up, angle);
+		totalAngle += angle;
 	}
 
 	public void Scale(bool increase)
 	{
-		float multiplier = 1f;
+		float multiplier = 0.1f;
 		float magnitude = !increase ? speed * multiplier : - (speed * multiplier);
 		
 		Vector3 boardScaleFactor = new Vector3(magnitude, magnitude, magnitude);

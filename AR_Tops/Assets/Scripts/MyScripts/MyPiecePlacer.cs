@@ -35,6 +35,8 @@ public class MyPiecePlacer : MonoBehaviourPun
 	// Gameplay Manager
 	private MyGameplayManager gameplayManager;
 
+	private Rigidbody rb;
+
 	// Color of the piece
 	public string Colour;
 
@@ -68,7 +70,6 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	void FixedUpdate()
 	{
-		// Debug.Log("position is " + transform.position + " scale is " + transform.localScale);
 		// Move toward mouse if selected
 		if (isSelected && !isColliding && !isPlaced)
 		{
@@ -76,7 +77,8 @@ public class MyPiecePlacer : MonoBehaviourPun
 		}
 		else if(!isPlaced)
 		{
-			GetComponent<Rigidbody>().isKinematic = false;
+			rb.useGravity = true;
+			rb.isKinematic = false;
 		}
 
 		// Assume no collision to begin
@@ -94,8 +96,10 @@ public class MyPiecePlacer : MonoBehaviourPun
 			if (this_collider.bounds.Intersects(slotBounds) && !cursorOutsideSlot && isOwned)
 			{
 				isColliding = true;
-				if (Input.GetMouseButton(0))
+				if (Input.touchCount == 1)
 				{
+					rb.useGravity = false;
+					Debug.Log("Colliding");
 					colliding_slot = slot;
 					Magnetise(null);
 				}
@@ -125,13 +129,15 @@ public class MyPiecePlacer : MonoBehaviourPun
 	// Sets variables
 	void InitialisePiecePlacer()
 	{
+		rb = GetComponent<Rigidbody>();
+
+		GameObject g = GameObject.Find("Connect_4_Board_Slots");
+
 		slots = new GameObject[size];
 
 		gameplayManager = GameObject.Find("GameplayManager").GetComponent<MyGameplayManager>();
 
 		pieceController = GameObject.Find("PieceController").GetComponent<MyPieceController>();
-
-		GameObject g = GameObject.Find("Connect_4_Board_Slots");
 
 		radius = gameObject.transform.localScale.x / 2;
 
@@ -149,9 +155,8 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	void MoveTowardCursor()
 	{
-		Rigidbody rb = GetComponent<Rigidbody>();
 		rb.velocity = ZeroSpeed;
 		rb.position = Vector3.MoveTowards(transform.position, pieceController.mousePosition, Speed * Time.deltaTime);
-		rb.isKinematic = false;
+		rb.isKinematic = true;
 	}
 }
