@@ -6,11 +6,16 @@ using Photon.Pun;
 public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 {
 	Rigidbody Rb;
+
 	PhotonView PhotonView;
 
 	MyPiecePlacer Placer;
 
-	Vector3 NetworkPosition;
+	// Both the same
+	Vector3 NetworkPositionRb;
+
+	Vector3 NetworkPositionT;
+
 	bool NetworkIsKinematic;
 
 	private float Distance;
@@ -18,27 +23,27 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 	public bool SynchronizeVelocity = true;
 
 	public bool IsTeleportEnabled = true;
+
 	public float TeleportIfDistanceIsGreater = 1.0f;
-
-
 
 	public void Awake()
 	{
 		Rb = GetComponent<Rigidbody>();
 		PhotonView = GetComponent<PhotonView>();
 		Placer = GetComponent<MyPiecePlacer>();
+		Debug.Log("name: " + gameObject.name);
 	}
-
-    void Update()
-    {
-    }
 
 	void FixedUpdate()
 	{
 		// I have no control over these pieces so retrieve network position and rotation
 		if (!PhotonView.IsMine)
 		{
-			Rb.position = Vector3.MoveTowards(Rb.position, NetworkPosition, Distance * (1.0f / PhotonNetwork.SerializationRate));
+
+			Debug.Log("Network position rb : " + NetworkPositionRb);
+			Debug.Log("Network is kinematic : " + NetworkIsKinematic);
+
+			transform.position = Vector3.MoveTowards(Rb.position, NetworkPositionRb, Distance * (1.0f / PhotonNetwork.SerializationRate));
 			Rb.isKinematic = NetworkIsKinematic;
 		}
 	}
@@ -50,6 +55,14 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		{
 			stream.SendNext(Rb.position);
 			stream.SendNext(Rb.isKinematic);
+			stream.SendNext(transform.position);
+
+			if (Placer.isSelected)
+			{
+				Debug.Log(Rb.position);
+				Debug.Log(Rb.isKinematic);
+				Debug.Log(transform.position);
+			}
 
 			// Send Velocity data as well
 			if (SynchronizeVelocity)
@@ -62,14 +75,15 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		// if (stream.IsReading)
 		else
 		{
-			NetworkPosition = (Vector3)stream.ReceiveNext();
+			NetworkPositionRb = (Vector3)stream.ReceiveNext();
 			NetworkIsKinematic = (bool)stream.ReceiveNext();
-			
+			NetworkPositionT = (Vector3)stream.ReceiveNext();
+
 			if (IsTeleportEnabled)
 			{
-				if (Vector3.Distance(Rb.position, NetworkPosition) > TeleportIfDistanceIsGreater)
+				if (Vector3.Distance(Rb.position, NetworkPositionRb) > TeleportIfDistanceIsGreater)
 				{
-					Rb.position = NetworkPosition;
+					Rb.position = NetworkPositionRb;
 				}
 			}
 			if (SynchronizeVelocity)
@@ -80,9 +94,9 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 				{
 					Rb.velocity = (Vector3)stream.ReceiveNext();
 
-					NetworkPosition += Rb.velocity * lag;
+					NetworkPositionRb += Rb.velocity * lag;
 
-					Distance = Vector3.Distance(Rb.position, NetworkPosition);
+					Distance = Vector3.Distance(Rb.position, NetworkPositionRb);
 				}
 			}
 		}

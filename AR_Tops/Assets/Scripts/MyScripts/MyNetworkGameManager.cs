@@ -38,7 +38,7 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.CreateRoom(randomRoomName, roomOptions);
 
 		UI_Manager.IsInGame = true;
-		UI_Manager.DeactivateEverythingInGame();
+		UI_Manager.StateInGame();
 	}
 
 	#region UI Callbacks

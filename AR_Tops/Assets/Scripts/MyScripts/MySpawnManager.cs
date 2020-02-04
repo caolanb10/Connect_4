@@ -16,8 +16,18 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 
 	public int NumberOfPieces;
 
+	bool isFirstPlayer;
+
 	public override void OnJoinedRoom()
 	{
+		isFirstPlayer = (int) PhotonNetwork.CurrentRoom.PlayerCount == 1;
+
+		if (!isFirstPlayer)
+		{
+			// Rotate Board 180 degrees about the Y axis
+			BoardParent.transform.Rotate(Vector3.up, 180.0f);
+		}
+
 		if (PhotonNetwork.IsConnectedAndReady)
 		{
 			for(int i = 0; i < NumberOfPieces; i++)
@@ -26,14 +36,13 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 			}
 			GameplayObjects.SetActive(true);
 		}
+
 	}
 
 	#region Private Methods
 	private void SpawnPlayer(int i)
 	{
 		// Spawn yellow pieces for first player, red pieces for second player
-		bool isFirstPlayer = (int)PhotonNetwork.CurrentRoom.PlayerCount == 1;
-
 		Debug.Log("Are the first player: " + isFirstPlayer);
 
 		Vector3 spawnPosition = isFirstPlayer
@@ -44,6 +53,5 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 			? (GameObject)PhotonNetwork.Instantiate("Connect_4_Piece_Yellow", spawnPosition, Quaternion.identity)
 			: (GameObject)PhotonNetwork.Instantiate("Connect_4_Piece_Red", spawnPosition, Quaternion.identity);
 	}
-
 	#endregion
 }
