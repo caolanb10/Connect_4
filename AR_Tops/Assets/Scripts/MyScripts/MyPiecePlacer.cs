@@ -96,7 +96,6 @@ public class MyPiecePlacer : MonoBehaviourPun
 				// If they are still holding the object, keep it there, otherwise let it fall
 				if (IsSelected)
 				{
-					Debug.Log("Colliding");
 					Colliding_slot = Slots[i];
 					Magnetise(Colliding_slot);
 				}
@@ -109,12 +108,6 @@ public class MyPiecePlacer : MonoBehaviourPun
 			Fall();
 			IsPlaced = true;
 			GameplayManager.PieceJustPlaced = gameObject;
-		}
-
-		if(IsSelected)
-		{
-			Debug.Log("Gravity " + Rb.useGravity);
-			Debug.Log("Kinematic " + Rb.isKinematic);
 		}
 	}
 
