@@ -16,13 +16,13 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 
 	public int NumberOfPieces;
 
-	bool isFirstPlayer;
+	bool IsFirstPlayer;
 
 	public override void OnJoinedRoom()
 	{
-		isFirstPlayer = (int) PhotonNetwork.CurrentRoom.PlayerCount == 1;
+		IsFirstPlayer = (int) PhotonNetwork.CurrentRoom.PlayerCount == 1;
 
-		if (!isFirstPlayer)
+		if (!IsFirstPlayer)
 		{
 			// Rotate Board 180 degrees about the Y axis
 			BoardParent.transform.Rotate(Vector3.up, 180.0f);
@@ -43,13 +43,13 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 	private void SpawnPlayer(int i)
 	{
 		// Spawn yellow pieces for first player, red pieces for second player
-		Debug.Log("Are the first player: " + isFirstPlayer);
+		Debug.Log("Are the first player: " + IsFirstPlayer);
 
-		Vector3 spawnPosition = isFirstPlayer
+		Vector3 spawnPosition = IsFirstPlayer
 			? YellowSpawnPositionsParent.transform.GetChild(i).transform.position
 			: RedSpawnPositionsParent.transform.GetChild(i).transform.position;
 
-		GameObject piece = isFirstPlayer
+		GameObject piece = IsFirstPlayer
 			? (GameObject)PhotonNetwork.Instantiate("Connect_4_Piece_Yellow", spawnPosition, Quaternion.identity)
 			: (GameObject)PhotonNetwork.Instantiate("Connect_4_Piece_Red", spawnPosition, Quaternion.identity);
 	}

@@ -5,17 +5,16 @@ using Photon.Pun;
 
 public class MyPiecePlacer : MonoBehaviourPun
 {
-	/* Game Board */
-	// Number of Slots
-	private int size = 7;
-
-	private float radius;
+	private float Radius;
 
 	// The Slots
-	private GameObject[] slots;
+	private GameObject[] Slots;
+
+	// The Bounds of all the slots
+	private Bounds[] SlotsBounds;
 
 	// The Slot it is colliding with
-	public GameObject colliding_slot;
+	public GameObject Colliding_slot;
 
 	// Speed that the object should move at
 	private float Speed = 20.0f;
@@ -24,104 +23,106 @@ public class MyPiecePlacer : MonoBehaviourPun
 	private Vector3 ZeroSpeed = new Vector3(0, 0, 0);
 
 	// The controller
-	private MyPieceController pieceController;
+	private MyPieceController PieceController;
 
 	// Used to preserve rotation
-	private Quaternion rotation = Quaternion.Euler(90, 0, 0);
+	// This assumes no rotation of the board which is incorrect
+	private Quaternion Rotation = Quaternion.Euler(90, 0, 0);
 
 	// This objects bounds
-	private Collider this_collider;
+	private Collider This_collider;
 
 	// Gameplay Manager
-	private MyGameplayManager gameplayManager;
+	private MyGameplayManager GameplayManager;
 
-	private Rigidbody rb;
+	private Rigidbody Rb;
 
 	// Color of the piece
 	public string Colour;
 
 	// Used to determine whether to take control away from the user
-	public bool isColliding;
+	public bool IsColliding;
 
 	// Used to determine whether to follow the input of the user
-	public bool isSelected;
+	public bool IsSelected;
 
 	// Used for placing in the board
-	public bool isPlaced;
+	public bool IsPlaced;
 
 	// Used for determining whtether it is now placed into a position on the board
-	public bool isInPosition;
+	public bool IsInPosition;
 
 	// Used for determining can I move this piece
-	public bool isOwned;
+	public bool IsOwned;
 
 	void Start()
 	{
 		if (photonView.IsMine)
 		{
-			isOwned = true;
+			IsOwned = true;
 		}
 		else
 		{
-			isOwned = false;
+			IsOwned = false;
 		}
 		InitialisePiecePlacer();
 	}
 
 	void FixedUpdate()
 	{
-		// Move toward mouse if selected
-		if (isSelected && !isColliding && !isPlaced)
+		// Move toward mouse if selected and not colliding with a slot and not in the board
+		if (IsSelected && !IsColliding && !IsPlaced)
 		{
 			MoveTowardCursor();
 		}
-		else if(!isPlaced)
+		if(!IsSelected && !IsPlaced)
 		{
-			rb.useGravity = true;
-			rb.isKinematic = false;
+			Fall();
 		}
 
 		// Assume no collision to begin
-		isColliding = false;
+		IsColliding = false;
 
-		this_collider = GetComponent<CapsuleCollider>();
-		foreach (GameObject slot in slots)
+		for (int i = 0; i < Slots.Length; i++)
 		{
-			Bounds slotBounds = slot.GetComponent<SphereCollider>().bounds;
+			float slotToPiece = Vector3.Distance(Slots[i].transform.position, PieceController.mousePosition);
 
-			float slotToPiece = Vector3.Distance(slot.transform.position, pieceController.mousePosition);
+			bool cursorOutsideSlot = slotToPiece > Radius;
 
-			bool cursorOutsideSlot = slotToPiece > radius;
-
-			if (this_collider.bounds.Intersects(slotBounds) && !cursorOutsideSlot && isOwned)
+			if (This_collider.bounds.Intersects(SlotsBounds[i]) && !cursorOutsideSlot)
 			{
-				isColliding = true;
-				if (Input.touchCount == 1)
+				IsColliding = true;
+
+				// If they are still holding the object, keep it there, otherwise let it fall
+				if (IsSelected)
 				{
-					rb.useGravity = false;
 					Debug.Log("Colliding");
-					colliding_slot = slot;
-					Magnetise(null);
+					Colliding_slot = Slots[i];
+					Magnetise(Colliding_slot);
 				}
 			}
 		}
 
 		// Piece Placed
-		if(!isSelected && isColliding)
+		if(!IsSelected && IsColliding)
 		{
-			isPlaced = true;
-			gameplayManager.PieceJustPlaced = gameObject;
+			Fall();
+			IsPlaced = true;
+			GameplayManager.PieceJustPlaced = gameObject;
+		}
+
+		if(IsSelected)
+		{
+			Debug.Log("Gravity " + Rb.useGravity);
+			Debug.Log("Kinematic " + Rb.isKinematic);
 		}
 	}
 
 	public void Magnetise(GameObject slot)
 	{
-		if (slot == null) slot = colliding_slot;
 		if (slot.GetComponent<MyMagnetismScript>().WillMagnetise)
 		{
 			Vector3 slotPosition = slot.transform.position;
-			//transform.SetPositionAndRotation(slot.transform.position, rotation);
-
 			GetComponent<Rigidbody>().position = slot.transform.position;
 		}
 	}
@@ -129,34 +130,45 @@ public class MyPiecePlacer : MonoBehaviourPun
 	// Sets variables
 	void InitialisePiecePlacer()
 	{
-		rb = GetComponent<Rigidbody>();
+		Slots = new GameObject[7];
+		SlotsBounds = new Bounds[7];
+	
+		Rb = GetComponent<Rigidbody>();
 
 		GameObject g = GameObject.Find("Connect_4_Board_Slots");
 
-		slots = new GameObject[size];
+		GameplayManager = GameObject.Find("GameplayManager").GetComponent<MyGameplayManager>();
 
-		gameplayManager = GameObject.Find("GameplayManager").GetComponent<MyGameplayManager>();
+		PieceController = GameObject.Find("PieceController").GetComponent<MyPieceController>();
 
-		pieceController = GameObject.Find("PieceController").GetComponent<MyPieceController>();
+		Radius = gameObject.transform.localScale.x / 2;
 
-		radius = gameObject.transform.localScale.x / 2;
+		transform.rotation = Rotation;
 
-		transform.rotation = rotation;
-
-		GetComponent<Rigidbody>().freezeRotation = true;
-
-		this_collider = GetComponent<CapsuleCollider>();
+		This_collider = GetComponent<CapsuleCollider>();
 
 		for (int i = 0; i < g.transform.childCount; i++)
 		{
-			slots[i] = g.transform.GetChild(i).gameObject;
+			Slots[i] = g.transform.GetChild(i).gameObject;
+			SlotsBounds[i] = Slots[i].GetComponent<SphereCollider>().bounds;
 		}
 	}
 
 	void MoveTowardCursor()
 	{
-		rb.velocity = ZeroSpeed;
-		rb.position = Vector3.MoveTowards(transform.position, pieceController.mousePosition, Speed * Time.deltaTime);
-		rb.isKinematic = true;
+		Rb.velocity = ZeroSpeed;
+
+		// Need to fix the rotation variable
+		transform.rotation = Rotation;
+		Rb.position = Vector3.MoveTowards(transform.position, PieceController.mousePosition, Speed * Time.deltaTime);
+		
+		Rb.useGravity = false;
+		Rb.isKinematic = true;
+	}
+
+	void Fall()
+	{
+		Rb.useGravity = true;
+		Rb.isKinematic = false;
 	}
 }

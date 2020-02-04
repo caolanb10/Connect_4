@@ -48,11 +48,11 @@ public class MyPieceController : MonoBehaviour
 				Debug.Log("Has hit game object " + highlightedObject.name);
 
 				// If the game object is a movable piece AND we own the object
-				if (highlightedObject.tag == "Piece" && highlightedObject.GetComponent<MyPiecePlacer>().isOwned)
+				if (highlightedObject.tag == "Piece" && highlightedObject.GetComponent<MyPiecePlacer>().IsOwned)
 				{
 					Debug.Log("Touch has hit a piece");
 					// Select the object
-					highlightedObject.GetComponent<MyPiecePlacer>().isSelected = true;
+					highlightedObject.GetComponent<MyPiecePlacer>().IsSelected = true;
 				}
 			}
 		}
@@ -67,7 +67,7 @@ public class MyPieceController : MonoBehaviour
 				if (highlightedObject.tag == "Piece")
 				{
 					// De-select the object
-					highlightedObject.GetComponent<MyPiecePlacer>().isSelected = false;
+					highlightedObject.GetComponent<MyPiecePlacer>().IsSelected = false;
 				}
 			}
 			// Delete reference

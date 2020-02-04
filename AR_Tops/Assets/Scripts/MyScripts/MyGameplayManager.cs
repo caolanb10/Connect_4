@@ -26,6 +26,8 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 	private int height = 6;
 	private int width = 7;
 
+	private Quaternion Rotation = Quaternion.Euler(90, 0, 0);
+
 	private string PrefabParentName = "Board_Objects";
 	private string BoardPiecesSlots = "Board_Pieces_Slots";
 	private string SlotsName = "Connect_4_Board_Slots";
@@ -58,7 +60,7 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 
 		// Find the index of the slot that it was dropped in
 
-		string slotName = PieceJustPlaced.GetComponent<MyPiecePlacer>().colliding_slot.gameObject.name;
+		string slotName = PieceJustPlaced.GetComponent<MyPiecePlacer>().Colliding_slot.gameObject.name;
 		SlotPlaced = Int32.Parse(slotName.Substring(slotName.Length - 1, 1));
 
 		GameObject position = GetAvailablePosition(SlotPlaced);
@@ -76,17 +78,25 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 
 	public void PlacePiece(GameObject boardPosition)
 	{
-		PieceJustPlaced.gameObject.transform.position = boardPosition.transform.position;
+		Rigidbody rb = PieceJustPlaced.GetComponent<Rigidbody>();
+
+		// Not sure whether to use RB or Transform atm
+		rb.transform.position = boardPosition.transform.position;
+		rb.transform.rotation = Rotation;
+
 		int positionH = boardPosition.GetComponent<MyMagnetismScript>().PositionH;
 		int positionW = boardPosition.GetComponent<MyMagnetismScript>().PositionW;
 
 		Debug.Log("Magnetised to " + boardPosition.gameObject.name);
 
+		// No Gravity
+		rb.useGravity = false;
+
 		// Freeze Piece
-		PieceJustPlaced.GetComponent<Rigidbody>().isKinematic = true;
+		rb.isKinematic = true;
 
 		// Placed in board
-		PieceJustPlaced.GetComponent<MyPiecePlacer>().isInPosition = true;
+		PieceJustPlaced.GetComponent<MyPiecePlacer>().IsInPosition = true;
 
 		// Piece has been placed, delete reference
 		PieceJustPlaced = null;

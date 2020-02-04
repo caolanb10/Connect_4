@@ -57,7 +57,7 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 			stream.SendNext(Rb.isKinematic);
 			stream.SendNext(transform.position);
 
-			if (Placer.isSelected)
+			if (Placer.IsSelected)
 			{
 				Debug.Log(Rb.position);
 				Debug.Log(Rb.isKinematic);
