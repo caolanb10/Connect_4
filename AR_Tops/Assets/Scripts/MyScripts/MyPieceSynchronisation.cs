@@ -11,12 +11,17 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 
 	MyPiecePlacer Placer;
 
-	// Both the same
+	GameObject Board;
+
+	// Network variables
 	Vector3 NetworkPositionRb;
 
-	Vector3 NetworkPositionT;
-
 	bool NetworkIsKinematic;
+
+	Quaternion NetworkRotation;
+
+	// Offset for rendering pieces opposite the player
+	private float Offset = 10f;
 
 	private float Distance;
 
@@ -28,23 +33,21 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 
 	public void Awake()
 	{
+		Board = GameObject.Find("Board_Objects");
 		Rb = GetComponent<Rigidbody>();
 		PhotonView = GetComponent<PhotonView>();
 		Placer = GetComponent<MyPiecePlacer>();
-		Debug.Log("name: " + gameObject.name);
 	}
 
 	void FixedUpdate()
 	{
 		// I have no control over these pieces so retrieve network position and rotation
+		// Need to add offset for other side of the board
 		if (!PhotonView.IsMine)
 		{
-
-			Debug.Log("Network position rb : " + NetworkPositionRb);
-			Debug.Log("Network is kinematic : " + NetworkIsKinematic);
-
 			transform.position = Vector3.MoveTowards(Rb.position, NetworkPositionRb, Distance * (1.0f / PhotonNetwork.SerializationRate));
 			Rb.isKinematic = NetworkIsKinematic;
+			Rb.rotation = NetworkRotation;
 		}
 	}
 
@@ -53,15 +56,17 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		// I have control over the pieces, so I can move them and then send pos + rot over network
 		if (stream.IsWriting)
 		{
-			stream.SendNext(Rb.position);
+			Vector3 positionRelativeToBoard = Rb.position - Board.transform.position;
+
+			stream.SendNext(positionRelativeToBoard);
 			stream.SendNext(Rb.isKinematic);
-			stream.SendNext(transform.position);
+			stream.SendNext(Rb.rotation);
 
 			if (Placer.IsSelected)
 			{
-				Debug.Log(Rb.position);
+				Debug.Log("rb" + positionRelativeToBoard);
 				Debug.Log(Rb.isKinematic);
-				Debug.Log(transform.position);
+				Debug.Log(Rb.rotation);
 			}
 
 			// Send Velocity data as well
@@ -75,15 +80,17 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		// if (stream.IsReading)
 		else
 		{
-			NetworkPositionRb = (Vector3)stream.ReceiveNext();
+			NetworkPositionRb = (Vector3)stream.ReceiveNext() + Board.transform.position + 
+				new Vector3(0,0, Offset);
+
 			NetworkIsKinematic = (bool)stream.ReceiveNext();
-			NetworkPositionT = (Vector3)stream.ReceiveNext();
+			NetworkRotation = (Quaternion)stream.ReceiveNext();
 
 			if (IsTeleportEnabled)
 			{
 				if (Vector3.Distance(Rb.position, NetworkPositionRb) > TeleportIfDistanceIsGreater)
 				{
-					Rb.position = NetworkPositionRb;
+					Rb.position = NetworkPositionRb + Board.transform.position;
 				}
 			}
 			if (SynchronizeVelocity)

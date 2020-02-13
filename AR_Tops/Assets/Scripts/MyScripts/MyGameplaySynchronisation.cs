@@ -15,7 +15,7 @@ public class MyGameplaySynchronisation : MonoBehaviour, IPunObservable
 	void Start()
     {
 		BoardPositions = GetComponent<MyGameplayManager>().BoardPositions;
-		IsOccupied = GetComponent<MyGameplayManager>().IsOccupied;
+		// IsOccupied = GetComponent<MyGameplayManager>().IsOccupied;
 		PhotonView = GetComponent<PhotonView>();
     }
 

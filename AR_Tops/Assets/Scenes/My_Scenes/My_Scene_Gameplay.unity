@@ -420,14 +420,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.01
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2bf1456c37814941b7bb463b51e549c, type: 3}
---- !u!1 &144124226 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5325735183814700822, guid: a2bf1456c37814941b7bb463b51e549c,
-    type: 3}
-  m_PrefabInstance: {fileID: 144124225}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &144124227 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3202571767757732036, guid: a2bf1456c37814941b7bb463b51e549c,
@@ -1126,8 +1135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameplayObjects: {fileID: 1446493269}
   BoardParent: {fileID: 488176611}
-  YellowSpawnPositionsParent: {fileID: 144124227}
-  RedSpawnPositionsParent: {fileID: 144124226}
+  SpawnPositionsParent: {fileID: 144124227}
   NumberOfPieces: 14
 --- !u!1 &488176611 stripped
 GameObject:
@@ -4049,6 +4057,7 @@ MonoBehaviour:
   UI: {fileID: 2087088442}
   UI_Inform_Text: {fileID: 409680469}
   PieceJustPlaced: {fileID: 0}
+  PieceJustPlacedColour: 
   SlotPlaced: 0
 --- !u!4 &1513082416
 Transform:
@@ -4093,7 +4102,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513082414}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbde20064742f6a40b61148ecdb013d7, type: 3}
   m_Name: 

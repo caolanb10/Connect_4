@@ -125,13 +125,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6ee24d8b1e4f0459bf5c12a88b133d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliding_slot: {fileID: 0}
+  Colliding_slot: {fileID: 0}
   Colour: Red
-  isColliding: 0
-  isSelected: 0
-  isPlaced: 0
-  isInPosition: 0
-  isOwned: 0
+  IsColliding: 0
+  IsSelected: 0
+  IsPlaced: 0
+  IsInPosition: 0
+  IsOwned: 0
 --- !u!114 &6403938225177753987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,5 +167,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SynchronizeVelocity: 1
-  IsTeleportEnabled: 1
+  IsTeleportEnabled: 0
   TeleportIfDistanceIsGreater: 1

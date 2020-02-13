@@ -108,6 +108,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 			Fall();
 			IsPlaced = true;
 			GameplayManager.PieceJustPlaced = gameObject;
+			GameplayManager.PieceJustPlacedColour = Colour;
 		}
 	}
 
@@ -118,6 +119,24 @@ public class MyPiecePlacer : MonoBehaviourPun
 			Vector3 slotPosition = slot.transform.position;
 			GetComponent<Rigidbody>().position = slot.transform.position;
 		}
+	}
+
+	void MoveTowardCursor()
+	{
+		Rb.velocity = ZeroSpeed;
+
+		// Need to fix the rotation variable
+		transform.rotation = Rotation;
+		Rb.position = Vector3.MoveTowards(transform.position, PieceController.mousePosition, Speed * Time.deltaTime);
+		
+		Rb.useGravity = false;
+		Rb.isKinematic = true;
+	}
+
+	void Fall()
+	{
+		Rb.useGravity = true;
+		Rb.isKinematic = false;
 	}
 
 	// Sets variables
@@ -145,23 +164,5 @@ public class MyPiecePlacer : MonoBehaviourPun
 			Slots[i] = g.transform.GetChild(i).gameObject;
 			SlotsBounds[i] = Slots[i].GetComponent<SphereCollider>().bounds;
 		}
-	}
-
-	void MoveTowardCursor()
-	{
-		Rb.velocity = ZeroSpeed;
-
-		// Need to fix the rotation variable
-		transform.rotation = Rotation;
-		Rb.position = Vector3.MoveTowards(transform.position, PieceController.mousePosition, Speed * Time.deltaTime);
-		
-		Rb.useGravity = false;
-		Rb.isKinematic = true;
-	}
-
-	void Fall()
-	{
-		Rb.useGravity = true;
-		Rb.isKinematic = false;
 	}
 }
