@@ -20,9 +20,6 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 
 	Quaternion NetworkRotation;
 
-	// Offset for rendering pieces opposite the player
-	private float Offset = 10f;
-
 	private float Distance;
 
 	public bool SynchronizeVelocity = true;
@@ -58,16 +55,11 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		{
 			Vector3 positionRelativeToBoard = Rb.position - Board.transform.position;
 
+			// Debug.Log("Yellow" + positionRelativeToBoard);
+
 			stream.SendNext(positionRelativeToBoard);
 			stream.SendNext(Rb.isKinematic);
 			stream.SendNext(Rb.rotation);
-
-			if (Placer.IsSelected)
-			{
-				Debug.Log("rb" + positionRelativeToBoard);
-				Debug.Log(Rb.isKinematic);
-				Debug.Log(Rb.rotation);
-			}
 
 			// Send Velocity data as well
 			if (SynchronizeVelocity)
@@ -80,8 +72,10 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		// if (stream.IsReading)
 		else
 		{
-			NetworkPositionRb = (Vector3)stream.ReceiveNext() + Board.transform.position + 
-				new Vector3(0,0, Offset);
+			Vector3 pos = (Vector3)stream.ReceiveNext();
+			// Debug.Log("Red" + pos);
+			// Need to add offset
+			NetworkPositionRb = pos + Board.transform.position;
 
 			NetworkIsKinematic = (bool)stream.ReceiveNext();
 			NetworkRotation = (Quaternion)stream.ReceiveNext();

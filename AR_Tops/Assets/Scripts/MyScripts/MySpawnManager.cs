@@ -35,7 +35,6 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 	#region Private Methods
 	private void SpawnPlayer(int i)
 	{
-		// Spawn yellow pieces for first player, red pieces for second player
 		Debug.Log("Are the first player: " + IsFirstPlayer);
 
 		Vector3 spawnPosition = SpawnPositionsParent.transform.GetChild(i).transform.position;
