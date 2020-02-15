@@ -44,9 +44,9 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 	#region UI Callbacks
 	public void JoinRandomRoom()
 	{
+		SearchForGamesButton.SetActive(false);
 		UI_Inform_Text.text = searching;
 		PhotonNetwork.JoinRandomRoom();
-		SearchForGamesButton.SetActive(false);
 	}
 	#endregion
 

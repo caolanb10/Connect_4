@@ -36,13 +36,25 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		Placer = GetComponent<MyPiecePlacer>();
 	}
 
+
+	Vector3 PositionRelativeToBoard(Vector3 position)
+	{
+		return position - Board.transform.position;
+	}
+
+	Vector3 FlipPerspectiveOfBoardPiece(Vector3 position)
+	{
+		Vector3 flippedXAndZ = new Vector3(-position.x, position.y, -position.z);
+		return flippedXAndZ + Board.transform.position;
+	}
+
 	void FixedUpdate()
 	{
 		// I have no control over these pieces so retrieve network position and rotation
 		// Need to add offset for other side of the board
 		if (!PhotonView.IsMine)
 		{
-			transform.position = Vector3.MoveTowards(Rb.position, NetworkPositionRb, Distance * (1.0f / PhotonNetwork.SerializationRate));
+			transform.position = Vector3.MoveTowards(Rb.position, FlipPerspectiveOfBoardPiece(NetworkPositionRb), Distance * (1.0f / PhotonNetwork.SerializationRate));
 			Rb.isKinematic = NetworkIsKinematic;
 			Rb.rotation = NetworkRotation;
 		}
@@ -53,11 +65,7 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		// I have control over the pieces, so I can move them and then send pos + rot over network
 		if (stream.IsWriting)
 		{
-			Vector3 positionRelativeToBoard = Rb.position - Board.transform.position;
-
-			// Debug.Log("Yellow" + positionRelativeToBoard);
-
-			stream.SendNext(positionRelativeToBoard);
+			stream.SendNext(PositionRelativeToBoard(Rb.position));
 			stream.SendNext(Rb.isKinematic);
 			stream.SendNext(Rb.rotation);
 
@@ -72,11 +80,7 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		// if (stream.IsReading)
 		else
 		{
-			Vector3 pos = (Vector3)stream.ReceiveNext();
-			// Debug.Log("Red" + pos);
-			// Need to add offset
-			NetworkPositionRb = pos + Board.transform.position;
-
+			NetworkPositionRb = (Vector3)stream.ReceiveNext();
 			NetworkIsKinematic = (bool)stream.ReceiveNext();
 			NetworkRotation = (Quaternion)stream.ReceiveNext();
 
@@ -84,7 +88,7 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 			{
 				if (Vector3.Distance(Rb.position, NetworkPositionRb) > TeleportIfDistanceIsGreater)
 				{
-					Rb.position = NetworkPositionRb + Board.transform.position;
+					Rb.position = NetworkPositionRb;
 				}
 			}
 			if (SynchronizeVelocity)

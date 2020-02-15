@@ -40,11 +40,6 @@ public class MyARPlacementManager : MonoBehaviour
 			Pose hitPose = RayHits[0].pose;
 			Vector3 positionToBePlaced = hitPose.position;
 			Connect4Board.transform.position = positionToBePlaced;
-
-			if (DebugEnabled)
-			{
-				ShowDebug();
-			}
 		}
     }
 
@@ -64,13 +59,5 @@ public class MyARPlacementManager : MonoBehaviour
 		Vector3 boardScaleFactor = new Vector3(magnitude, magnitude, magnitude);
 
 		gameObject.transform.localScale += boardScaleFactor;
-	}
-
-	void ShowDebug()
-	{
-		DebugObject.GetComponent<TextMeshProUGUI>().text =
-		"X: " + Connect4Board.transform.position.x +
-		"Y: " + Connect4Board.transform.position.y +
-		"Z: " + Connect4Board.transform.position.z;
 	}
 }
