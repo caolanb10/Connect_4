@@ -36,24 +36,16 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		Placer = GetComponent<MyPiecePlacer>();
 	}
 
-	Vector3 PositionRelativeToBoard(Vector3 position)
-	{
-		return position - Board.transform.position;
-	}
-
-	Vector3 FlipPerspectiveOfBoardPiece(Vector3 position)
-	{
-		Vector3 flippedXAndZ = new Vector3(-position.x, position.y, -position.z);
-		return flippedXAndZ + Board.transform.position;
-	}
-
 	void FixedUpdate()
 	{
 		// I have no control over these pieces so retrieve network position and rotation
 		// Need to add offset for other side of the board
 		if (!PhotonView.IsMine)
 		{
-			transform.position = Vector3.MoveTowards(Rb.position, FlipPerspectiveOfBoardPiece(NetworkPositionRb), Distance * (1.0f / PhotonNetwork.SerializationRate));
+			transform.position = Vector3.MoveTowards(
+				Rb.position, 
+				MyFlippedCoordinates.FlipPerspectiveOfBoardPiece(NetworkPositionRb, Board),
+				Distance * (1.0f / PhotonNetwork.SerializationRate));
 			Rb.isKinematic = NetworkIsKinematic;
 			Rb.rotation = NetworkRotation.normalized;
 		}
@@ -64,7 +56,7 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		// I have control over the pieces, so I can move them and then send pos + rot over network
 		if (stream.IsWriting)
 		{
-			stream.SendNext(PositionRelativeToBoard(Rb.position));
+			stream.SendNext(MyFlippedCoordinates.PositionRelativeToBoard(Rb.position, Board));
 			stream.SendNext(Rb.isKinematic);
 			stream.SendNext(Rb.rotation);
 
