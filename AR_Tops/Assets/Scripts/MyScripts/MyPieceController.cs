@@ -8,7 +8,7 @@ public class MyPieceController : MonoBehaviour
 {
 	[Header("Input")]
 	// Players camera object
-	public Camera AR_Camera;
+	public Camera Camera;
 
 	// Vector that stores the mouse position in world space to be used by the active piece
 	public Vector3 mousePosition;
@@ -20,25 +20,37 @@ public class MyPieceController : MonoBehaviour
 	// Gameobject that mouse ray has intersected with
 	private GameObject highlightedObject;
 
-	ARRaycastManager RaycastManager;
-	static List<ARRaycastHit> Rayhits = new List<ARRaycastHit>();
+	bool LeftMouseDown;
+
+	public bool EnableDesktopControls;
 
 	void FixedUpdate()
 	{
-		// Vector3 mousePos = Input.mousePosition;
+
+		bool input = EnableDesktopControls
+			? Input.GetMouseButton(0)
+			: Input.touchCount > 0;
+
 		// Left Click Down
-		if (Input.touchCount > 0)
+		if (input)
 		{
-			Touch touch = Input.GetTouch(0);
+			Touch touch;
+			Vector3 screenPosition;
+			if (Input.touchCount > 0)
+			{
+				touch = Input.GetTouch(0);
+				screenPosition = touch.position;
+			}
+			else
+			{
+				screenPosition = Input.mousePosition;
+			}
 
-			Vector3 touchPos = touch.position;
-
-			Ray ray = AR_Camera.ScreenPointToRay(touchPos);
-			
+			Ray ray = Camera.ScreenPointToRay(screenPosition);
 			RaycastHit hit;
 
 			// Point in world space
-			mousePosition = AR_Camera.ScreenToWorldPoint(new Vector3(touchPos.x, touchPos.y, Distance));
+			mousePosition = Camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, Distance));
 
 			// If it hits a game object AND we havent previously selected one
 			if (Physics.Raycast(ray, out hit) && highlightedObject == null)

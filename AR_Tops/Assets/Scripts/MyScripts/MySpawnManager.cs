@@ -40,6 +40,17 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
 	}
 
+	Vector3 PositionRelativeToBoard(Vector3 position)
+	{
+		return position - Board.transform.position;
+	}
+
+	Vector3 FlipPerspectiveOfBoardPiece(Vector3 position)
+	{
+		Vector3 flippedXAndZ = new Vector3(-position.x, position.y, -position.z);
+		return flippedXAndZ + Board.transform.position;
+	}
+
 	void OnEvent(EventData photonEvent)
 	{
 		if(photonEvent.Code == (byte)RaiseEventCodes.PlayerSpawnEventCode)
@@ -50,9 +61,13 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 			int receivedViewID = (int)data[2];
 			bool receievedFirstPlayer = (bool)data[3];
 
+			Debug.Log(receivedPosition);
+			Debug.Log(receivedRotation);
+			Debug.Log(receievedFirstPlayer);
+
 			GameObject player = receievedFirstPlayer
-				? Instantiate(YellowPlayer, receivedPosition + Board.transform.position, receivedRotation)
-				: Instantiate(RedPlayer, receivedPosition + Board.transform.position, receivedRotation);
+				? Instantiate(YellowPlayer, FlipPerspectiveOfBoardPiece(receivedPosition), receivedRotation)
+				: Instantiate(RedPlayer, FlipPerspectiveOfBoardPiece(receivedPosition), receivedRotation);
 
 			PhotonView view = player.GetComponent<PhotonView>();
 			view.ViewID = receivedViewID;
@@ -88,7 +103,7 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 		{
 			object[] data = new object[]
 			{
-				piece.transform.position - Board.transform.position,
+				PositionRelativeToBoard(piece.transform.position),
 				piece.transform.rotation,
 				view.ViewID,
 				IsFirstPlayer

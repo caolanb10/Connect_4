@@ -36,7 +36,6 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		Placer = GetComponent<MyPiecePlacer>();
 	}
 
-
 	Vector3 PositionRelativeToBoard(Vector3 position)
 	{
 		return position - Board.transform.position;
@@ -56,7 +55,7 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 		{
 			transform.position = Vector3.MoveTowards(Rb.position, FlipPerspectiveOfBoardPiece(NetworkPositionRb), Distance * (1.0f / PhotonNetwork.SerializationRate));
 			Rb.isKinematic = NetworkIsKinematic;
-			Rb.rotation = NetworkRotation;
+			Rb.rotation = NetworkRotation.normalized;
 		}
 	}
 
