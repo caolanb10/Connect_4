@@ -4158,7 +4158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23461dcd4f603b64aaa9fdc6d151acf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI: {fileID: 2087088442}
+  UI_Inform_Panel: {fileID: 1666400673}
   UI_Inform_Text: {fileID: 409680469}
   PieceJustPlaced: {fileID: 0}
   PieceJustPlacedColour: 

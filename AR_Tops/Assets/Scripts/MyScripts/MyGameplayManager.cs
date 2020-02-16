@@ -9,7 +9,7 @@ public class MyGameplayManager : MonoBehaviour
 {
 	MyGameplaySynchronisation gameplaySynchronisation;
 
-	public Canvas UI;
+	public GameObject UI_Inform_Panel;
 	public TextMeshProUGUI UI_Inform_Text;
 
 	// Game board Positions
@@ -95,16 +95,9 @@ public class MyGameplayManager : MonoBehaviour
 		PieceJustPlaced = null;
 		PieceJustPlacedColour = null;
 
+		// Send board data over the network to be synchronised
 		gameplaySynchronisation.SendPositionData(positionH, positionW);
-		
-		if(IsGameOver(MyPlayerColour.Yellow) || IsGameOver(MyPlayerColour.Red))
-		{
-			string winner = IsGameOver(MyPlayerColour.Yellow) ? MyPlayerColour.Yellow : MyPlayerColour.Red;
-			string winningText = "Game over " + winner + " won the game";
-
-			UI_Inform_Text.text = winningText;
-			UI.enabled = true;
-		}
+		HandleGameOver(MyColour);
 	}
 
 	public GameObject GetAvailablePosition(int index)
@@ -115,6 +108,15 @@ public class MyGameplayManager : MonoBehaviour
 				return (BoardPositions[i, index]);
 		}
 		return null;
+	}
+
+	public void HandleGameOver(string colour)
+	{
+		if(IsGameOver(colour))
+		{
+			UI_Inform_Text.text = "Game over " + colour + " won the game";
+			UI_Inform_Panel.SetActive(true);
+		}
 	}
 
 	public bool IsGameOver(string colour)

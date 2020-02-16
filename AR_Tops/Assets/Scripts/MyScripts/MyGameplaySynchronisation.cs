@@ -55,23 +55,20 @@ public class MyGameplaySynchronisation : MonoBehaviourPunCallbacks
 		{
 			object[] data = (object[])photonEvent.CustomData;
 
-			Debug.Log(data);
-
 			int posH = (int)data[0];
-			int posW = (int)data[1];
 
-			Debug.Log(posH);
-			Debug.Log(posW);
+			// Compensate for mirroring
+			int posW = Mathf.Abs((int)data[1] - 6);
 
 			if (GameplayManager.MyColour == MyPlayerColour.Yellow)
 			{
-				Debug.Log("Changing red");
 				GameplayManager.IsOccupiedRed[posH, posW] = true;
+				GameplayManager.HandleGameOver(MyPlayerColour.Red);
 			}
 			else
 			{
-				Debug.Log("Changing yellow");
 				GameplayManager.IsOccupiedYellow[posH, posW] = true;
+				GameplayManager.HandleGameOver(MyPlayerColour.Yellow);
 			}
 		}
 	}
