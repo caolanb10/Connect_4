@@ -2,47 +2,77 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 
-public class MyGameplaySynchronisation : MonoBehaviour, IPunObservable
+public class MyGameplaySynchronisation : MonoBehaviourPunCallbacks
 {
-	GameObject[,] BoardPositions;
-	bool[,] IsOccupied;
-	PhotonView PhotonView;
+	MyGameplayManager GameplayManager;
 
-	GameObject[,] NetworkBoardPositions;
-	bool[,] NetworkIsOccupied;
+	enum RaiseEventCodes
+	{
+		UpdatePositions = 1
+	}
 
 	void Start()
     {
-		BoardPositions = GetComponent<MyGameplayManager>().BoardPositions;
-		// IsOccupied = GetComponent<MyGameplayManager>().IsOccupied;
-		PhotonView = GetComponent<PhotonView>();
-    }
+		GameplayManager = GetComponent<MyGameplayManager>();
+		PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
+	}
 
-    void FixedUpdate()
-    {
-        if(!PhotonView.IsMine)
-		{
-			BoardPositions = NetworkBoardPositions;
-			IsOccupied = NetworkIsOccupied;
-		}
-    }
-
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	private void OnDestroy()
 	{
+		PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
+	}
 
-		// Owned, writing to stream
-		if(stream.IsWriting)
+	public void SendPositionData(int posH, int posW)
+	{
+		object[] data = new object[]
 		{
-			stream.SendNext(BoardPositions);
-			stream.SendNext(IsOccupied);
-		}
+			posH,
+			posW,
+		};
 
-		// Not owned, reading from opponents stream
-		else
+		RaiseEventOptions raiseEventOptions = new RaiseEventOptions
 		{
-			NetworkBoardPositions = (GameObject[,])stream.ReceiveNext();
-			NetworkIsOccupied = (bool[,])stream.ReceiveNext();
+			Receivers = ReceiverGroup.Others,
+			CachingOption = EventCaching.AddToRoomCache,
+		};
+
+		SendOptions sendOptions = new SendOptions
+		{ Reliability = true };
+
+		PhotonNetwork.RaiseEvent(
+			(byte)RaiseEventCodes.UpdatePositions, 
+			data,
+			raiseEventOptions, 
+			sendOptions);
+	}
+
+	void OnEvent(EventData photonEvent)
+	{
+		if(photonEvent.Code == (byte) RaiseEventCodes.UpdatePositions)
+		{
+			object[] data = (object[])photonEvent.CustomData;
+
+			Debug.Log(data);
+
+			int posH = (int)data[0];
+			int posW = (int)data[1];
+
+			Debug.Log(posH);
+			Debug.Log(posW);
+
+			if (GameplayManager.MyColour == MyPlayerColour.Yellow)
+			{
+				Debug.Log("Changing red");
+				GameplayManager.IsOccupiedRed[posH, posW] = true;
+			}
+			else
+			{
+				Debug.Log("Changing yellow");
+				GameplayManager.IsOccupiedYellow[posH, posW] = true;
+			}
 		}
 	}
 }

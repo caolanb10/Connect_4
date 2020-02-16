@@ -37,7 +37,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	private Rigidbody Rb;
 
-	// Color of the piece
+	// Colour of the piece
 	public string Colour;
 
 	// Used to determine whether to take control away from the user
@@ -114,11 +114,8 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	public void Magnetise(GameObject slot)
 	{
-		if (slot.GetComponent<MyMagnetismScript>().WillMagnetise)
-		{
-			Vector3 slotPosition = slot.transform.position;
-			GetComponent<Rigidbody>().position = slot.transform.position;
-		}
+		Vector3 slotPosition = slot.transform.position;
+		GetComponent<Rigidbody>().position = slot.transform.position;
 	}
 
 	void MoveTowardCursor()

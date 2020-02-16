@@ -5,9 +5,9 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 
-public class MyGameplayManager : MonoBehaviour//, PunObservable
+public class MyGameplayManager : MonoBehaviour
 {
-	PhotonView PhotonView;
+	MyGameplaySynchronisation gameplaySynchronisation;
 
 	public Canvas UI;
 	public TextMeshProUGUI UI_Inform_Text;
@@ -25,28 +25,20 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 
 	public int SlotPlaced;
 
+	public GameObject Slots;
+	public GameObject Positions;
+
 	// Board Dimensions
 	private int height = 6;
 	private int width = 7;
 
 	private Quaternion Rotation = Quaternion.Euler(90, 0, 0);
 
-	private string PrefabParentName = "Board_Objects";
-	private string BoardPiecesSlots = "Board_Pieces_Slots";
-	private string SlotsName = "Connect_4_Board_Slots";
-	private string PositionsName = "Connect_4_Board_Positions";
-
-	private string Yellow = "Yellow";
-	private string Red = "Red";
-
-
-	void Awake()
-	{
-		PhotonView = GetComponent<PhotonView>();
-	}
+	public string MyColour;
 
 	void Start()
 	{
+		gameplaySynchronisation = GetComponent<MyGameplaySynchronisation>();
 		InitializeBoard();
 		InitialiseTopSlots();
 	}
@@ -73,13 +65,10 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 
 		Bounds positionBounds = position.GetComponent<SphereCollider>().bounds;
 
-		if (position.GetComponent<MyMagnetismScript>().WillMagnetise)
+		// Collision on board
+		if (piecePlaced.Intersects(positionBounds))
 		{
-			// Collision on board
-			if (piecePlaced.Intersects(positionBounds))
-			{
-				PlacePiece(position);
-			}
+			PlacePiece(position);
 		}
 	}
 
@@ -87,40 +76,30 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 	{
 		Rigidbody rb = PieceJustPlaced.GetComponent<Rigidbody>();
 
-		// Not sure whether to use RB or Transform atm
 		rb.transform.position = boardPosition.transform.position;
 		rb.transform.rotation = Rotation;
+		rb.useGravity = false;
+		rb.isKinematic = true;
 
 		int positionH = boardPosition.GetComponent<MyMagnetismScript>().PositionH;
 		int positionW = boardPosition.GetComponent<MyMagnetismScript>().PositionW;
-
-		// No Gravity
-		rb.useGravity = false;
-
-		// Freeze Piece
-		rb.isKinematic = true;
 
 		// Placed in board
 		PieceJustPlaced.GetComponent<MyPiecePlacer>().IsInPosition = true;
 
 		// Update board state and state of board positions objects
-		if (PieceJustPlacedColour == Yellow) IsOccupiedYellow[positionH, positionW] = true;
+		if (PieceJustPlacedColour == MyPlayerColour.Yellow) IsOccupiedYellow[positionH, positionW] = true;
 		else IsOccupiedRed[positionH, positionW] = true;
 
-		// Disable this slot
-		BoardPositions[positionH, positionW].GetComponent<MyMagnetismScript>().WillMagnetise = false;
-
-		// Enable the slot above it
-		BoardPositions[positionH + 1, positionW].GetComponent<MyMagnetismScript>().WillMagnetise = true;
-		
 		// Piece has been placed, delete reference
 		PieceJustPlaced = null;
 		PieceJustPlacedColour = null;
-		
-		if(IsGameOver(Yellow) || IsGameOver(Red))
-		{
 
-			string winner = IsGameOver(Yellow) ? Yellow : Red;
+		gameplaySynchronisation.SendPositionData(positionH, positionW);
+		
+		if(IsGameOver(MyPlayerColour.Yellow) || IsGameOver(MyPlayerColour.Red))
+		{
+			string winner = IsGameOver(MyPlayerColour.Yellow) ? MyPlayerColour.Yellow : MyPlayerColour.Red;
 			string winningText = "Game over " + winner + " won the game";
 
 			UI_Inform_Text.text = winningText;
@@ -138,14 +117,9 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 		return null;
 	}
 
-	public void SetMagnetism(GameObject position, bool val)
-	{
-		position.GetComponent<MyMagnetismScript>().WillMagnetise = val;
-	}
-
 	public bool IsGameOver(string colour)
 	{
-		bool[,] IsOccupied = colour == Yellow ? IsOccupiedYellow : IsOccupiedRed;
+		bool[,] IsOccupied = colour == MyPlayerColour.Yellow ? IsOccupiedYellow : IsOccupiedRed;
 		// For each row check horizontal
 		for (int i = 0; i < height; i++)
 		{
@@ -201,45 +175,28 @@ public class MyGameplayManager : MonoBehaviour//, PunObservable
 	public void InitializeBoard()
 	{
 		BoardPositions = new GameObject[height, width];
-
 		IsOccupiedRed = new bool[height, width];
 		IsOccupiedYellow = new bool[height, width];
 
-		// Get parent game object for the board
-		GameObject Positions = GameObject.Find(PrefabParentName + "/" + BoardPiecesSlots + "/" + PositionsName);
 		// Initialize the positions of the board with their game objects and set the positions to free (true)
 		for (int i = 0; i < height; i++)
 		{
 			for (int j = 0; j < width; j++)
 			{
 				BoardPositions[i, j] = Positions.transform.GetChild(i).gameObject.transform.GetChild(j).gameObject;
-				BoardPositions[i, j].GetComponent<MyMagnetismScript>().IsBoardPiece = true;
-				BoardPositions[i, j].GetComponent<MyMagnetismScript>().PositionH = i;
-				BoardPositions[i, j].GetComponent<MyMagnetismScript>().PositionW = j;
+				BoardPositions[i, j].GetComponent<MyMagnetismScript>().Initialise(true, i, j);
 
 				IsOccupiedRed[i, j] = false;
 				IsOccupiedYellow[i, j] = false;
-
-				// Initialize the slots that will collide with the pieces (bottom)
-				if (i == 0)
-				{
-					SetMagnetism(BoardPositions[i, j], true);
-				}
-				else
-				{
-					SetMagnetism(BoardPositions[i, j], false);
-				}
 			}
 		}
 	}
 	public void InitialiseTopSlots()
 	{
 		TopSlots = new GameObject[width];
-		GameObject Slots = Slots = GameObject.Find(PrefabParentName + "/" + BoardPiecesSlots + "/" + SlotsName);
 		for (int i = 0; i < TopSlots.Length; i++)
 		{
 			TopSlots[i] = Slots.transform.GetChild(i).gameObject;
-			SetMagnetism(TopSlots[i], true);
 		}
 	}
 }

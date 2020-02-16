@@ -7,11 +7,10 @@ using ExitGames.Client.Photon;
 
 public class MySpawnManager : MonoBehaviourPunCallbacks
 {
+	public MyGameplayManager GameplayManager;
+
 	// Parent of gameplay objects
 	public GameObject GameplayObjects;
-
-	// Piece spawn positions for red and yellow
-	public GameObject SpawnPositionsParent;
 
 	public GameObject[] Positions;
 
@@ -40,33 +39,9 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
 	}
 
-	void OnEvent(EventData photonEvent)
-	{
-		if(photonEvent.Code == (byte)RaiseEventCodes.PlayerSpawnEventCode)
-		{
-			object[] data = (object[])photonEvent.CustomData;
-			Vector3 receivedPosition = (Vector3)data[0];
-			Quaternion receivedRotation = (Quaternion)data[1];
-			int receivedViewID = (int)data[2];
-			bool receievedFirstPlayer = (bool)data[3];
-
-			Debug.Log(receivedPosition);
-
-			GameObject player = receievedFirstPlayer
-				? Instantiate(YellowPlayer, 
-				MyFlippedCoordinates.FlipPerspectiveOfBoardPiece(receivedPosition, Board), receivedRotation)
-				: Instantiate(RedPlayer, 
-				MyFlippedCoordinates.FlipPerspectiveOfBoardPiece(receivedPosition, Board), receivedRotation);
-
-			PhotonView view = player.GetComponent<PhotonView>();
-			view.ViewID = receivedViewID;
-		}
-	}
-
 	public override void OnJoinedRoom()
 	{
 		IsFirstPlayer = ((int) PhotonNetwork.CurrentRoom.PlayerCount == 1);
-	
 		if (PhotonNetwork.IsConnectedAndReady)
 		{
 			for(int i = 0; i < NumberOfPieces; i++)
@@ -74,6 +49,9 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 				SpawnPlayer(i);
 			}
 			GameplayObjects.SetActive(true);
+			GameplayManager.MyColour = IsFirstPlayer
+				? MyPlayerColour.Yellow
+				: MyPlayerColour.Red;
 		}
 	}
 
@@ -110,6 +88,28 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 			};
 
 			PhotonNetwork.RaiseEvent((byte)RaiseEventCodes.PlayerSpawnEventCode, data, raiseEventOptions, sendOptions);
+		}
+	}
+
+	void OnEvent(EventData photonEvent)
+	{
+		if (photonEvent.Code == (byte)RaiseEventCodes.PlayerSpawnEventCode)
+		{
+			object[] data = (object[])photonEvent.CustomData;
+
+			Vector3 receivedPosition = (Vector3)data[0];
+			Quaternion receivedRotation = (Quaternion)data[1];
+			int receivedViewID = (int)data[2];
+			bool receievedFirstPlayer = (bool)data[3];
+
+			GameObject player = receievedFirstPlayer
+				? Instantiate(YellowPlayer,
+				MyFlippedCoordinates.FlipPerspectiveOfBoardPiece(receivedPosition, Board), receivedRotation)
+				: Instantiate(RedPlayer,
+				MyFlippedCoordinates.FlipPerspectiveOfBoardPiece(receivedPosition, Board), receivedRotation);
+
+			PhotonView view = player.GetComponent<PhotonView>();
+			view.ViewID = receivedViewID;
 		}
 	}
 	#endregion

@@ -16,7 +16,6 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 	[Header("UI Inform")]
 	public GameObject UI_Inform_Panel;
 	public TextMeshProUGUI UI_Inform_Text;
-	public GameObject SearchForGamesButton;
 
 	[Header("String Constants")]
 
@@ -44,7 +43,6 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 	#region UI Callbacks
 	public void JoinRandomRoom()
 	{
-		SearchForGamesButton.SetActive(false);
 		UI_Inform_Text.text = searching;
 		PhotonNetwork.JoinRandomRoom();
 	}
@@ -78,6 +76,9 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 			Debug.Log(UI_String_Game_Full);
 			StartCoroutine(DeactivateAfterSeconds(UI_Inform_Panel, 2.0f));
 		}
+
+		UI_Manager.IsInGame = true;
+		UI_Manager.StateInGame();
 	}
 
 	// Called for a local player when another player joins a room

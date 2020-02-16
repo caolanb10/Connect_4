@@ -4,20 +4,16 @@ using UnityEngine;
 
 public class MyMagnetismScript : MonoBehaviour
 {
-	public bool WillMagnetise;
 	public bool IsBoardPiece = false;
 	public int PositionH;
 	public int PositionW;
 
 	public GameObject CollidingPiece;
 
-    void Start()
-    {
-		GetComponent<SphereCollider>().enabled = false;
-    }
-
-    void Update()
-    {
-        
-    }
+	public void Initialise(bool isBoardPiece, int posH, int posW)
+	{
+		IsBoardPiece = isBoardPiece;
+		PositionH = posH;
+		PositionW = posW;
+	}
 }
