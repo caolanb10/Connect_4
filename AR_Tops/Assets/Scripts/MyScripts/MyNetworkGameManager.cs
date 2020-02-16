@@ -44,6 +44,7 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 	public void JoinRandomRoom()
 	{
 		UI_Inform_Text.text = searching;
+		// PhotonNetwork.JoinLobby();
 		PhotonNetwork.JoinRandomRoom();
 	}
 	#endregion
@@ -91,6 +92,16 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 			StartCoroutine(DeactivateAfterSeconds(UI_Inform_Panel, 2.0f));
 		}
 	}
+
+	public override void OnRoomListUpdate(List<RoomInfo> roomList)
+	{
+		Debug.Log("Received room list update");
+		foreach(RoomInfo room in roomList)
+		{
+			Debug.Log(room.Name);
+		}
+	}
+
 	#endregion
 
 	IEnumerator DeactivateAfterSeconds(GameObject gameObj, float seconds)
