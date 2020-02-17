@@ -32,8 +32,6 @@ public class MyGameplayManager : MonoBehaviour
 	private int height = 6;
 	private int width = 7;
 
-	private Quaternion Rotation = Quaternion.Euler(90, 0, 0);
-
 	public string MyColour;
 
 	void Start()
@@ -77,7 +75,8 @@ public class MyGameplayManager : MonoBehaviour
 		Rigidbody rb = PieceJustPlaced.GetComponent<Rigidbody>();
 
 		rb.transform.position = boardPosition.transform.position;
-		rb.transform.rotation = Rotation;
+		rb.transform.rotation = boardPosition.transform.rotation;
+
 		rb.useGravity = false;
 		rb.isKinematic = true;
 

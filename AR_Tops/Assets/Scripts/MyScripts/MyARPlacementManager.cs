@@ -25,10 +25,7 @@ public class MyARPlacementManager : MonoBehaviour
 	{
 		RayManager = GetComponent<ARRaycastManager>();
 	}
-    void Start()
-    {
-        
-    }
+
     void FixedUpdate()
     {
 		Vector3 centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2);

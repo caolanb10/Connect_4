@@ -114,8 +114,8 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	public void Magnetise(GameObject slot)
 	{
-		Vector3 slotPosition = slot.transform.position;
 		GetComponent<Rigidbody>().position = slot.transform.position;
+		GetComponent<Rigidbody>().rotation = slot.transform.rotation;
 	}
 
 	void MoveTowardCursor()
@@ -151,8 +151,6 @@ public class MyPiecePlacer : MonoBehaviourPun
 		PieceController = GameObject.Find("PieceController").GetComponent<MyPieceController>();
 
 		Radius = gameObject.transform.localScale.x / 2;
-
-		transform.rotation = Rotation;
 
 		This_collider = GetComponent<CapsuleCollider>();
 

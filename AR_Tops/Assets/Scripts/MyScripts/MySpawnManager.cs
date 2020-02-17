@@ -9,6 +9,8 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 {
 	public MyGameplayManager GameplayManager;
 
+	public MyARPlacementManager PlacementManager;
+
 	// Parent of gameplay objects
 	public GameObject GameplayObjects;
 
@@ -23,6 +25,10 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 	public int NumberOfPieces;
 	
 	bool IsFirstPlayer;
+
+	Quaternion PieceRotation;
+
+	Vector3 DefaultPieceRotation = new Vector3(90.0f, 0.0f, 0.0f);
 
 	enum RaiseEventCodes
 	{
@@ -41,6 +47,11 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 
 	public override void OnJoinedRoom()
 	{
+		Vector3 rotationVector = DefaultPieceRotation
+			+ new Vector3(0.0f, PlacementManager.totalAngle, 0.0f);
+
+		PieceRotation = Quaternion.Euler(rotationVector);
+
 		IsFirstPlayer = ((int) PhotonNetwork.CurrentRoom.PlayerCount == 1);
 		if (PhotonNetwork.IsConnectedAndReady)
 		{
@@ -61,8 +72,8 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 		Debug.Log("Are the first player: " + IsFirstPlayer);
 
 		GameObject piece = IsFirstPlayer
-			? Instantiate(YellowPlayer, Positions[i].transform.position, Quaternion.identity)
-			: Instantiate(RedPlayer, Positions[i].transform.position, Quaternion.identity);
+			? Instantiate(YellowPlayer, Positions[i].transform.position, PieceRotation)
+			: Instantiate(RedPlayer, Positions[i].transform.position, PieceRotation);
 
 		PhotonView view = piece.GetComponent<PhotonView>();
 
