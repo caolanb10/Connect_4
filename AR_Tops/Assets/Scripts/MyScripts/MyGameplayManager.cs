@@ -11,6 +11,7 @@ public class MyGameplayManager : MonoBehaviour
 
 	public GameObject UI_Inform_Panel;
 	public TextMeshProUGUI UI_Inform_Text;
+	public MyUIManager UIManager;
 
 	// Game board Positions
 	public GameObject[,] BoardPositions;
@@ -115,7 +116,13 @@ public class MyGameplayManager : MonoBehaviour
 		{
 			UI_Inform_Text.text = "Game over " + colour + " won the game";
 			UI_Inform_Panel.SetActive(true);
+			UIManager.StateGameOver();
 		}
+	}
+
+	public void HandleBackToLobby()
+	{
+		SceneLoader.Instance.LoadMyScene("My_Scene_Lobby");
 	}
 
 	public bool IsGameOver(string colour)

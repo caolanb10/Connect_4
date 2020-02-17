@@ -17,15 +17,21 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 	public GameObject UI_Inform_Panel;
 	public TextMeshProUGUI UI_Inform_Text;
 
-	[Header("String Constants")]
+	public MyRoomData RoomData;
 
-	private string searching = "Searching for room ....";
+	public MySpawnManager SpawnManager;
 
 	void Start()
 	{
 		UI_Inform_Panel.SetActive(true);
+
+		string selectedRoom = RoomData.GetRoom();
+
+		if (selectedRoom == "null") CreateAndJoinRoom();
+		else JoinRoom(selectedRoom);
 	}
 
+	#region UI Callbacks
 	private void CreateAndJoinRoom()
 	{
 		// Create new options object and set max players to be equal to 2
@@ -35,24 +41,18 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 		// Create room with random integer ID
 		string randomRoomName = "Room " + Random.Range(0, 1000);
 		PhotonNetwork.CreateRoom(randomRoomName, roomOptions);
-
-		UI_Manager.IsInGame = true;
-		UI_Manager.StateInGame();
 	}
 
-	#region UI Callbacks
-	public void JoinRandomRoom()
+	private void JoinRoom(string name)
 	{
-		UI_Inform_Text.text = searching;
-		// PhotonNetwork.JoinLobby();
-		PhotonNetwork.JoinRandomRoom();
+		PhotonNetwork.JoinRoom(name);
 	}
 	#endregion
 
 	#region Photon Callback Mehtods
 
 	// No game found, create and join a room
-	public override void OnJoinRandomFailed(short returnCode, string message)
+	public override void OnJoinRoomFailed(short returnCode, string message)
 	{
 		UI_Inform_Text.text = message;
 		CreateAndJoinRoom();
@@ -78,8 +78,11 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 			StartCoroutine(DeactivateAfterSeconds(UI_Inform_Panel, 2.0f));
 		}
 
-		UI_Manager.IsInGame = true;
-		UI_Manager.StateInGame();
+		if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+			SpawnManager.IsFirstPlayer = true;
+		else SpawnManager.IsFirstPlayer = false;
+
+		UI_Manager.Room_Text.text = PhotonNetwork.CurrentRoom.Name;
 	}
 
 	// Called for a local player when another player joins a room
@@ -92,16 +95,6 @@ public class MyNetworkGameManager : MonoBehaviourPunCallbacks
 			StartCoroutine(DeactivateAfterSeconds(UI_Inform_Panel, 2.0f));
 		}
 	}
-
-	public override void OnRoomListUpdate(List<RoomInfo> roomList)
-	{
-		Debug.Log("Received room list update");
-		foreach(RoomInfo room in roomList)
-		{
-			Debug.Log(room.Name);
-		}
-	}
-
 	#endregion
 
 	IEnumerator DeactivateAfterSeconds(GameObject gameObj, float seconds)

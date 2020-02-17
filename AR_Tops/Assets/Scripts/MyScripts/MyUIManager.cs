@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using Photon.Pun;
+using TMPro;
 
 public class MyUIManager : MonoBehaviour
 {
 
-	public GameObject SearchForGamesButton;
+	public GameObject StartGameButton;
 
 	public GameObject DoneButton;
 
@@ -22,6 +22,10 @@ public class MyUIManager : MonoBehaviour
 	public GameObject Rotate;
 
 	public GameObject Scale;
+
+	public GameObject BackToLobby;
+
+	public TextMeshProUGUI Room_Text;
 
 	public TextMeshProUGUI UI_InformPanel_Text;
 
@@ -57,7 +61,7 @@ public class MyUIManager : MonoBehaviour
 		Rotate.SetActive(true);
 		Adjust.SetActive(true);
 		Place.SetActive(true);
-		if(!IsInGame) SearchForGamesButton.SetActive(true);
+		if(!IsInGame) StartGameButton.SetActive(true);
 		if (!IsInGame) UI_InformPanel_Text.text = Placed;
 	}
 
@@ -85,16 +89,23 @@ public class MyUIManager : MonoBehaviour
 		DeactivateEverythingInGame();
 	}
 
+	public void StateGameOver()
+	{
+		DeactivateEverything();
+		BackToLobby.SetActive(true);
+	}
+
 	public void DeactivateEverything()
 	{
 		Adjust.SetActive(false);
 		Place.SetActive(false);
 		DoneButton.SetActive(false);
-		SearchForGamesButton.SetActive(false);
+		StartGameButton.SetActive(false);
 		Scale.SetActive(false);
 		Rotate.SetActive(false);
 		Change_Rotation_Buttons.SetActive(false);
 		Change_Scale_Buttons.SetActive(false);
+		BackToLobby.SetActive(false);
 	}
 
 	public void DeactivateEverythingInGame()

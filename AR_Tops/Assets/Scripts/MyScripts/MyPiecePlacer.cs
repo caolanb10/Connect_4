@@ -65,50 +65,53 @@ public class MyPiecePlacer : MonoBehaviourPun
 		{
 			IsOwned = false;
 		}
-		InitialisePiecePlacer();
+		if(IsOwned) InitialisePiecePlacer();
 	}
 
 	void FixedUpdate()
 	{
-		// Move toward mouse if selected and not colliding with a slot and not in the board
-		if (IsSelected && !IsColliding && !IsPlaced)
+		if (IsOwned)
 		{
-			MoveTowardCursor();
-		}
-		if(!IsSelected && !IsPlaced)
-		{
-			Fall();
-		}
-
-		// Assume no collision to begin
-		IsColliding = false;
-
-		for (int i = 0; i < Slots.Length; i++)
-		{
-			float slotToPiece = Vector3.Distance(Slots[i].transform.position, PieceController.mousePosition);
-
-			bool cursorOutsideSlot = slotToPiece > Radius;
-
-			if (This_collider.bounds.Intersects(SlotsBounds[i]) && !cursorOutsideSlot)
+			// Move toward mouse if selected and not colliding with a slot and not in the board
+			if (IsSelected && !IsColliding && !IsPlaced)
 			{
-				IsColliding = true;
+				MoveTowardCursor();
+			}
+			if (!IsSelected && !IsPlaced)
+			{
+				Fall();
+			}
 
-				// If they are still holding the object, keep it there, otherwise let it fall
-				if (IsSelected)
+			// Assume no collision to begin
+			IsColliding = false;
+
+			for (int i = 0; i < Slots.Length; i++)
+			{
+				float slotToPiece = Vector3.Distance(Slots[i].transform.position, PieceController.mousePosition);
+
+				bool cursorOutsideSlot = slotToPiece > Radius;
+
+				if (This_collider.bounds.Intersects(SlotsBounds[i]) && !cursorOutsideSlot)
 				{
-					Colliding_slot = Slots[i];
-					Magnetise(Colliding_slot);
+					IsColliding = true;
+
+					// If they are still holding the object, keep it there, otherwise let it fall
+					if (IsSelected)
+					{
+						Colliding_slot = Slots[i];
+						Magnetise(Colliding_slot);
+					}
 				}
 			}
-		}
 
-		// Piece Placed
-		if(!IsSelected && IsColliding)
-		{
-			Fall();
-			IsPlaced = true;
-			GameplayManager.PieceJustPlaced = gameObject;
-			GameplayManager.PieceJustPlacedColour = Colour;
+			// Piece Placed
+			if (!IsSelected && IsColliding)
+			{
+				Fall();
+				IsPlaced = true;
+				GameplayManager.PieceJustPlaced = gameObject;
+				GameplayManager.PieceJustPlacedColour = Colour;
+			}
 		}
 	}
 

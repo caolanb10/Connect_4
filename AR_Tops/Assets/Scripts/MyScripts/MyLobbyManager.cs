@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class MyLobbyManager : MonoBehaviourPunCallbacks
 {
@@ -73,16 +74,23 @@ public class MyLobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void onQuickMatchButtonClicked()
+    public void OnQuickMatchButtonClicked()
     {
         SceneLoader.Instance.LoadMyScene("My_Scene_Gameplay");
     }
 
-    #endregion
+	#endregion
 
-    #region PHOTON Callback Methods
+	#region PHOTON Callback Methods
+	public override void OnRoomListUpdate(List<RoomInfo> roomList)
+	{
+		foreach(RoomInfo room in roomList)
+		{
+			Debug.Log(room.Name);
+		}
+	}
 
-    public override void OnConnected()
+	public override void OnConnected()
     {
         Debug.Log("We connected to the internet");
     }
@@ -90,7 +98,8 @@ public class MyLobbyManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log(PhotonNetwork.LocalPlayer.NickName + " is connected to Photon");
-        uI_Lobby.SetActive(true);
+		PhotonNetwork.JoinLobby();
+		uI_Lobby.SetActive(true);
         uI_ConnectionStatus.SetActive(false);
         uI_LoginGameObject.SetActive(false);
     }
