@@ -26,4 +26,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/My_Scenes/My_Scene_Gameplay.unity
     guid: 7fdd435b7ca11dc45b64a93e6b6efa46
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e7a34a9bbee612d4abdbae2c732c59db,
+      type: 2}

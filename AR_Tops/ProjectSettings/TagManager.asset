@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Beystadium
   - Piece
+  - Cube
   layers:
   - Default
   - TransparentFX

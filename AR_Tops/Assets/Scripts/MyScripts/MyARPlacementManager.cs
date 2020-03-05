@@ -10,6 +10,9 @@ public class MyARPlacementManager : MonoBehaviour
 {
 	ARRaycastManager RayManager;
 
+	ARTrackedImageManager ImageManager;
+	ARPlaneManager PlaneManager;
+
 	float speed = 1.0f;
 	public float totalAngle = 0f;
 
@@ -19,26 +22,57 @@ public class MyARPlacementManager : MonoBehaviour
 	public GameObject Connect4Board;
 
 	public GameObject DebugObject;
+
+	private GameObject[] MarkerObject;
+
 	public bool DebugEnabled;
+
+	public bool MarkerBased;
 
 	private void Awake()
 	{
+		MarkerObject = new GameObject[1];
+		PlaneManager = GetComponent<ARPlaneManager>();
 		RayManager = GetComponent<ARRaycastManager>();
+		ImageManager = GetComponent<ARTrackedImageManager>();
 	}
 
     void FixedUpdate()
     {
-		Vector3 centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2);
-		Ray ray = ARCamera.ScreenPointToRay(centerOfScreen); 
-		
-		if(RayManager.Raycast(ray, RayHits, TrackableType.PlaneWithinPolygon))
-		{ 
-			// First intersection
-			Pose hitPose = RayHits[0].pose;
-			Vector3 positionToBePlaced = hitPose.position;
-			Connect4Board.transform.position = positionToBePlaced;
+		// Markerless
+		if (!MarkerBased)
+		{
+			Vector3 centerOfScreen = new Vector3(Screen.width / 2, Screen.height / 2);
+			Ray ray = ARCamera.ScreenPointToRay(centerOfScreen);
+
+			if (RayManager.Raycast(ray, RayHits, TrackableType.PlaneWithinPolygon))
+			{
+				// First intersection
+				Pose hitPose = RayHits[0].pose;
+				Vector3 positionToBePlaced = hitPose.position;
+				Connect4Board.transform.position = positionToBePlaced;
+			}
+		}
+		// Marker based
+		// ImageManager.enabled == true
+		else
+		{
+			Debug.Log("Marker Based");
+			FindMarkerObject();
+			Debug.Log(MarkerObject.Length);
+			if (MarkerObject.Length > 0)
+			{
+				Debug.Log(MarkerObject[0].transform.position);
+				Debug.Log(MarkerObject[0].name);
+			}
 		}
     }
+
+	public void FindMarkerObject()
+	{
+		MarkerObject = GameObject.FindGameObjectsWithTag("Cube");
+		// if(MarkerObject[0] != null) // Debug.Log(MarkerObject.Length + "---------------" + MarkerObject[0].name);
+	}
 
 	public void Rotate(bool increase)
 	{
@@ -57,4 +91,6 @@ public class MyARPlacementManager : MonoBehaviour
 
 		gameObject.transform.localScale += boardScaleFactor;
 	}
+
+	public void SetMarkerBased(bool x) => MarkerBased = x;
 }

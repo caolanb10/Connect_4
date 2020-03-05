@@ -6,6 +6,9 @@ using TMPro;
 
 public class MyUIManager : MonoBehaviour
 {
+	public GameObject MarkerButton;
+
+	public GameObject MarkerLessButton;
 
 	public GameObject StartGameButton;
 
@@ -33,7 +36,9 @@ public class MyUIManager : MonoBehaviour
 
 	public bool IsInGame = false;
 
-	public int[] states = new int[] {0,1,2,3};
+	public int[] states = new int[] { 0, 1, 2, 3 };
+
+	private string Marker = "Would you like to play using a marker or without a marker";
 
 	private string NotPlaced = "Please place board to search for games";
 
@@ -41,13 +46,22 @@ public class MyUIManager : MonoBehaviour
 
 	public void Start()
 	{
-		StateZero();
-		UI_InformPanel_Text.text = NotPlaced;
+		BeforePlaced();
+	}
+
+
+	public void BeforePlaced()
+	{
+		UI_InformPanel_Text.text = Marker;
+		DeactivateEverything();
+		MarkerButton.SetActive(true);
+		MarkerLessButton.SetActive(true);
 	}
 
 	// Board not placed
 	public void StateZero()
 	{
+		UI_InformPanel_Text.text = NotPlaced;
 		DeactivateEverything();
 		Place.SetActive(true);
 		Scale.SetActive(true);
@@ -97,6 +111,8 @@ public class MyUIManager : MonoBehaviour
 
 	public void DeactivateEverything()
 	{
+		MarkerButton.SetActive(false);
+		MarkerLessButton.SetActive(false);
 		Adjust.SetActive(false);
 		Place.SetActive(false);
 		DoneButton.SetActive(false);
