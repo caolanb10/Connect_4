@@ -57,21 +57,17 @@ public class MyARPlacementManager : MonoBehaviour
 		// ImageManager.enabled == true
 		else
 		{
-			Debug.Log("Marker Based");
 			FindMarkerObject();
-			Debug.Log(MarkerObject.Length);
 			if (MarkerObject.Length > 0)
 			{
-				Debug.Log(MarkerObject[0].transform.position);
-				Debug.Log(MarkerObject[0].name);
+				Connect4Board.transform.position = MarkerObject[0].transform.position;
 			}
 		}
     }
 
 	public void FindMarkerObject()
 	{
-		MarkerObject = GameObject.FindGameObjectsWithTag("Cube");
-		// if(MarkerObject[0] != null) // Debug.Log(MarkerObject.Length + "---------------" + MarkerObject[0].name);
+		MarkerObject = GameObject.FindGameObjectsWithTag("ARImage");
 	}
 
 	public void Rotate(bool increase)

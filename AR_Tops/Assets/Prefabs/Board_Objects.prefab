@@ -469,7 +469,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2016a0d3d64a76a4ba4c07890d429013, type: 2}
+  - {fileID: 2100000, guid: d975a6e9288198441a278f8852697c84, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2318,6 +2318,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Connect_4_Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 8623841660620670669, guid: 4039c6508babb1d4ca1123e3f295c78b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8623841660620670669, guid: 4039c6508babb1d4ca1123e3f295c78b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8623841660620670669, guid: 4039c6508babb1d4ca1123e3f295c78b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8623841660620670669, guid: 4039c6508babb1d4ca1123e3f295c78b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8623841660620670669, guid: 4039c6508babb1d4ca1123e3f295c78b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8623841660620670669, guid: 4039c6508babb1d4ca1123e3f295c78b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8623841660620670669, guid: 4039c6508babb1d4ca1123e3f295c78b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8623841660620670669, guid: 4039c6508babb1d4ca1123e3f295c78b,
         type: 3}
