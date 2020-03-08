@@ -22,10 +22,6 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 
 	private float Distance;
 
-	public bool SynchronizeVelocity = true;
-
-	public bool IsTeleportEnabled = true;
-
 	public float TeleportIfDistanceIsGreater = 1.0f;
 
 	public void Awake()
@@ -59,12 +55,7 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 			stream.SendNext(MyFlippedCoordinates.PositionRelativeToBoard(Rb.position, Board));
 			stream.SendNext(Rb.isKinematic);
 			stream.SendNext(Rb.rotation);
-
-			// Send Velocity data as well
-			if (SynchronizeVelocity)
-			{
-				stream.SendNext(Rb.velocity);
-			}
+			stream.SendNext(Rb.velocity);
 		}
 
 		// No control over the object, so I update this class with the values read from the network
@@ -75,26 +66,10 @@ public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 			NetworkIsKinematic = (bool)stream.ReceiveNext();
 			NetworkRotation = (Quaternion)stream.ReceiveNext();
 
-			if (IsTeleportEnabled)
-			{
-				if (Vector3.Distance(Rb.position, NetworkPositionRb) > TeleportIfDistanceIsGreater)
-				{
-					Rb.position = NetworkPositionRb;
-				}
-			}
-			if (SynchronizeVelocity)
-			{
-				float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
-
-				if (SynchronizeVelocity)
-				{
-					Rb.velocity = (Vector3)stream.ReceiveNext();
-
-					NetworkPositionRb += Rb.velocity * lag;
-
-					Distance = Vector3.Distance(Rb.position, NetworkPositionRb);
-				}
-			}
+			float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+			Rb.velocity = (Vector3)stream.ReceiveNext();
+			NetworkPositionRb += Rb.velocity * lag;
+			Distance = Vector3.Distance(Rb.position, NetworkPositionRb);
 		}
 	}
 }

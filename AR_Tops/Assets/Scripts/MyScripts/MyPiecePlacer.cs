@@ -60,50 +60,53 @@ public class MyPiecePlacer : MonoBehaviourPun
 		if (photonView.IsMine)
 		{
 			IsOwned = true;
+			InitialisePiecePlacer();
 		}
 		else
 		{
 			IsOwned = false;
 		}
-		if(IsOwned) InitialisePiecePlacer();
 	}
 
 	void FixedUpdate()
 	{
 		if (IsOwned)
 		{
-			// Move toward mouse if selected and not colliding with a slot and not in the board
-			if (IsSelected && !IsColliding && !IsPlaced)
+			if(IsSelected)
 			{
-				MoveTowardCursor();
-			}
-			if (!IsSelected && !IsPlaced)
-			{
-				Fall();
-			}
-
-			// Assume no collision to begin
-			IsColliding = false;
-
-			for (int i = 0; i < Slots.Length; i++)
-			{
-				float slotToPiece = Vector3.Distance(Slots[i].transform.position, PieceController.mousePosition);
-
-				bool cursorOutsideSlot = slotToPiece > Radius;
-
-				if (This_collider.bounds.Intersects(SlotsBounds[i]) && !cursorOutsideSlot)
+				// Move toward mouse if selected and not colliding with a slot and not in the board
+				if(!IsColliding && !IsPlaced)
 				{
-					IsColliding = true;
+					MoveTowardCursor();
+				}
 
-					// If they are still holding the object, keep it there, otherwise let it fall
-					if (IsSelected)
+				// Assume no collision to begin
+				IsColliding = false;
+
+				for (int i = 0; i < Slots.Length; i++)
+				{
+					float slotToPiece = Vector3.Distance(Slots[i].transform.position, PieceController.WorldPosition);
+
+					bool cursorOutsideSlot = slotToPiece > Radius;
+
+					if (This_collider.bounds.Intersects(SlotsBounds[i]) && !cursorOutsideSlot)
 					{
-						Colliding_slot = Slots[i];
-						Magnetise(Colliding_slot);
+						IsColliding = true;
+
+						// If they are still holding the object, keep it there, otherwise let it fall
+						if (IsSelected)
+						{
+							Colliding_slot = Slots[i];
+							Magnetise(Colliding_slot);
+						}
 					}
 				}
 			}
 
+			if (!IsSelected && !IsPlaced)
+			{
+				Fall();
+			}
 			// Piece Placed
 			if (!IsSelected && IsColliding)
 			{
@@ -123,14 +126,13 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	void MoveTowardCursor()
 	{
-		Rb.velocity = ZeroSpeed;
+		Rb.velocity = ZeroSpeed;		
+		Rb.useGravity = false;
+		Rb.isKinematic = true;
 
 		// Need to fix the rotation variable
 		transform.rotation = Rotation;
-		Rb.position = Vector3.MoveTowards(transform.position, PieceController.mousePosition, Speed * Time.deltaTime);
-		
-		Rb.useGravity = false;
-		Rb.isKinematic = true;
+		Rb.position = Vector3.MoveTowards(transform.position, PieceController.WorldPosition, Speed * Time.deltaTime);
 	}
 
 	void Fall()

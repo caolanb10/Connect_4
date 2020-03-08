@@ -11,7 +11,7 @@ public class MyPieceController : MonoBehaviour
 	public Camera Camera;
 
 	// Vector that stores the mouse position in world space to be used by the active piece
-	public Vector3 mousePosition;
+	public Vector3 WorldPosition;
 
 	[Header("Game Object Detection and Movement")]
 	// Distance away from camera that piece should move to
@@ -31,32 +31,29 @@ public class MyPieceController : MonoBehaviour
 			? Input.GetMouseButton(0)
 			: Input.touchCount > 0;
 
-		// Left Click Down
+		// Touch or left click down
 		if (input)
 		{
-			Touch touch;
 			Vector3 screenPosition;
-			if (Input.touchCount > 0)
+			if (EnableDesktopControls)
 			{
-				touch = Input.GetTouch(0);
-				screenPosition = touch.position;
+				screenPosition = Input.mousePosition;
 			}
 			else
 			{
-				screenPosition = Input.mousePosition;
+				screenPosition = Input.GetTouch(0).position;
 			}
 
 			Ray ray = Camera.ScreenPointToRay(screenPosition);
 			RaycastHit hit;
 
 			// Point in world space
-			mousePosition = Camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, Distance));
+			WorldPosition = Camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, Distance));
 
 			// If it hits a game object AND we havent previously selected one
 			if (Physics.Raycast(ray, out hit) && highlightedObject == null)
 			{
-				Transform selection = hit.transform;
-				highlightedObject = selection.gameObject;
+				highlightedObject = hit.transform.gameObject;
 				Debug.Log("Has hit game object " + highlightedObject.name);
 
 				// If the game object is a movable piece AND we own the object
