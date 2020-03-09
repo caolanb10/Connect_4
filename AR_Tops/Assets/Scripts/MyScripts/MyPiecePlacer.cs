@@ -72,40 +72,10 @@ public class MyPiecePlacer : MonoBehaviourPun
 	{
 		if (IsOwned)
 		{
-			if(IsSelected)
+			// Move toward mouse if selected and not colliding with a slot and not in the board
+			if(IsSelected && !IsColliding && !IsPlaced)
 			{
-				// Move toward mouse if selected and not colliding with a slot and not in the board
-				if(!IsColliding && !IsPlaced)
-				{
-					MoveTowardCursor();
-				}
-
-				// Assume no collision to begin
-				IsColliding = false;
-
-				for (int i = 0; i < Slots.Length; i++)
-				{
-					float slotToPiece = Vector3.Distance(Slots[i].transform.position, PieceController.WorldPosition);
-
-					bool cursorOutsideSlot = slotToPiece > Radius;
-
-					if (This_collider.bounds.Intersects(SlotsBounds[i]) && !cursorOutsideSlot)
-					{
-						IsColliding = true;
-
-						// If they are still holding the object, keep it there, otherwise let it fall
-						if (IsSelected)
-						{
-							Colliding_slot = Slots[i];
-							Magnetise(Colliding_slot);
-						}
-					}
-				}
-			}
-
-			if (!IsSelected && !IsPlaced)
-			{
-				Fall();
+				MoveTowardCursor();
 			}
 			// Piece Placed
 			if (!IsSelected && IsColliding)
@@ -114,6 +84,29 @@ public class MyPiecePlacer : MonoBehaviourPun
 				IsPlaced = true;
 				GameplayManager.PieceJustPlaced = gameObject;
 				GameplayManager.PieceJustPlacedColour = Colour;
+			}
+			// Assume no collision to begin
+			IsColliding = false;
+			for (int i = 0; i < Slots.Length; i++)
+			{
+				float slotToPiece = Vector3.Distance(Slots[i].transform.position, PieceController.WorldPosition);
+
+				bool cursorOutsideSlot = slotToPiece > Radius;
+
+				if (This_collider.bounds.Intersects(SlotsBounds[i]) && !cursorOutsideSlot)
+				{
+					Debug.Log("this collider bounds" + This_collider.bounds);
+					if (IsSelected)
+					{
+						IsColliding = true;
+						Colliding_slot = Slots[i];
+						Magnetise(Colliding_slot);
+					}
+				}
+			}
+			if (!IsSelected && !IsPlaced)
+			{
+				Fall();
 			}
 		}
 	}

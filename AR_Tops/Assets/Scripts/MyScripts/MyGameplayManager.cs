@@ -64,9 +64,14 @@ public class MyGameplayManager : MonoBehaviour
 
 		Bounds positionBounds = position.GetComponent<SphereCollider>().bounds;
 
+		Debug.Log("piece placed bounds" + piecePlaced);
+
+		Debug.Log("position bounds" + positionBounds);
+
 		// Collision on board
 		if (piecePlaced.Intersects(positionBounds))
 		{
+			Debug.Log("intersects");
 			PlacePiece(position);
 		}
 	}
