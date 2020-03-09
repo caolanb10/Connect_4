@@ -60,8 +60,8 @@ public class MyPieceController : MonoBehaviour
 				if (highlightedObject.tag == "Piece" && highlightedObject.GetComponent<MyPiecePlacer>().IsOwned)
 				{
 					Debug.Log("Touch has hit a piece");
-					// Select the object
 					highlightedObject.GetComponent<MyPiecePlacer>().IsSelected = true;
+					highlightedObject.GetComponent<MyPiecePlacer>().TouchPosition = WorldPosition;
 				}
 			}
 		}

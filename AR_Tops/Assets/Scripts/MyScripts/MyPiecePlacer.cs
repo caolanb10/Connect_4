@@ -20,10 +20,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 	private float Speed = 20.0f;
 
 	// Zero Vector for disabling speed
-	private Vector3 ZeroSpeed = new Vector3(0, 0, 0);
-
-	// The controller
-	private MyPieceController PieceController;
+	private Vector3 ZeroSpeed = new Vector3(0, 0, 0);	
 
 	// Used to preserve rotation
 	// This assumes no rotation of the board which is incorrect
@@ -31,6 +28,8 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	// This objects bounds
 	private Collider This_collider;
+
+	public Vector3 TouchPosition;
 
 	// Gameplay Manager
 	private MyGameplayManager GameplayManager;
@@ -89,7 +88,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 			IsColliding = false;
 			for (int i = 0; i < Slots.Length; i++)
 			{
-				float slotToPiece = Vector3.Distance(Slots[i].transform.position, PieceController.WorldPosition);
+				float slotToPiece = Vector3.Distance(Slots[i].transform.position, TouchPosition);
 
 				bool cursorOutsideSlot = slotToPiece > Radius;
 
@@ -125,7 +124,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 		// Need to fix the rotation variable
 		transform.rotation = Rotation;
-		Rb.position = Vector3.MoveTowards(transform.position, PieceController.WorldPosition, Speed * Time.deltaTime);
+		Rb.position = Vector3.MoveTowards(transform.position, TouchPosition, Speed * Time.deltaTime);
 	}
 
 	void Fall()
@@ -145,8 +144,6 @@ public class MyPiecePlacer : MonoBehaviourPun
 		GameObject g = GameObject.Find("Connect_4_Board_Slots");
 
 		GameplayManager = GameObject.Find("GameplayManager").GetComponent<MyGameplayManager>();
-
-		PieceController = GameObject.Find("PieceController").GetComponent<MyPieceController>();
 
 		Radius = gameObject.transform.localScale.x / 2;
 
