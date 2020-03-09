@@ -33,8 +33,6 @@ public class MyPieceControllerPinch : MonoBehaviour
 
 	public bool EnableDesktopControls;
 
-	public bool PinchingGesture;
-
 	bool LeftMouseDown;
 
 	void FixedUpdate()
