@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6474117345256655430}
   - component: {fileID: 4506263716586460092}
   - component: {fileID: 1390437342118574086}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Connect_4_Piece_Yellow
   m_TagString: Piece
   m_Icon: {fileID: 0}
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Colliding_slot: {fileID: 0}
+  TouchPosition: {x: 0, y: 0, z: 0}
   Colour: Yellow
   IsColliding: 0
   IsSelected: 0
@@ -166,6 +167,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc89bf59358c0f438507916aa02f4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SynchronizeVelocity: 1
-  IsTeleportEnabled: 0
   TeleportIfDistanceIsGreater: 1

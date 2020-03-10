@@ -44,6 +44,7 @@ public class MyPieceControllerPinch : MonoBehaviour
 		// Left Click Down or touch
 		if (input)
 		{
+			Debug.Log("Distance" + Distance);
 			Vector3 screenPosition;
 			if (EnableDesktopControls)
 			{
@@ -60,7 +61,7 @@ public class MyPieceControllerPinch : MonoBehaviour
 						? DistanceBetweenTouches
 						: Vector3.Distance(screenPosition, SecondTouchPosition);
 					DistanceBetweenTouches = Vector3.Distance(screenPosition, SecondTouchPosition);
-					Distance += (DistanceBetweenTouches - previousDistanceBetweenTouches) * 0.1f * Speed;
+					Distance += (DistanceBetweenTouches - previousDistanceBetweenTouches) * Speed;
 				}
 				else
 				{
@@ -74,8 +75,11 @@ public class MyPieceControllerPinch : MonoBehaviour
 			// Point in world space
 			WorldPosition = Camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, Distance));
 
+			if (HighlightedObject != null)
+				HighlightedObject.GetComponent<MyPiecePlacer>().TouchPosition = WorldPosition;
+
 			// If it hits a game object AND we havent previously selected one
-			if (Physics.Raycast(ray, out hit) && HighlightedObject == null)
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
 			{
 				HighlightedObject = hit.transform.gameObject;
 				Debug.Log("Has hit game object " + HighlightedObject.name);
@@ -86,7 +90,6 @@ public class MyPieceControllerPinch : MonoBehaviour
 					Debug.Log("Touch has hit a piece");
 					// Select the object
 					HighlightedObject.GetComponent<MyPiecePlacer>().IsSelected = true;
-					HighlightedObject.GetComponent<MyPiecePlacer>().TouchPosition = WorldPosition;
 				}
 			}
 		}

@@ -18,7 +18,7 @@ public class MyPieceController : MonoBehaviour
 	private float Distance = 0.4f;
 
 	// Gameobject that mouse ray has intersected with
-	private GameObject highlightedObject;
+	private GameObject HighlightedObject;
 
 	bool LeftMouseDown;
 
@@ -50,18 +50,20 @@ public class MyPieceController : MonoBehaviour
 			// Point in world space
 			WorldPosition = Camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, Distance));
 
+			if(HighlightedObject != null)
+				HighlightedObject.GetComponent<MyPiecePlacer>().TouchPosition = WorldPosition;
+			
 			// If it hits a game object AND we havent previously selected one
-			if (Physics.Raycast(ray, out hit) && highlightedObject == null)
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
 			{
-				highlightedObject = hit.transform.gameObject;
-				Debug.Log("Has hit game object " + highlightedObject.name);
+				HighlightedObject = hit.transform.gameObject;
+				Debug.Log("Has hit game object " + HighlightedObject.name);
 
 				// If the game object is a movable piece AND we own the object
-				if (highlightedObject.tag == "Piece" && highlightedObject.GetComponent<MyPiecePlacer>().IsOwned)
+				if (HighlightedObject.tag == "Piece" && HighlightedObject.GetComponent<MyPiecePlacer>().IsOwned)
 				{
 					Debug.Log("Touch has hit a piece");
-					highlightedObject.GetComponent<MyPiecePlacer>().IsSelected = true;
-					highlightedObject.GetComponent<MyPiecePlacer>().TouchPosition = WorldPosition;
+					HighlightedObject.GetComponent<MyPiecePlacer>().IsSelected = true;
 				}
 			}
 		}
@@ -70,17 +72,17 @@ public class MyPieceController : MonoBehaviour
 		else
 		{
 			// If we have selected an object previously
-			if (highlightedObject != null)
+			if (HighlightedObject != null)
 			{
 				// If the game object is a movable piece
-				if (highlightedObject.tag == "Piece")
+				if (HighlightedObject.tag == "Piece")
 				{
 					// De-select the object
-					highlightedObject.GetComponent<MyPiecePlacer>().IsSelected = false;
+					HighlightedObject.GetComponent<MyPiecePlacer>().IsSelected = false;
 				}
 			}
 			// Delete reference
-			highlightedObject = null;
+			HighlightedObject = null;
 		}
 	}
 }
