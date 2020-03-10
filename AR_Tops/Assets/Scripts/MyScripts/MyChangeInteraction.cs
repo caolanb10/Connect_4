@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MyChangeInteraction : MonoBehaviour
-{ 
+{
+	public GameObject ManoMotion;
 	public MyPieceController ControllerNormal;
 	public MyPieceControllerPinch ControllerPinch;
 	public MyPieceControllerMultiTouch ControllerMulti;
-	public MyPieceControllerGesture ControllerGesture;
 
 	public void ChangeInteraction(int index)
 	{
@@ -26,7 +26,7 @@ public class MyChangeInteraction : MonoBehaviour
 		}
 		if(index == 3)
 		{
-			ControllerGesture.enabled = true;
+			ManoMotion.SetActive(true);
 		}
 	}
 	void DisableOthers()
@@ -34,6 +34,5 @@ public class MyChangeInteraction : MonoBehaviour
 		ControllerNormal.enabled = false;
 		ControllerMulti.enabled = false;
 		ControllerPinch.enabled = false;
-		ControllerGesture.enabled = false;
 	}
 }
