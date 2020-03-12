@@ -5,6 +5,8 @@ using TMPro;
 
 public class GizmoManager : MonoBehaviour
 {
+	public MyPieceControllerGesture GestureController;
+
     #region Singleton
 
     private static GizmoManager _instance;
@@ -288,6 +290,10 @@ public class GizmoManager : MonoBehaviour
         if (ShowContinuousGestures) DisplayContinuousGestures(gestureInfo.mano_gesture_continuous);
         if (ShowManoClass) DisplayManoclass(gestureInfo.mano_class);
         DisplayTriggerGesture(gestureInfo.mano_gesture_trigger, trackingInfo);
+
+		// Send info to gesture controller
+		GestureController.PrintInfo(gestureInfo.mano_gesture_trigger, trackingInfo);
+
         if (ShowPalmCenter) DisplayPalmCenter(trackingInfo.palm_center, gestureInfo, warning);
         if (ShowPOI) DisplayPOI(gestureInfo, warning, trackingInfo);
         if (ShowHandSide) DisplayHandSide(gestureInfo.hand_side);
@@ -632,10 +638,9 @@ public class GizmoManager : MonoBehaviour
     /// <param name="triggerGesture">Trigger gesture.</param>
     void TriggerDisplay(TrackingInfo trackingInfo, ManoGestureTrigger triggerGesture)
     {
-        if (GetCurrentPooledTrigger())
+        GameObject triggerVisualInformation = GetCurrentPooledTrigger();
+        if (triggerVisualInformation != null)
         {
-            GameObject triggerVisualInformation = GetCurrentPooledTrigger();
-
             triggerVisualInformation.SetActive(true);
             triggerVisualInformation.name = triggerGesture.ToString();
             triggerVisualInformation.GetComponent<TriggerGizmo>().InitializeTriggerGizmo(triggerGesture);
