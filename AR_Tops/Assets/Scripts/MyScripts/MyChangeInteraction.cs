@@ -27,6 +27,10 @@ public class MyChangeInteraction : MonoBehaviour
 		if(index == 3)
 		{
 			ManoMotion.SetActive(true);
+			DisableIfFound("Canvas");
+			DisableIfFound("Board_Objects");
+			DisableIfFound("GamePlayObjects");
+			DisableIfFound("NetworkObjects");
 		}
 	}
 	void DisableOthers()
@@ -34,5 +38,19 @@ public class MyChangeInteraction : MonoBehaviour
 		ControllerNormal.enabled = false;
 		ControllerMulti.enabled = false;
 		ControllerPinch.enabled = false;
+	}
+
+	void DisableIfFound(string gameobject)
+	{
+		GameObject foundObject = GameObject.Find(gameobject);
+		if (foundObject != null)
+		{
+			Debug.Log("Found");
+			foundObject.SetActive(false);
+		}
+		else
+		{
+			Debug.Log("Not found");
+		}
 	}
 }

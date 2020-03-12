@@ -269,9 +269,9 @@ public class GizmoManager : MonoBehaviour
     private void Initialize()
     {
         SetGestureDescriptionParts();
-        HighlightStatesToStateDetection(0);
-        InitializeFlagParts();
-        InitializeTriggerPool();
+        if(ShowHandStates) HighlightStatesToStateDetection(0);
+        if(ShowWarnings) InitializeFlagParts();
+		InitializeTriggerPool();
         ManomotionManager.OnManoMotionFrameProcessed += DisplayInformationAfterManoMotionProcessFrame;
     }
 
@@ -285,17 +285,20 @@ public class GizmoManager : MonoBehaviour
         Warning warning = ManomotionManager.Instance.Hand_infos[0].hand_info.warning;
         Session session = ManomotionManager.Instance.Manomotion_Session;
 
-        DisplayContinuousGestures(gestureInfo.mano_gesture_continuous);
-        DisplayManoclass(gestureInfo.mano_class);
+        if (ShowContinuousGestures) DisplayContinuousGestures(gestureInfo.mano_gesture_continuous);
+        if (ShowManoClass) DisplayManoclass(gestureInfo.mano_class);
         DisplayTriggerGesture(gestureInfo.mano_gesture_trigger, trackingInfo);
-        DisplayHandState(gestureInfo.state);
-        DisplayPalmCenter(trackingInfo.palm_center, gestureInfo, warning);
-        DisplayPOI(gestureInfo, warning, trackingInfo);
-        DisplayHandSide(gestureInfo.hand_side);
-        DisplayApproachingToEdgeFlags(warning);
-        DisplayCurrentsmoothingValue(session);
-        DisplaySmoothingSlider();
-        DisplayDepthEstimation(trackingInfo.depth_estimation);
+        if (ShowPalmCenter) DisplayPalmCenter(trackingInfo.palm_center, gestureInfo, warning);
+        if (ShowPOI) DisplayPOI(gestureInfo, warning, trackingInfo);
+        if (ShowHandSide) DisplayHandSide(gestureInfo.hand_side);
+        if (ShowWarnings) DisplayApproachingToEdgeFlags(warning);
+		if (ShowSmoothingSlider)
+		{
+			DisplayCurrentsmoothingValue(session);
+			DisplaySmoothingSlider();
+		}
+        if (ShowDepthEstimation) DisplayDepthEstimation(trackingInfo.depth_estimation);
+        if (ShowHandStates) DisplayHandState(gestureInfo.state);
     }
 
     #region Display Methods
@@ -384,7 +387,7 @@ public class GizmoManager : MonoBehaviour
     /// <param name="trackingInfo">Tracking info.</param>
     void DisplayPOI(GestureInfo gesture, Warning warning, TrackingInfo trackingInfo)
     {
-        bool isPinchWellDetected = currentThumbCounter > maxThumbCounter / 2;
+		bool isPinchWellDetected = currentThumbCounter > maxThumbCounter / 2;
         if (ShowPOI)
         {
             if (gesture.mano_class == ManoClass.PINCH_GESTURE_FAMILY)
