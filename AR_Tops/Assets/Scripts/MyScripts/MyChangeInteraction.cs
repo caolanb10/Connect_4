@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class MyChangeInteraction : MonoBehaviour
 {
+	public GameObject Raycast;
 	public GameObject ManoMotion;
-	public MyPieceController ControllerNormal;
+	public MyPieceControllerSingleTouch ControllerNormal;
 	public MyPieceControllerPinch ControllerPinch;
+	public MyPieceControllerRaycast ControllerRaycast;
 	public MyPieceControllerMultiTouch ControllerMulti;
 
 	public void ChangeInteraction(int index)
@@ -27,10 +29,11 @@ public class MyChangeInteraction : MonoBehaviour
 		if(index == 3)
 		{
 			ManoMotion.SetActive(true);
-			// DisableIfFound("Canvas");
-			// DisableIfFound("Board_Objects");
-			// DisableIfFound("GamePlayObjects");
-			// DisableIfFound("NetworkObjects");
+		}
+		if(index == 4)
+		{
+			ControllerRaycast.enabled = true;
+			Raycast.SetActive(true);
 		}
 	}
 	void DisableOthers()
@@ -38,6 +41,9 @@ public class MyChangeInteraction : MonoBehaviour
 		ControllerNormal.enabled = false;
 		ControllerMulti.enabled = false;
 		ControllerPinch.enabled = false;
+		ControllerRaycast.enabled = false;
+		Raycast.SetActive(false);
+		ManoMotion.SetActive(false);
 	}
 
 	void DisableIfFound(string gameobject)

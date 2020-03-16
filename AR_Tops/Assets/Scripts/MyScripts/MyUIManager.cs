@@ -6,6 +6,10 @@ using TMPro;
 
 public class MyUIManager : MonoBehaviour
 {
+	public GameObject InteractionDropdown;
+
+	public GameObject UI_Inform_Panel;
+
 	public GameObject MarkerButton;
 
 	public GameObject MarkerLessButton;
@@ -119,6 +123,7 @@ public class MyUIManager : MonoBehaviour
 		StartGameButton.SetActive(false);
 		Scale.SetActive(false);
 		Rotate.SetActive(false);
+		InteractionDropdown.SetActive(false);
 		Change_Rotation_Buttons.SetActive(false);
 		Change_Scale_Buttons.SetActive(false);
 		BackToLobby.SetActive(false);
@@ -128,6 +133,7 @@ public class MyUIManager : MonoBehaviour
 	{
 		DeactivateEverything();
 		Pointer.SetActive(false);
-		UI_InformPanel_Text.text = "Grab a piece in order to place it";
+		UI_Inform_Panel.SetActive(false);
+		InteractionDropdown.SetActive(true);
 	}
 }
