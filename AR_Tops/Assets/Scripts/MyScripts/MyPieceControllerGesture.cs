@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class MyPieceControllerGesture : MonoBehaviour
 {
-	public void PrintInfo(ManoGestureTrigger trigger, TrackingInfo trackingInfo)
+	float Distance = 0.4f;
+
+	public void PrintInfo(GestureInfo info, TrackingInfo trackingInfo)
 	{
+		ManoGestureTrigger trigger = info.mano_gesture_trigger;
+		ManoGestureContinuous continuous = info.mano_gesture_continuous;
+
+		Vector3 poiRectTransform = Camera.main.ViewportToWorldPoint(new Vector3(trackingInfo.poi.x, trackingInfo.poi.y, Distance));
+
+		// Ray ray = Camera.ScreenPointToRay(screenPosition);
+		RaycastHit hit;
+
+
 		Vector3 poi = trackingInfo.poi;
 		Vector3 palm_center = trackingInfo.palm_center;
 
 		Debug.Log("poi" + poi);
 		Debug.Log("palm center" + palm_center);
+		Debug.Log("continuous " + continuous);
 
 		if(trigger == ManoGestureTrigger.CLICK)
 		{

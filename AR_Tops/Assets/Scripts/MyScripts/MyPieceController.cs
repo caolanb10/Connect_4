@@ -44,45 +44,55 @@ public class MyPieceController : MonoBehaviour
 				screenPosition = Input.GetTouch(0).position;
 			}
 
-			Ray ray = Camera.ScreenPointToRay(screenPosition);
-			RaycastHit hit;
-
-			// Point in world space
-			WorldPosition = Camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, Distance));
-
-			if(HighlightedObject != null)
-				HighlightedObject.GetComponent<MyPiecePlacer>().TouchPosition = WorldPosition;
-			
-			// If it hits a game object AND we havent previously selected one
-			if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
-			{
-				HighlightedObject = hit.transform.gameObject;
-				Debug.Log("Has hit game object " + HighlightedObject.name);
-
-				// If the game object is a movable piece AND we own the object
-				if (HighlightedObject.tag == "Piece" && HighlightedObject.GetComponent<MyPiecePlacer>().IsOwned)
-				{
-					Debug.Log("Touch has hit a piece");
-					HighlightedObject.GetComponent<MyPiecePlacer>().IsSelected = true;
-				}
-			}
+			GrabPiece(screenPosition);
 		}
 
 		// No touch
 		else
 		{
-			// If we have selected an object previously
-			if (HighlightedObject != null)
-			{
-				// If the game object is a movable piece
-				if (HighlightedObject.tag == "Piece")
-				{
-					// De-select the object
-					HighlightedObject.GetComponent<MyPiecePlacer>().IsSelected = false;
-				}
-			}
-			// Delete reference
-			HighlightedObject = null;
+			ClearPiece();
 		}
+	}
+
+	public void GrabPiece(Vector3 screenPosition)
+	{
+		Ray ray = Camera.ScreenPointToRay(screenPosition);
+		RaycastHit hit;
+
+		// Point in world space
+		WorldPosition = Camera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, Distance));
+
+		if (HighlightedObject != null)
+			HighlightedObject.GetComponent<MyPiecePlacer>().TouchPosition = WorldPosition;
+
+		// If it hits a game object AND we havent previously selected one
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
+		{
+			HighlightedObject = hit.transform.gameObject;
+			Debug.Log("Has hit game object " + HighlightedObject.name);
+
+			// If the game object is a movable piece AND we own the object
+			if (HighlightedObject.tag == "Piece" && HighlightedObject.GetComponent<MyPiecePlacer>().IsOwned)
+			{
+				Debug.Log("Touch has hit a piece");
+				HighlightedObject.GetComponent<MyPiecePlacer>().IsSelected = true;
+			}
+		}
+	}
+
+	public void ClearPiece()
+	{
+		// If we have selected an object previously
+		if (HighlightedObject != null)
+		{
+			// If the game object is a movable piece
+			if (HighlightedObject.tag == "Piece")
+			{
+				// De-select the object
+				HighlightedObject.GetComponent<MyPiecePlacer>().IsSelected = false;
+			}
+		}
+		// Delete reference
+		HighlightedObject = null;
 	}
 }

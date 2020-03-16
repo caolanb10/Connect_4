@@ -27,10 +27,10 @@ public class MyChangeInteraction : MonoBehaviour
 		if(index == 3)
 		{
 			ManoMotion.SetActive(true);
-			DisableIfFound("Canvas");
-			DisableIfFound("Board_Objects");
-			DisableIfFound("GamePlayObjects");
-			DisableIfFound("NetworkObjects");
+			// DisableIfFound("Canvas");
+			// DisableIfFound("Board_Objects");
+			// DisableIfFound("GamePlayObjects");
+			// DisableIfFound("NetworkObjects");
 		}
 	}
 	void DisableOthers()

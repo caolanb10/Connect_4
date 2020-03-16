@@ -292,7 +292,7 @@ public class GizmoManager : MonoBehaviour
         DisplayTriggerGesture(gestureInfo.mano_gesture_trigger, trackingInfo);
 
 		// Send info to gesture controller
-		GestureController.PrintInfo(gestureInfo.mano_gesture_trigger, trackingInfo);
+		GestureController.PrintInfo(gestureInfo, trackingInfo);
 
         if (ShowPalmCenter) DisplayPalmCenter(trackingInfo.palm_center, gestureInfo, warning);
         if (ShowPOI) DisplayPOI(gestureInfo, warning, trackingInfo);
