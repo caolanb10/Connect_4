@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class MyPieceControllerGesture : MyPieceController
 {
-	GizmoManager GizmoManager;
-
 	GestureInfo GestureInfo;
 	TrackingInfo TrackingInfo;
 	
-
 	// Continuous gestures
 	// Trigger
 	// Poi
@@ -26,18 +23,16 @@ public class MyPieceControllerGesture : MyPieceController
 		if(IsGrabPieceGesture(GestureInfo.mano_gesture_trigger))
 		{
 			Debug.Log("Grab at: " + ScreenPosition);
+
+			Grab();
 		}
 		
 		if(IsReleaseGesture(GestureInfo.mano_gesture_trigger))
 		{
 			Debug.Log("Release at: " + ScreenPosition);
-		}
-	}
 
-	protected override void Start()
-	{
-		InitialiseGizmo();
-		base.Start();
+			Release();
+		}
 	}
 
 	public bool IsGrabPieceGesture(ManoGestureTrigger trigger)
@@ -51,10 +46,5 @@ public class MyPieceControllerGesture : MyPieceController
 	{
 		return ((trigger == ManoGestureTrigger.DROP)
 			|| (trigger == ManoGestureTrigger.RELEASE_GESTURE));
-	}
-
-	public void InitialiseGizmo()
-	{
-		GizmoManager = GameObject.Find("ManoMotionObjects/GizmoCanvas").GetComponent<GizmoManager>();
 	}
 }

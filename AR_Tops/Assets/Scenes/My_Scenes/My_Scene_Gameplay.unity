@@ -652,12 +652,12 @@ PrefabInstance:
     - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.05
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.71
+      value: -0.011
       objectReference: {fileID: 0}
     - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
         type: 3}
@@ -10793,7 +10793,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf603084f822304d9a95e0f9f5a7749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GestureController: {fileID: 1323997434}
   disabledStateColor: {r: 0.32941177, g: 0.30588236, b: 0.28627452, a: 0}
   stateImages:
   - {fileID: 0}
