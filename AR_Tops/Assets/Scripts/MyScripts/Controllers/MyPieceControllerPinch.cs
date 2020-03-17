@@ -35,14 +35,15 @@ public class MyPieceControllerPinch : MyPieceController
 			}
 			else
 			{
-				Distance = 0.4f;
 				DistanceBetweenTouches = 0f;
 			}
-			Grab();
+
+			GrabScreenPoint();
 			base.FixedUpdate();
 		}
 		else
 		{
+			Distance = 0.4f;
 			Release();
 		}
 	}

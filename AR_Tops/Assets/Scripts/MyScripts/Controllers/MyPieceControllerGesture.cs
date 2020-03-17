@@ -24,7 +24,7 @@ public class MyPieceControllerGesture : MyPieceController
 		{
 			Debug.Log("Grab at: " + ScreenPosition);
 
-			Grab();
+			GrabViewportPoint();
 		}
 		
 		if(IsReleaseGesture(GestureInfo.mano_gesture_trigger))
@@ -33,6 +33,18 @@ public class MyPieceControllerGesture : MyPieceController
 
 			Release();
 		}
+		if (SelectedPiece == null)
+			return;
+		else
+		{
+			UpdateScreenPosition();
+			SelectedPlacer.TouchPosition = WorldPosition;
+		}
+	}
+
+	public void UpdateScreenPosition()
+	{
+		WorldPosition = Camera.ViewportToWorldPoint(new Vector3(ScreenPosition.x, ScreenPosition.y, Distance));
 	}
 
 	public bool IsGrabPieceGesture(ManoGestureTrigger trigger)

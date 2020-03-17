@@ -5,7 +5,6 @@ using UnityEngine;
 public class MyHandInfo : MonoBehaviour
 {
 	GizmoManager GizmoManager;
-
 	GestureInfo GestureInfo;
 	TrackingInfo TrackingInfo;
 

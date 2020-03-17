@@ -37,34 +37,51 @@ public class MyPieceController : MonoBehaviour
 		}
 	}
 
-	protected virtual void Grab()
+	protected virtual void GrabScreenPoint()
 	{
 		// Already have a piece
 		if (SelectedPiece != null)
 			return;
 		else
 		{
-			Debug.Log("Called Grab");
+			Debug.Log("Called Grab at " + ScreenPosition);
 			Ray ray = Camera.ScreenPointToRay(ScreenPosition);
-			RaycastHit hit;
+			Grab(ray);
+		}
+	}
 
-			if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
+	protected virtual void GrabViewportPoint()
+	{
+		// Already have a piece
+		if (SelectedPiece != null)
+			return;
+		else
+		{
+			Debug.Log("Called Grab at " + ScreenPosition);
+			Ray ray = Camera.ViewportPointToRay(ScreenPosition);
+			Grab(ray);
+		}
+	}
+
+	protected virtual void Grab(Ray ray)
+	{
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
+		{
+			SelectedPiece = hit.transform.gameObject;
+			SelectedPlacer = SelectedPiece.GetComponent<MyPiecePlacer>();
+
+			Debug.Log("Has hit game object " + SelectedPiece.name);
+
+			if (SelectedPlacer.IsOwned)
 			{
-				SelectedPiece = hit.transform.gameObject;
-				SelectedPlacer = SelectedPiece.GetComponent<MyPiecePlacer>();
-
-				Debug.Log("Has hit game object " + SelectedPiece.name);
-
-				if (SelectedPlacer.IsOwned)
-				{
-					Debug.Log("Touch has hit an owned piece");
-					SelectedPlacer.IsSelected = true;
-				}
+				Debug.Log("Touch has hit an owned piece");
+				SelectedPlacer.IsSelected = true;
 			}
-			else
-			{
-				Debug.Log("Hit nothing");
-			}
+		}
+		else
+		{
+			Debug.Log("Hit nothing");
 		}
 	}
 

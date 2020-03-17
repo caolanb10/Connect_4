@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/ManoMotion ARFoundation/Scenes/ManoMotion SDK ARFoundation Features.unity
     guid: 1668340a0c8652243b16daa7c3858c8d
+  - enabled: 0
+    path: Assets/Scenes/Scene_Mano.unity
+    guid: 0e084c8a30bf7ed4cbcc49d8de89c023
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e7a34a9bbee612d4abdbae2c732c59db,
       type: 2}

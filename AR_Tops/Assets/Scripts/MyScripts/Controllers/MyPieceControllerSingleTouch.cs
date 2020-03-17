@@ -23,7 +23,7 @@ public class MyPieceControllerSingleTouch : MyPieceController
 				ScreenPosition = Input.GetTouch(0).position;
 			}
 
-			Grab();
+			GrabScreenPoint();
 
 			base.FixedUpdate();
 		}

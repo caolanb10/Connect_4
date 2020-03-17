@@ -7,9 +7,10 @@ public class MyChangeInteraction : MonoBehaviour
 	public GameObject Raycast;
 	public GameObject ManoMotion;
 	public MyPieceControllerSingleTouch ControllerNormal;
+	public MyPieceControllerGesture ControllerGesture;
 	public MyPieceControllerPinch ControllerPinch;
-	public MyPieceControllerRaycast ControllerRaycast;
 	public MyPieceControllerMultiTouch ControllerMulti;
+	public MyPieceControllerRaycast ControllerRaycast;
 
 	public void ChangeInteraction(int index)
 	{
@@ -28,6 +29,7 @@ public class MyChangeInteraction : MonoBehaviour
 		}
 		if(index == 3)
 		{
+			ControllerGesture.enabled = true;
 			ManoMotion.SetActive(true);
 		}
 		if(index == 4)
@@ -46,13 +48,27 @@ public class MyChangeInteraction : MonoBehaviour
 		ManoMotion.SetActive(false);
 	}
 
+	public void DestroyAll()
+	{
+		DisableIfFound("Canvas");
+		DisableIfFound("Board_Objects");
+		DisableIfFound("NetworkObjects");
+		DisableIfFound("GamePlayObjects");
+
+		GameObject[] objs = GameObject.FindGameObjectsWithTag("Piece");
+		foreach(GameObject g in objs)
+		{
+			Destroy(g);
+		}
+	}
+
 	void DisableIfFound(string gameobject)
 	{
 		GameObject foundObject = GameObject.Find(gameobject);
 		if (foundObject != null)
 		{
-			Debug.Log("Found");
-			foundObject.SetActive(false);
+			Debug.Log("Found" + foundObject.name);
+			Destroy(foundObject);
 		}
 		else
 		{
