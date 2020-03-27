@@ -562,6 +562,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 595216494761910107, guid: a2bf1456c37814941b7bb463b51e549c,
+        type: 3}
+      propertyPath: m_Name
+      value: Plane
+      objectReference: {fileID: 0}
+    - target: {fileID: 741621363455067318, guid: a2bf1456c37814941b7bb463b51e549c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1209807010205860272, guid: a2bf1456c37814941b7bb463b51e549c,
         type: 3}
       propertyPath: m_Name
@@ -621,6 +631,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6728832472910076719, guid: a2bf1456c37814941b7bb463b51e549c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2bf1456c37814941b7bb463b51e549c, type: 3}
@@ -3154,7 +3169,6 @@ MonoBehaviour:
   TotalAngle: 0
   ARCamera: {fileID: 1350487944}
   Connect4Board: {fileID: 488176611}
-  DebugEnabled: 0
   MarkerBased: 0
 --- !u!114 &896825917
 MonoBehaviour:

@@ -7,6 +7,8 @@ public class MyPiecePlacer : MonoBehaviourPun
 {
 	private float Radius;
 
+	private GameObject GameBoard;
+	
 	// The Slots
 	private GameObject[] Slots;
 
@@ -139,6 +141,8 @@ public class MyPiecePlacer : MonoBehaviourPun
 		SlotsBounds = new Bounds[7];
 	
 		Rb = GetComponent<Rigidbody>();
+
+		GameBoard = GameObject.Find("Plane");
 
 		GameObject g = GameObject.Find("Connect_4_Board_Slots");
 

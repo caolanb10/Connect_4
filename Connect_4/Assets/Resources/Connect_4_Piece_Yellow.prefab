@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6474117345256655430}
   - component: {fileID: 4506263716586460092}
   - component: {fileID: 1390437342118574086}
+  - component: {fileID: 7305331958503804080}
   m_Layer: 8
   m_Name: Connect_4_Piece_Yellow
   m_TagString: Piece
@@ -125,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6ee24d8b1e4f0459bf5c12a88b133d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Colliding_slot: {fileID: 0}
+  CollidingSlot: {fileID: 0}
   TouchPosition: {x: 0, y: 0, z: 0}
   Colour: Yellow
   IsColliding: 0
@@ -168,3 +169,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TeleportIfDistanceIsGreater: 1
+--- !u!114 &7305331958503804080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812353739021353790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93293fa3a452e64084e02d31e627145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
