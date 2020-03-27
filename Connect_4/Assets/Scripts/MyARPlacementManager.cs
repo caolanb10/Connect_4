@@ -9,19 +9,16 @@ using TMPro;
 public class MyARPlacementManager : MonoBehaviour
 {
 	ARRaycastManager RayManager;
-
 	ARTrackedImageManager ImageManager;
 	ARPlaneManager PlaneManager;
 
-	float speed = 1.0f;
-	public float totalAngle = 0f;
+	float Speed = 1.0f;
+	public float TotalAngle = 0f;
 
 	static List<ARRaycastHit> RayHits = new List<ARRaycastHit>();
 	public Camera ARCamera;
 
 	public GameObject Connect4Board;
-
-	public GameObject DebugObject;
 
 	private GameObject[] MarkerObject;
 
@@ -72,16 +69,16 @@ public class MyARPlacementManager : MonoBehaviour
 
 	public void Rotate(bool increase)
 	{
-		float angle = increase ? speed * 20 : - (speed * 20);
+		float angle = increase ? Speed * 20 : - (Speed * 20);
 		Connect4Board.transform.Rotate(Vector3.up, angle);
-		totalAngle += angle;
+		TotalAngle += angle;
 	}
 
 	// AR Session Origin for this
 	public void Scale(bool increase)
 	{
 		float multiplier = 0.1f;
-		float magnitude = !increase ? speed * multiplier : - (speed * multiplier);
+		float magnitude = !increase ? Speed * multiplier : - (Speed * multiplier);
 		
 		Vector3 boardScaleFactor = new Vector3(magnitude, magnitude, magnitude);
 

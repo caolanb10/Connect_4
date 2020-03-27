@@ -14,7 +14,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 	private Bounds[] SlotsBounds;
 
 	// The Slot it is colliding with
-	public GameObject Colliding_slot;
+	public GameObject CollidingSlot;
 
 	// Speed that the object should move at
 	private float Speed = 20.0f;
@@ -27,7 +27,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 	private Quaternion Rotation = Quaternion.Euler(90, 0, 0);
 
 	// This objects bounds
-	private Collider This_collider;
+	private Collider ThisCollider;
 
 	public Vector3 TouchPosition;
 
@@ -92,14 +92,14 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 				bool cursorOutsideSlot = slotToPiece > Radius;
 
-				if (This_collider.bounds.Intersects(SlotsBounds[i]) && !cursorOutsideSlot)
+				if (ThisCollider.bounds.Intersects(SlotsBounds[i]) && !cursorOutsideSlot)
 				{
-					Debug.Log("this collider bounds" + This_collider.bounds);
+					Debug.Log("this collider bounds" + ThisCollider.bounds);
 					if (IsSelected)
 					{
 						IsColliding = true;
-						Colliding_slot = Slots[i];
-						Magnetise(Colliding_slot);
+						CollidingSlot = Slots[i];
+						Magnetise(CollidingSlot);
 					}
 				}
 			}
@@ -118,7 +118,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 	void MoveTowardCursor()
 	{
-		Rb.velocity = ZeroSpeed;		
+		Rb.velocity = ZeroSpeed;
 		Rb.useGravity = false;
 		Rb.isKinematic = true;
 
@@ -147,7 +147,7 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 		Radius = gameObject.transform.localScale.x / 2;
 
-		This_collider = GetComponent<CapsuleCollider>();
+		ThisCollider = GetComponent<CapsuleCollider>();
 
 		for (int i = 0; i < g.transform.childCount; i++)
 		{

@@ -8,9 +8,7 @@ using ExitGames.Client.Photon;
 public class MySpawnManager : MonoBehaviourPunCallbacks
 {
 	public MyGameplayManager GameplayManager;
-
 	public MyARPlacementManager PlacementManager;
-
 	public MyUIManager UI_Manager;
 
 	// Parent of gameplay objects
@@ -50,7 +48,7 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 	public void SpawnPieces()
 	{
 		Vector3 rotationVector = DefaultPieceRotation
-			+ new Vector3(0.0f, PlacementManager.totalAngle, 0.0f);
+			+ new Vector3(0.0f, PlacementManager.TotalAngle, 0.0f);
 
 		PieceRotation = Quaternion.Euler(rotationVector);
 		if (PhotonNetwork.IsConnectedAndReady)
@@ -71,8 +69,6 @@ public class MySpawnManager : MonoBehaviourPunCallbacks
 	#region Private Methods
 	void SpawnPlayer(int i)
 	{
-		Debug.Log("Are the first player: " + IsFirstPlayer);
-
 		GameObject piece = IsFirstPlayer
 			? Instantiate(YellowPlayer, Positions[i].transform.position, PieceRotation)
 			: Instantiate(RedPlayer, Positions[i].transform.position, PieceRotation);

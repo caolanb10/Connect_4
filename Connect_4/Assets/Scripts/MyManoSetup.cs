@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyHandInfo : MonoBehaviour
+public class MyManoSetup : MonoBehaviour
 {
 	GizmoManager GizmoManager;
-	GestureInfo GestureInfo;
-	TrackingInfo TrackingInfo;
-
     void Start()
     {
 		GizmoManager = GetComponent<GizmoManager>();

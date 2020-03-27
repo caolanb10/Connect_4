@@ -6,18 +6,13 @@ using Photon.Pun;
 public class MyPieceSynchronisation : MonoBehaviour, IPunObservable
 {
 	Rigidbody Rb;
-
 	PhotonView PhotonView;
-
 	MyPiecePlacer Placer;
-
 	GameObject Board;
 
 	// Network variables
 	Vector3 NetworkPositionRb;
-
 	bool NetworkIsKinematic;
-
 	Quaternion NetworkRotation;
 
 	private float Distance;

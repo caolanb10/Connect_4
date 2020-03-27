@@ -5,34 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : Singleton<SceneLoader>
 {
-    private string sceneNameToBeLoaded;
+    private string SceneNameToBeLoaded;
+	private string LoadingScreen = "Scene_Loading";
+
+
     public void LoadScene(string _sceneName)
     {
-        sceneNameToBeLoaded = _sceneName;
+		SceneNameToBeLoaded = _sceneName;
         StartCoroutine(InitializeSceneLoading(1));
     }
 
     public void LoadMyScene(string _sceneName)
     {
-        sceneNameToBeLoaded = _sceneName;
+		SceneNameToBeLoaded = _sceneName;
         StartCoroutine(InitializeSceneLoading(2));
     }
     
     IEnumerator InitializeSceneLoading(int scene)
     {
-        string sceneToLoad;
-        sceneToLoad = scene == 1 ? "Scene_Loading" : "My_Scene_Loading";
-
-        // First, we load the loading scene
-        yield return SceneManager.LoadSceneAsync(sceneToLoad);
-
-        // Load the actual scene
+        yield return SceneManager.LoadSceneAsync(LoadingScreen);
         StartCoroutine(LoadActualScene());
     }
 
     IEnumerator LoadActualScene()
     {
-        var asyncSceneLoading = SceneManager.LoadSceneAsync(sceneNameToBeLoaded);
+        var asyncSceneLoading = SceneManager.LoadSceneAsync(SceneNameToBeLoaded);
 
         // This value stops the scene from displaying when it is still loading
         asyncSceneLoading.allowSceneActivation = false;

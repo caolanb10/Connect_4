@@ -13,7 +13,6 @@ public class MyRoomManager : MonoBehaviourPunCallbacks
 	public MyRoomData RoomData;
 
 	private int SelectedIndex = 0;
-
 	private int NumberOfRooms = 5;
 
 	public void OnClickRoom(int index)

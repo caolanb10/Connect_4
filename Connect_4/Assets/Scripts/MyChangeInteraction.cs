@@ -6,6 +6,7 @@ public class MyChangeInteraction : MonoBehaviour
 {
 	public GameObject Raycast;
 	public GameObject ManoMotion;
+
 	public MyPieceControllerSingleTouch ControllerNormal;
 	public MyPieceControllerGesture ControllerGesture;
 	public MyPieceControllerPinch ControllerPinch;
