@@ -18,8 +18,6 @@ public class MyPieceControllerPinch : MyPieceController
 	{
 		if (Input.touchCount > 0)
 		{
-			Debug.Log("Distance" + Distance);
-
 			ScreenPosition = Input.GetTouch(0).position;
 			if (Input.touchCount == 2)
 			{

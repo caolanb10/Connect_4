@@ -94,7 +94,6 @@ public class MyPiecePlacer : MonoBehaviourPun
 
 				if (ThisCollider.bounds.Intersects(SlotsBounds[i]) && !cursorOutsideSlot)
 				{
-					Debug.Log("this collider bounds" + ThisCollider.bounds);
 					if (IsSelected)
 					{
 						IsColliding = true;

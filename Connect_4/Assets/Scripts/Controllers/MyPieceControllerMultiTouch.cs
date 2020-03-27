@@ -35,8 +35,6 @@ public class MyPieceControllerMultiTouch : MyPieceController
 				{
 					HighlightedObjects[i] = hit.transform.gameObject;
 
-					Debug.Log("Hit gameobject " + HighlightedObjects[i].name);
-
 					if (HighlightedObjects[i].GetComponent<MyPiecePlacer>().IsOwned)
 					{
 						HighlightedObjects[i].GetComponent<MyPiecePlacer>().IsSelected = true;

@@ -22,8 +22,6 @@ public class MyARPlacementManager : MonoBehaviour
 
 	private GameObject[] MarkerObject;
 
-	public bool DebugEnabled;
-
 	public bool MarkerBased;
 
 	private void Awake()

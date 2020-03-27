@@ -44,7 +44,6 @@ public class MyPieceController : MonoBehaviour
 			return;
 		else
 		{
-			Debug.Log("Called Grab at " + ScreenPosition);
 			Ray ray = Camera.ScreenPointToRay(ScreenPosition);
 			Grab(ray);
 		}
@@ -57,7 +56,6 @@ public class MyPieceController : MonoBehaviour
 			return;
 		else
 		{
-			Debug.Log("Called Grab at " + ScreenPosition);
 			Ray ray = Camera.ViewportPointToRay(ScreenPosition);
 			Grab(ray);
 		}
@@ -71,17 +69,10 @@ public class MyPieceController : MonoBehaviour
 			SelectedPiece = hit.transform.gameObject;
 			SelectedPlacer = SelectedPiece.GetComponent<MyPiecePlacer>();
 
-			Debug.Log("Has hit game object " + SelectedPiece.name);
-
 			if (SelectedPlacer.IsOwned)
 			{
-				Debug.Log("Touch has hit an owned piece");
 				SelectedPlacer.IsSelected = true;
 			}
-		}
-		else
-		{
-			Debug.Log("Hit nothing");
 		}
 	}
 
@@ -94,8 +85,6 @@ public class MyPieceController : MonoBehaviour
 	{
 		// Not grabbing a piece
 		if (SelectedPiece == null) return;
-
-		Debug.Log("Called Release");
 
 		SelectedPlacer.IsSelected = false;
 		SelectedPlacer = null;
