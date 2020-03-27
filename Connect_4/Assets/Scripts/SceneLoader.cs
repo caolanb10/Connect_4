@@ -10,7 +10,6 @@ public class SceneLoader : Singleton<SceneLoader>
     {
         sceneNameToBeLoaded = _sceneName;
         StartCoroutine(InitializeSceneLoading(1));
-       
     }
 
     public void LoadMyScene(string _sceneName)
