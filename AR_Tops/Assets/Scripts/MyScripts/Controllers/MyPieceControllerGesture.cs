@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MyPieceControllerGesture : MyPieceController
 {
-	GestureInfo GestureInfo;
-	TrackingInfo TrackingInfo;
-	
+	GestureInfo GestureInformation;
+	TrackingInfo TrackingInformation;
+
 	// Continuous gestures
 	// Trigger
 	// Poi
@@ -15,19 +15,22 @@ public class MyPieceControllerGesture : MyPieceController
 
 	protected override void FixedUpdate()
 	{
-		GestureInfo = ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info;
-		TrackingInfo = ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info;
+		GestureInformation = ManomotionManager.Instance.Hand_infos[0].hand_info.gesture_info;
+		TrackingInformation = ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info;
+		ScreenPosition = TrackingInformation.poi;
 
-		ScreenPosition = TrackingInfo.poi;
+		Debug.Log(TrackingInformation.depth_estimation);
 
-		if(IsGrabPieceGesture(GestureInfo.mano_gesture_trigger))
+		Distance = TrackingInformation.depth_estimation;
+
+		if(IsGrabPieceGesture(GestureInformation.mano_gesture_trigger))
 		{
 			Debug.Log("Grab at: " + ScreenPosition);
 
 			GrabViewportPoint();
 		}
 		
-		if(IsReleaseGesture(GestureInfo.mano_gesture_trigger))
+		if(IsReleaseGesture(GestureInformation.mano_gesture_trigger))
 		{
 			Debug.Log("Release at: " + ScreenPosition);
 

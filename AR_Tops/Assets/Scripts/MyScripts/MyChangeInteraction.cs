@@ -14,6 +14,11 @@ public class MyChangeInteraction : MonoBehaviour
 
 	public void ChangeInteraction(int index)
 	{
+		if (index == 5)
+		{
+			DestroyAll();
+			return;
+		}
 		DisableOthers();
 		if(index == 0)
 		{
@@ -65,6 +70,7 @@ public class MyChangeInteraction : MonoBehaviour
 	void DisableIfFound(string gameobject)
 	{
 		GameObject foundObject = GameObject.Find(gameobject);
+		Destroy(foundObject);
 		if (foundObject != null)
 		{
 			Debug.Log("Found" + foundObject.name);
@@ -72,7 +78,7 @@ public class MyChangeInteraction : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("Not found");
+			Debug.Log("Not found" + gameobject);
 		}
 	}
 }
