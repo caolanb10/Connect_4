@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4506263716586460092}
   - component: {fileID: 1390437342118574086}
   - component: {fileID: 7305331958503804080}
+  - component: {fileID: 848935847299664787}
   m_Layer: 8
   m_Name: Connect_4_Piece_Yellow
   m_TagString: Piece
@@ -91,7 +92,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1812353739021353790}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a4bb692f87468f7488e617eb4363ae57, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5000001
@@ -108,7 +109,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -181,3 +182,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93293fa3a452e64084e02d31e627145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &848935847299664787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812353739021353790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9af6f1aabb28664a93fbb9d686685ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedMaterial: {fileID: 2100000, guid: 67e83eff7f2884046a38d283dc64cf62, type: 2}

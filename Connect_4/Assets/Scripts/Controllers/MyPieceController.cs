@@ -6,6 +6,8 @@ using UnityEngine.XR.ARSubsystems;
 
 public class MyPieceController : MonoBehaviour
 {
+	GameObject VisualOrb;
+
 	// Players camera object
 	public Camera Camera;
 
@@ -20,6 +22,7 @@ public class MyPieceController : MonoBehaviour
 	// Gameobject that mouse ray has intersected with
 	public GameObject SelectedPiece;
 	public MyPiecePlacer SelectedPlacer;
+	public MyChangeShader SelectedPieceShader;
 
 	protected virtual void Start()
 	{
@@ -49,7 +52,7 @@ public class MyPieceController : MonoBehaviour
 		}
 	}
 
-	protected virtual void GrabViewportPoint()
+	protected virtual void GestureGrab()
 	{
 		// Already have a piece
 		if (SelectedPiece != null)
@@ -57,6 +60,14 @@ public class MyPieceController : MonoBehaviour
 		else
 		{
 			Ray ray = Camera.ViewportPointToRay(ScreenPosition);
+			Debug.DrawRay(ray.origin, ray.direction, Color.cyan, 10.0f);
+
+			Vector3 v = ray.GetPoint(Distance);
+			Debug.Log(Distance);
+			Debug.Log(v);
+
+			VisualOrb.transform.position = v;
+
 			Grab(ray);
 		}
 	}
@@ -68,9 +79,11 @@ public class MyPieceController : MonoBehaviour
 		{
 			SelectedPiece = hit.transform.gameObject;
 			SelectedPlacer = SelectedPiece.GetComponent<MyPiecePlacer>();
+			SelectedPieceShader = SelectedPiece.GetComponent<MyChangeShader>();
 
 			if (SelectedPlacer.IsOwned)
 			{
+				SelectedPieceShader.ChangeShaderSelected();
 				SelectedPlacer.IsSelected = true;
 			}
 		}
@@ -86,13 +99,16 @@ public class MyPieceController : MonoBehaviour
 		// Not grabbing a piece
 		if (SelectedPiece == null) return;
 
+		SelectedPieceShader.ChangeShaderNormal();
 		SelectedPlacer.IsSelected = false;
 		SelectedPlacer = null;
 		SelectedPiece = null;
+		SelectedPieceShader = null;
 	}
 
 	public void InitialiseGameObjects()
 	{
 		Camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		VisualOrb = GameObject.Find("Sphere");
 	}
 }

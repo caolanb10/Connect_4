@@ -11,10 +11,8 @@ public class FreezeOnPlane : MonoBehaviour
 		if (collision.gameObject.name == PlaneName)
 		{
 			Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-			if (rb.velocity != Vector3.zero)
-			{
-				rb.velocity = new Vector3(0, 0, 0);
-			}
+			rb.angularVelocity = new Vector3(0, 0, 0);
+			rb.velocity = new Vector3(0, 0, 0);
 		}
 	}
 }

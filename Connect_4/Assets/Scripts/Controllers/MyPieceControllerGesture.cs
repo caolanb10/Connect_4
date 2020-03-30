@@ -13,11 +13,11 @@ public class MyPieceControllerGesture : MyPieceController
 		TrackingInformation = ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info;
 		ScreenPosition = TrackingInformation.poi;
 
-		Distance = TrackingInformation.depth_estimation;
+		Distance = TrackingInformation.depth_estimation * 2;
 
 		if(IsGrabPieceGesture(GestureInformation.mano_gesture_trigger))
 		{
-			GrabViewportPoint();
+			GestureGrab();
 		}
 		
 		if(IsReleaseGesture(GestureInformation.mano_gesture_trigger))
@@ -31,6 +31,11 @@ public class MyPieceControllerGesture : MyPieceController
 			UpdateScreenPosition();
 			SelectedPlacer.TouchPosition = WorldPosition;
 		}
+	}
+
+	public void AttemptGrab()
+	{
+		Vector3 orbPos = Camera.ViewportToWorldPoint(new Vector3(ScreenPosition.x, ScreenPosition.y, 1.0f));
 	}
 
 	public void UpdateScreenPosition()
