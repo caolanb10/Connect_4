@@ -585,12 +585,12 @@ PrefabInstance:
     - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: -0.207
       objectReference: {fileID: 0}
     - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.622
       objectReference: {fileID: 0}
     - target: {fileID: 1209807010205860279, guid: a2bf1456c37814941b7bb463b51e549c,
         type: 3}
@@ -3851,6 +3851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 682855d63ee568949be4c940aaf47f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VisualOrb: {fileID: 1176500122}
   Raycast: {fileID: 609251948}
   ManoMotion: {fileID: 1871258789}
   ControllerNormal: {fileID: 1323997430}
@@ -5132,13 +5133,14 @@ GameObject:
   - component: {fileID: 1176500125}
   - component: {fileID: 1176500124}
   - component: {fileID: 1176500123}
+  - component: {fileID: 1176500127}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &1176500123
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5147,7 +5149,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176500122}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -5206,12 +5208,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176500122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.349, y: 1, z: 0.762}
-  m_LocalScale: {x: 0.10113, y: 0.10113, z: 0.10113}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 0.050050274, y: 0.050050274, z: 0.050050274}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1176500127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176500122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac74f185e41b95449ad8cd771ef3520, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1205271939
 GameObject:
   m_ObjectHideFlags: 0

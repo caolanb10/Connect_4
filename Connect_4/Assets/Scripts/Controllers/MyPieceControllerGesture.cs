@@ -13,7 +13,9 @@ public class MyPieceControllerGesture : MyPieceController
 		TrackingInformation = ManomotionManager.Instance.Hand_infos[0].hand_info.tracking_info;
 		ScreenPosition = TrackingInformation.poi;
 
-		Distance = TrackingInformation.depth_estimation * 2;
+		Distance = Mathf.Pow(TrackingInformation.depth_estimation, 2);
+
+		MoveCursor();
 
 		if(IsGrabPieceGesture(GestureInformation.mano_gesture_trigger))
 		{

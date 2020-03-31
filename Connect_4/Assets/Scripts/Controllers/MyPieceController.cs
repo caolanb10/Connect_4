@@ -52,6 +52,13 @@ public class MyPieceController : MonoBehaviour
 		}
 	}
 
+	protected virtual void MoveCursor()
+	{
+		Ray ray = Camera.ViewportPointToRay(ScreenPosition);
+		Vector3 v = ray.GetPoint(Distance);
+		VisualOrb.transform.position = v;
+	}
+
 	protected virtual void GestureGrab()
 	{
 		// Already have a piece
@@ -59,16 +66,14 @@ public class MyPieceController : MonoBehaviour
 			return;
 		else
 		{
-			Ray ray = Camera.ViewportPointToRay(ScreenPosition);
-			Debug.DrawRay(ray.origin, ray.direction, Color.cyan, 10.0f);
-
-			Vector3 v = ray.GetPoint(Distance);
-			Debug.Log(Distance);
-			Debug.Log(v);
-
-			VisualOrb.transform.position = v;
-
-			Grab(ray);
+			GameObject highlightedPiece = VisualOrb.GetComponent<MyHighlighter>().HighlightedPiece;
+			if (highlightedPiece != null)
+			{
+				SelectedPiece = highlightedPiece;
+				SelectedPlacer = SelectedPiece.GetComponent<MyPiecePlacer>();
+				SelectedPieceShader = SelectedPiece.GetComponent<MyChangeShader>();
+				SelectedPlacer.IsSelected = true;
+			}
 		}
 	}
 
@@ -109,6 +114,5 @@ public class MyPieceController : MonoBehaviour
 	public void InitialiseGameObjects()
 	{
 		Camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-		VisualOrb = GameObject.Find("Sphere");
 	}
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MyChangeInteraction : MonoBehaviour
 {
+	public GameObject VisualOrb;
 	public GameObject Raycast;
 	public GameObject ManoMotion;
 
@@ -35,8 +36,9 @@ public class MyChangeInteraction : MonoBehaviour
 		}
 		if(index == 3)
 		{
-			ControllerGesture.enabled = true;
+			VisualOrb.SetActive(true);
 			ManoMotion.SetActive(true);
+			ControllerGesture.enabled = true;
 		}
 		if(index == 4)
 		{
@@ -52,6 +54,7 @@ public class MyChangeInteraction : MonoBehaviour
 		ControllerRaycast.enabled = false;
 		Raycast.SetActive(false);
 		ManoMotion.SetActive(false);
+		VisualOrb.SetActive(false);
 	}
 
 	public void DestroyAll()
