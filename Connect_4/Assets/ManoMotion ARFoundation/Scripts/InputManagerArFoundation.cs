@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnityEngine.Android;
-using UnityEngine.UI;
-
 using UnityEngine.XR.ARFoundation;
-using TMPro;
 
 public class InputManagerArFoundation : InputManagerBaseClass
 {
@@ -20,7 +13,7 @@ public class InputManagerArFoundation : InputManagerBaseClass
 
     private float inputFrameScale;
 
-    private int maxCustomResolution = 200;
+    private int maxCustomResolution = 300;
     
     private Texture2D frameTexture;
     private Color32[] pixelColors;
@@ -204,9 +197,6 @@ public class InputManagerArFoundation : InputManagerBaseClass
         currentFrame.texture.ReadPixels(new Rect(0, 0, inputRenderTexture.width, inputRenderTexture.height), 0, 0);
         currentFrame.pixels = currentFrame.texture.GetPixels32();
 
-        //DELETEME Use this to save imgaes taken from AR foundation
-        //SaveTextureToFile(currentFrame);
-
         if (OnFrameUpdated != null)
         {
             OnFrameUpdated(currentFrame);
@@ -215,32 +205,12 @@ public class InputManagerArFoundation : InputManagerBaseClass
 
     #endregion
 
-    #region Debug
-
-    /// <summary>
-    /// Debug tool that saves the information of the ManoMotion Frame into an image file.
-    /// </summary>
-    int frameCounter = 0;
-    int delay5 = 0;
-    void SaveTextureToFile(ManoMotionFrame newFrame)
-    {
-        if (delay5 % 10 == 0)
-        {
-            frameCounter++;
-            byte[] bytes = newFrame.texture.EncodeToPNG();
-            string path = Application.persistentDataPath + "/" + newFrame.texture.width + "x" + newFrame.texture.height + ", " + inputRenderTexture.width + "x" + inputRenderTexture.height + "-" + frameCounter.ToString() + "deviceOrientation" + Input.deviceOrientation.ToString() + ".png";
-            Debug.Log("Saving in Path: " + path);
-            File.WriteAllBytes(path, bytes);
-        }
-        delay5++;
-    }
-
-    #endregion
+    #region Application on Background
 
     /// <summary>
     /// Stop the ManoMotion processing when application is put to background mode.
     /// </summary>
-    #region Application on Background
+
     bool isPaused = false;
 
     void OnApplicationFocus(bool hasFocus)

@@ -228,7 +228,6 @@ public class ManomotionManager : ManomotionBase
     {
         if (instance == null)
         {
-            //InstantiateSession();
             transform.GetComponent<InputManagerArFoundation>().StoragePermisionCheck();
             ManoUtils.OnOrientationChanged += HandleOrientationChanged;
             InputManagerBaseClass.OnAddonSet += HandleAddOnSet;
@@ -292,6 +291,7 @@ public class ManomotionManager : ManomotionBase
         manomotion_session = new Session();
         manomotion_session.orientation = ManoUtils.Instance.currentOrientation;
         manomotion_session.smoothing_controller = 0.15f;
+        manomotion_session.gesture_smoothing_controller = 0.5f;
         manomotion_session.enabled_features.pinch_poi = 1;
     }
 
@@ -482,6 +482,15 @@ public class ManomotionManager : ManomotionBase
     public void SetManoMotionSmoothingValue(Slider slider)
     {
         manomotion_session.smoothing_controller = slider.value;
+    }
+
+    /// <summary>
+    /// Sets the mano motion gesture smoothing value throught the gizmo slider, the bigger the value the stronger the smoothing.
+    /// </summary>
+    /// <param name="slider">Slider.</param>
+    public void SetManoMotionGestureSmoothingValue(Slider slider)
+    {
+        manomotion_session.gesture_smoothing_controller = slider.value;
     }
 
     #endregion

@@ -133,7 +133,6 @@ namespace ManoMotion.RunTime
         {
             ShouldEnableDisplayScripts(true);
             menuToggleButtonObject.SetActive(false);
-            manoMotionCanvas.SetActive(false);
             menuToggleButtonObject.transform.GetChild(0).GetComponent<MenuButton>().CloseMenu();
             DisableManoMotionGizmos();
         }
@@ -146,14 +145,12 @@ namespace ManoMotion.RunTime
             if (CategoryManager.Instance)
             {
                 CategoryManager.Instance.SetupMenu(defaultFunctionality);
-                Debug.Log("I executed the category manager");
+                Debug.Log("Executed the category manager");
             }
             else
             {
                 Debug.Log("Cant find Category Manager");
             }
-
-            Debug.Log("Super important I have set the lsit of features");
         }
 
         /// <summary>
@@ -381,7 +378,6 @@ namespace ManoMotion.RunTime
         /// </summary>
         public void StartMainApplicationWithDefaultSettings()
         {
-            manoMotionCanvas.SetActive(true);
             menuToggleButtonObject.SetActive(true);
             menuToggleButtonObject.transform.GetChild(0).GetComponent<MenuButton>().CloseMenuAndShowManoMotionCanvas();
 

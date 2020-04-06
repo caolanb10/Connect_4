@@ -56,6 +56,12 @@ public class GizmoManager : MonoBehaviour
     private Text currentSmoothingValue;
 
     [SerializeField]
+    private GameObject gestureSmoothingSliderControler;
+
+    [SerializeField]
+    private Text currentGestureSmoothingValue;
+
+    [SerializeField]
     private GameObject depthEstimationGizmo;
 
     [SerializeField]
@@ -269,9 +275,9 @@ public class GizmoManager : MonoBehaviour
     private void Initialize()
     {
         SetGestureDescriptionParts();
-        if(ShowHandStates) HighlightStatesToStateDetection(0);
-        if(ShowWarnings) InitializeFlagParts();
-		InitializeTriggerPool();
+        HighlightStatesToStateDetection(0);
+        InitializeFlagParts();
+        InitializeTriggerPool();
         ManomotionManager.OnManoMotionFrameProcessed += DisplayInformationAfterManoMotionProcessFrame;
     }
 
@@ -285,21 +291,18 @@ public class GizmoManager : MonoBehaviour
         Warning warning = ManomotionManager.Instance.Hand_infos[0].hand_info.warning;
         Session session = ManomotionManager.Instance.Manomotion_Session;
 
-        if (ShowContinuousGestures) DisplayContinuousGestures(gestureInfo.mano_gesture_continuous);
-        if (ShowManoClass) DisplayManoclass(gestureInfo.mano_class);
+        DisplayContinuousGestures(gestureInfo.mano_gesture_continuous);
+        DisplayManoclass(gestureInfo.mano_class);
         DisplayTriggerGesture(gestureInfo.mano_gesture_trigger, trackingInfo);
-
-        if (ShowPalmCenter) DisplayPalmCenter(trackingInfo.palm_center, gestureInfo, warning);
-        if (ShowPOI) DisplayPOI(gestureInfo, warning, trackingInfo);
-        if (ShowHandSide) DisplayHandSide(gestureInfo.hand_side);
-        if (ShowWarnings) DisplayApproachingToEdgeFlags(warning);
-		if (ShowSmoothingSlider)
-		{
-			DisplayCurrentsmoothingValue(session);
-			DisplaySmoothingSlider();
-		}
-        if (ShowDepthEstimation) DisplayDepthEstimation(trackingInfo.depth_estimation);
-        if (ShowHandStates) DisplayHandState(gestureInfo.state);
+        DisplayHandState(gestureInfo.state);
+        DisplayPalmCenter(trackingInfo.palm_center, gestureInfo, warning);
+        DisplayPOI(gestureInfo, warning, trackingInfo);
+        DisplayHandSide(gestureInfo.hand_side);
+        DisplayApproachingToEdgeFlags(warning);
+        DisplayCurrentsmoothingValue(session);
+        DisplayCurrentGestureSmoothingValue(session);
+        DisplaySmoothingSlider();
+        DisplayDepthEstimation(trackingInfo.depth_estimation);
     }
 
     #region Display Methods
@@ -335,12 +338,24 @@ public class GizmoManager : MonoBehaviour
     {
         if (smoothingSliderControler.activeInHierarchy)
         {
-            currentSmoothingValue.text = "Smoothing: " + session.smoothing_controller.ToString("F2");
+            currentSmoothingValue.text = "Tracking Smoothing: " + session.smoothing_controller.ToString("F2");
         }
     }
 
     /// <summary>
-    /// Displayes rough estimation of depth
+    /// Displays in text value the current smoothing value of the session
+    /// </summary>
+    /// <param name="session">Session.</param>
+    void DisplayCurrentGestureSmoothingValue(Session session)
+    {
+        if (smoothingSliderControler.activeInHierarchy)
+        {
+            currentGestureSmoothingValue.text = "Gesture Smoothing: " + session.gesture_smoothing_controller.ToString("F2");
+        }
+    }
+
+    /// <summary>
+    /// Displayes palm center cursor
     /// </summary>
     /// <param name="palmCenter">Requires the estimated position of the bounding box center.</param>
     void DisplayPalmCenter(Vector3 palmCenter, GestureInfo gesture, Warning warning)
@@ -381,14 +396,14 @@ public class GizmoManager : MonoBehaviour
     int currentThumbCounter = 0;
 
     /// <summary>
-    /// Displaies the thumb cursor.
+    /// Display the POI cursor
     /// </summary>
     /// <param name="gesture">Gesture.</param>
     /// <param name="warning">Warning.</param>
     /// <param name="trackingInfo">Tracking info.</param>
     void DisplayPOI(GestureInfo gesture, Warning warning, TrackingInfo trackingInfo)
     {
-		bool isPinchWellDetected = currentThumbCounter > maxThumbCounter / 2;
+        bool isPinchWellDetected = currentThumbCounter > maxThumbCounter / 2;
         if (ShowPOI)
         {
             if (gesture.mano_class == ManoClass.PINCH_GESTURE_FAMILY)
@@ -460,7 +475,7 @@ public class GizmoManager : MonoBehaviour
                     manoClassText.text = "Manoclass: Pointer Class";
                     break;
                 default:
-                    manoClassText.text = "Manoclass: ";
+                    manoClassText.text = "Manoclass: No Hand";
                     break;
             }
         }
@@ -633,9 +648,10 @@ public class GizmoManager : MonoBehaviour
     /// <param name="triggerGesture">Trigger gesture.</param>
     void TriggerDisplay(TrackingInfo trackingInfo, ManoGestureTrigger triggerGesture)
     {
-        GameObject triggerVisualInformation = GetCurrentPooledTrigger();
-        if (triggerVisualInformation != null)
+        if (GetCurrentPooledTrigger())
         {
+            GameObject triggerVisualInformation = GetCurrentPooledTrigger();
+
             triggerVisualInformation.SetActive(true);
             triggerVisualInformation.name = triggerGesture.ToString();
             triggerVisualInformation.GetComponent<TriggerGizmo>().InitializeTriggerGizmo(triggerGesture);
@@ -703,6 +719,7 @@ public class GizmoManager : MonoBehaviour
     public void DisplaySmoothingSlider()
     {
         smoothingSliderControler.SetActive(_showSmoothingSlider);
+        gestureSmoothingSliderControler.SetActive(_showSmoothingSlider);
     }
 
     /// <summary>

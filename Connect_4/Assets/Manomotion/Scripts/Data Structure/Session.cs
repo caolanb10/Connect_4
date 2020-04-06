@@ -41,8 +41,8 @@ public struct Session
 	public DeviceOrientation orientation;
 	public AddOn add_on;
 	public float smoothing_controller;
-	public Features enabled_features;
-	public Hand hand;
+    public float gesture_smoothing_controller;
+    public Features enabled_features;
 }
 
 /// <summary>

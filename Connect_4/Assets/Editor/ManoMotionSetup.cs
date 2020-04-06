@@ -19,6 +19,13 @@ public class ManoMotionSetup
 
 #if UNITY_ANDROID
         Debug.Log("Setting up ManoMotion Library Requirements");
+
+        if (PlayerSettings.Android.minSdkVersion <= AndroidSdkVersions.AndroidApiLevel23)
+        {
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel24;
+            Debug.Log("Setting Minimum Android API level to 24");
+        }
+
         PlayerSettings.Android.preferredInstallLocation = AndroidPreferredInstallLocation.PreferExternal;
         PlayerSettings.Android.forceInternetPermission = true;
         PlayerSettings.Android.forceSDCardPermission = true;

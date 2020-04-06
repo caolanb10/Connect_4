@@ -68,7 +68,6 @@ public class ApplicationManager : MonoBehaviour
 	/// </summary>
 	void HandleHowToInstructionsFinished()
 	{
-        Debug.Log("Anton handleINstructionFinished");
 		runTimeApplication.StartMainApplicationWithDefaultSettings();
 	}
 
@@ -77,7 +76,6 @@ public class ApplicationManager : MonoBehaviour
 	/// </summary>
 	void HandleHowToInstructionsSkipped()
 	{
-        Debug.Log("Anton handleINstructionSkipped");
 		HandleHowToInstructionsFinished();
 	}
 
@@ -86,6 +84,34 @@ public class ApplicationManager : MonoBehaviour
 	/// </summary>
 	void InitializeComponents()
 	{
+		#region Privacy Policy
+		try
+		{
+			privacyPolicy = this.GetComponent<PrivacyPolicyDisclaimair>();
+
+		}
+		catch (Exception ex)
+		{
+			privacyPolicy = new PrivacyPolicyDisclaimair();
+		}
+
+		privacyPolicy.OnHasApprovedPrivacyPolicy += HandlePrivacyPolicyAccepted;
+		#endregion
+
+		#region Instructions
+		try
+		{
+			howToInstructor = this.GetComponent<HowToInstructor>();
+
+		}
+		catch (Exception ex)
+		{
+			howToInstructor = new HowToInstructor();
+		}
+		howToInstructor.OnHasSeenAllInstructions += HandleHowToInstructionsFinished;
+		howToInstructor.OnHasSkippedInstructions += HandleHowToInstructionsSkipped;
+		#endregion
+
 		#region RunTimeApplication
 		try
 		{

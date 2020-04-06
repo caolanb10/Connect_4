@@ -14,20 +14,28 @@ public class EditorScripts : MonoBehaviour
 	public static void OnPostProcessBuild (BuildTarget buildTarget, string path)
 	{
 #if UNITY_IOS
-		if (buildTarget == BuildTarget.iOS) {
-			string projectPath = path + "/Unity-iPhone.xcodeproj/project.pbxproj";
-
-                  PBXProject pbxProject = new PBXProject ();
-            
-
-            pbxProject.ReadFromFile (projectPath);
-
-			string target = pbxProject.TargetGuidByName ("Unity-iPhone");            
-			pbxProject.SetBuildProperty (target, "ENABLE_BITCODE", "NO");
-
-			pbxProject.WriteToFile (projectPath);
-
-		}
+        if (buildTarget == BuildTarget.iOS)
+        {
+            string projectPath = path + "/Unity-iPhone.xcodeproj/project.pbxproj";
+            string mainTargetGuid;
+            string unityFrameworkTargetGuid;
+            PBXProject pbxProject = new PBXProject();
+            var unityMainTargetGuidMethod = pbxProject.GetType().GetMethod("GetUnityMainTargetGuid");
+            var unityFrameworkTargetGuidMethod = pbxProject.GetType().GetMethod("GetUnityFrameworkTargetGuid");
+            pbxProject.ReadFromFile(projectPath);
+            if (unityMainTargetGuidMethod != null && unityFrameworkTargetGuidMethod != null)
+            {
+                mainTargetGuid = (string)unityMainTargetGuidMethod.Invoke(pbxProject, null);
+                unityFrameworkTargetGuid = (string)unityFrameworkTargetGuidMethod.Invoke(pbxProject, null);
+            }
+            else
+            {
+                mainTargetGuid = pbxProject.TargetGuidByName("Unity-iPhone");
+                unityFrameworkTargetGuid = mainTargetGuid;
+            }
+            pbxProject.SetBuildProperty(mainTargetGuid, "ENABLE_BITCODE", "NO");
+            pbxProject.WriteToFile(projectPath);
+        }
 #endif
     }
 }

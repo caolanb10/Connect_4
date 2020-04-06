@@ -127,16 +127,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8907605107425361015, guid: 63291b5b4f2621245b902de7efb3b172,
-        type: 3}
-      propertyPath: m_Name
-      value: Example - Application Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 8907605107425361015, guid: 63291b5b4f2621245b902de7efb3b172,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8907605107425361008, guid: 63291b5b4f2621245b902de7efb3b172,
         type: 3}
       propertyPath: manoVisualization
@@ -216,6 +206,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8907605107425361015, guid: 63291b5b4f2621245b902de7efb3b172,
+        type: 3}
+      propertyPath: m_Name
+      value: Example - Application Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8907605107425361015, guid: 63291b5b4f2621245b902de7efb3b172,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8907605107861659675, guid: 63291b5b4f2621245b902de7efb3b172,
         type: 3}
@@ -764,16 +764,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6013963148463600731, guid: 23362865fead01e4daba07a22ec7508a,
-        type: 3}
-      propertyPath: m_Name
-      value: Example - Main Feature Menu
-      objectReference: {fileID: 0}
-    - target: {fileID: 6013963148463600731, guid: 23362865fead01e4daba07a22ec7508a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6013963147366200983, guid: 23362865fead01e4daba07a22ec7508a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -1038,6 +1028,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013963148463600731, guid: 23362865fead01e4daba07a22ec7508a,
+        type: 3}
+      propertyPath: m_Name
+      value: Example - Main Feature Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013963148463600731, guid: 23362865fead01e4daba07a22ec7508a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6013963148585219241, guid: 23362865fead01e4daba07a22ec7508a,
         type: 3}
@@ -1552,8 +1552,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UseCustomMaterial: 0
   m_CustomMaterial: {fileID: 2100000, guid: 7023fb0dc143a40a2b69851ace343825, type: 2}
-  m_UseCustomRendererAsset: 0
-  m_CustomRendererAsset: {fileID: 0}
 --- !u!114 &1509354414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1600,33 +1598,6 @@ Transform:
   m_Father: {fileID: 203539643}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1607704352
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Smkgames/Menu/SimpleGrabPassBlur
-  m_Shader: {fileID: 4800000, guid: 83a256425dae224428cb03ca7dad0c71, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - _Distortion: 10
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1635793352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1700,6 +1671,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1184720179808240, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1220663306297308, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1291009250987664, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
       propertyPath: m_Name
       value: ManoMotionCanvas
@@ -1707,6 +1686,39 @@ PrefabInstance:
     - target: {fileID: 1291009250987664, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1412737396818478, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1468700632859152, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224272445527916418, guid: 0f8504ddba966c5459c5954aff90da2d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 99.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 224272445527916418, guid: 0f8504ddba966c5459c5954aff90da2d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -32.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 224272445527916418, guid: 0f8504ddba966c5459c5954aff90da2d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 224272445527916418, guid: 0f8504ddba966c5459c5954aff90da2d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 224272445527916418, guid: 0f8504ddba966c5459c5954aff90da2d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 224299564001968978, guid: 0f8504ddba966c5459c5954aff90da2d,
         type: 3}
@@ -1818,47 +1830,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1412737396818478, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1468700632859152, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224272445527916418, guid: 0f8504ddba966c5459c5954aff90da2d,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 99.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 224272445527916418, guid: 0f8504ddba966c5459c5954aff90da2d,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -32.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 224272445527916418, guid: 0f8504ddba966c5459c5954aff90da2d,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 224272445527916418, guid: 0f8504ddba966c5459c5954aff90da2d,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 224272445527916418, guid: 0f8504ddba966c5459c5954aff90da2d,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 1184720179808240, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220663306297308, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f8504ddba966c5459c5954aff90da2d, type: 3}
 --- !u!95 &1671046898 stripped
@@ -1867,6 +1838,33 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 1671046897}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1680770943
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Smkgames/Menu/SimpleGrabPassBlur
+  m_Shader: {fileID: 4800000, guid: 83a256425dae224428cb03ca7dad0c71, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Distortion: 10
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1770957805 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6013963148656607979, guid: 23362865fead01e4daba07a22ec7508a,
@@ -2054,6 +2052,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114518841623097860, guid: bff41d146b94d43cd9af2a39cda8476d,
+        type: 3}
+      propertyPath: manomotionCanvas
+      value: 
+      objectReference: {fileID: 202913608}
+    - target: {fileID: 114518841623097860, guid: bff41d146b94d43cd9af2a39cda8476d,
+        type: 3}
+      propertyPath: iconsCanvas
+      value: 
+      objectReference: {fileID: 352955197}
     - target: {fileID: 224256490864738992, guid: bff41d146b94d43cd9af2a39cda8476d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2159,16 +2167,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114518841623097860, guid: bff41d146b94d43cd9af2a39cda8476d,
-        type: 3}
-      propertyPath: manomotionCanvas
-      value: 
-      objectReference: {fileID: 202913608}
-    - target: {fileID: 114518841623097860, guid: bff41d146b94d43cd9af2a39cda8476d,
-        type: 3}
-      propertyPath: iconsCanvas
-      value: 
-      objectReference: {fileID: 352955197}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bff41d146b94d43cd9af2a39cda8476d, type: 3}
 --- !u!1001 &260785485060396896
@@ -2178,6 +2176,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 521351802, guid: 84b17eee54c744578b650ff304284bda, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1262405585}
+    - target: {fileID: 521351802, guid: 84b17eee54c744578b650ff304284bda, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetManoMotionSmoothingValue
+      objectReference: {fileID: 0}
     - target: {fileID: 1374944095837672, guid: 84b17eee54c744578b650ff304284bda, type: 3}
       propertyPath: m_Name
       value: Example - Gizmo Canvas
@@ -2255,6 +2261,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _showDepthEstimation
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114686393030660414, guid: 84b17eee54c744578b650ff304284bda,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.315
+      objectReference: {fileID: 0}
+    - target: {fileID: 224562551831101964, guid: 84b17eee54c744578b650ff304284bda,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 107.899414
       objectReference: {fileID: 0}
     - target: {fileID: 224952530247401068, guid: 84b17eee54c744578b650ff304284bda,
         type: 3}
@@ -2361,24 +2377,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 521351802, guid: 84b17eee54c744578b650ff304284bda, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1262405585}
-    - target: {fileID: 521351802, guid: 84b17eee54c744578b650ff304284bda, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetManoMotionSmoothingValue
-      objectReference: {fileID: 0}
-    - target: {fileID: 4697042911627984816, guid: 84b17eee54c744578b650ff304284bda,
-        type: 3}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4697042911627984816, guid: 84b17eee54c744578b650ff304284bda,
-        type: 3}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4166189931734955992, guid: 84b17eee54c744578b650ff304284bda,
         type: 3}
       propertyPath: m_havePropertiesChanged
@@ -2389,15 +2387,15 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 224562551831101964, guid: 84b17eee54c744578b650ff304284bda,
+    - target: {fileID: 4697042911627984816, guid: 84b17eee54c744578b650ff304284bda,
         type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 107.899414
+      propertyPath: m_havePropertiesChanged
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114686393030660414, guid: 84b17eee54c744578b650ff304284bda,
+    - target: {fileID: 4697042911627984816, guid: 84b17eee54c744578b650ff304284bda,
         type: 3}
-      propertyPath: m_MatchWidthOrHeight
-      value: 0.315
+      propertyPath: m_isInputParsingRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84b17eee54c744578b650ff304284bda, type: 3}
@@ -2408,26 +2406,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3380657200633960680, guid: d51db39ed46eb16419119819e79cc835,
-        type: 3}
-      propertyPath: m_Name
-      value: ManomotionManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 3380657200633960680, guid: d51db39ed46eb16419119819e79cc835,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3838476432118020029, guid: d51db39ed46eb16419119819e79cc835,
-        type: 3}
-      propertyPath: isUsingArFoundation
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3838476432118020029, guid: d51db39ed46eb16419119819e79cc835,
-        type: 3}
-      propertyPath: _licenseKey
-      value: IUGFS-PYAPQ-EIBEM-CIYYM
-      objectReference: {fileID: 0}
     - target: {fileID: 861438185678847608, guid: d51db39ed46eb16419119819e79cc835,
         type: 3}
       propertyPath: arCameraManager
@@ -2583,6 +2561,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3380657200633960680, guid: d51db39ed46eb16419119819e79cc835,
+        type: 3}
+      propertyPath: m_Name
+      value: ManomotionManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380657200633960680, guid: d51db39ed46eb16419119819e79cc835,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3420502752820057420, guid: d51db39ed46eb16419119819e79cc835,
         type: 3}
       propertyPath: statusAnimator
@@ -2593,6 +2581,16 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1509354412}
+    - target: {fileID: 3838476432118020029, guid: d51db39ed46eb16419119819e79cc835,
+        type: 3}
+      propertyPath: isUsingArFoundation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3838476432118020029, guid: d51db39ed46eb16419119819e79cc835,
+        type: 3}
+      propertyPath: _licenseKey
+      value: EVUKO-OLMJK-CGHRJ-FPEFM
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d51db39ed46eb16419119819e79cc835, type: 3}
 --- !u!1001 &3984174211803468996
@@ -2602,6 +2600,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3984174212159926067, guid: a4d4c6411ee9f4e63877fb38d9ebe324,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3984174212159926071, guid: a4d4c6411ee9f4e63877fb38d9ebe324,
         type: 3}
       propertyPath: m_Name
@@ -2611,11 +2614,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3984174212159926067, guid: a4d4c6411ee9f4e63877fb38d9ebe324,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3984174212159926078, guid: a4d4c6411ee9f4e63877fb38d9ebe324,
         type: 3}
