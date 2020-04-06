@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class MyManoSetup : MonoBehaviour
 {
-	GizmoManager GizmoManager;
     void Start()
     {
-		GizmoManager = GetComponent<GizmoManager>();
 		Session session = ManomotionManager.Instance.Manomotion_Session;
-		session.smoothing_controller = 0.7f;
+		session.smoothing_controller = 1.0f;
+		session.gesture_smoothing_controller = 0.5f;
 		ManomotionManager.Instance.Manomotion_Session = session;
 	}
 }

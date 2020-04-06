@@ -17,7 +17,6 @@ public class MyHighlighter : MonoBehaviour
 		if (IsGameObjectPieceAndOwned(collider.gameObject) && HighlightedPiece == null)
 		{
 			HighlightedPiece = collider.gameObject;
-			Debug.Log("collided with a piece");
 			HighlightedPiece.GetComponent<MyChangeShader>().ChangeShaderSelected();
 		}
 	}
