@@ -15,7 +15,10 @@ public class MyPieceControllerGesture : MyPieceController
 
 		Distance = Mathf.Pow(TrackingInformation.depth_estimation, 2);
 
-		MoveCursor();
+		if(Distance > 0.0f && ScreenPosition.x > 0.0f)
+		{
+			MoveCursor();
+		}
 
 		if(IsGrabPieceGesture(GestureInformation.mano_gesture_trigger))
 		{

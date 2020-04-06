@@ -114,5 +114,6 @@ public class MyPieceController : MonoBehaviour
 	public void InitialiseGameObjects()
 	{
 		Camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		VisualOrb = GameObject.Find("Sphere");
 	}
 }
