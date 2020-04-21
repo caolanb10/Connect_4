@@ -57,6 +57,8 @@ public class MyARPlacementManager : MonoBehaviour
 			{
 				Debug.Log("Marker Object found");
 				Connect4Board.transform.position = MarkerObject[0].transform.position;
+				Debug.Log(Connect4Board.transform.position);
+				Debug.Log(MarkerObject[0].transform.position);
 			}
 			else
 			{
