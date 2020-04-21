@@ -105,7 +105,6 @@ namespace ManoMotion.RunTime
 
                 }
             }
-			s
             runTimeObjects.Add(manoVisualization.gameObject);
             runTimeObjects.Add(gizmoManager.gameObject);
             runTimeObjects.Add(manoMotionCanvas);
