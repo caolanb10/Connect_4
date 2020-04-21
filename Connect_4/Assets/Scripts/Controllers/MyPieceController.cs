@@ -80,6 +80,7 @@ public class MyPieceController : MonoBehaviour
 	protected virtual void Grab(Ray ray)
 	{
 		RaycastHit hit;
+		Debug.DrawRay(ray.origin, ray.direction, Color.cyan, 1);
 		if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8))
 		{
 			SelectedPiece = hit.transform.gameObject;

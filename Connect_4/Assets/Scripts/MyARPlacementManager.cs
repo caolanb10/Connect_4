@@ -55,7 +55,12 @@ public class MyARPlacementManager : MonoBehaviour
 			FindMarkerObject();
 			if (MarkerObject.Length > 0)
 			{
+				Debug.Log("Marker Object found");
 				Connect4Board.transform.position = MarkerObject[0].transform.position;
+			}
+			else
+			{
+				Debug.Log("Marker Object not found");
 			}
 		}
     }
