@@ -22,13 +22,16 @@ public class MyPieceControllerGesture : MyPieceController
 
 		if(IsGrabPieceGesture(GestureInformation.mano_gesture_trigger))
 		{
+			Debug.Log("Grab Gesture");
 			GestureGrab();
 		}
 		
 		if(IsReleaseGesture(GestureInformation.mano_gesture_trigger))
 		{
+			Debug.Log("Release");
 			Release();
 		}
+
 		if (SelectedPiece == null)
 			return;
 		else
@@ -50,14 +53,11 @@ public class MyPieceControllerGesture : MyPieceController
 
 	public bool IsGrabPieceGesture(ManoGestureTrigger trigger)
 	{
-		return ((trigger == ManoGestureTrigger.CLICK)
-			|| (trigger == ManoGestureTrigger.GRAB_GESTURE)
-			|| (trigger == ManoGestureTrigger.PICK));
+		return (trigger == ManoGestureTrigger.PICK);
 	}
 
 	public bool IsReleaseGesture(ManoGestureTrigger trigger)
 	{
-		return ((trigger == ManoGestureTrigger.DROP)
-			|| (trigger == ManoGestureTrigger.RELEASE_GESTURE));
+		return (trigger == ManoGestureTrigger.DROP);
 	}
 }

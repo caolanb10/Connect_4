@@ -20,9 +20,15 @@ public class MyUIManager : MonoBehaviour
 	public GameObject Scale;
 	public GameObject BackToLobby;
 	public GameObject RaycastCentre;
+	public GameObject FPS_UI;
 
 	public TextMeshProUGUI Room_Text;
 	public TextMeshProUGUI UIInformPanelText;
+
+	public int frameRange = 60;
+	public int[] FPS_Buffer;
+	public int fpsBufferIndex;
+	public int AverageFPS;
 
 	public bool IsInGame = false;
 
@@ -33,6 +39,48 @@ public class MyUIManager : MonoBehaviour
 	public void Start()
 	{
 		BeforePlaced();
+	}
+
+	void InitializeBuffer()
+	{
+		if (frameRange <= 0)
+		{
+			frameRange = 1;
+		}
+		FPS_Buffer = new int[frameRange];
+		fpsBufferIndex = 0;
+	}
+
+	void UpdateBuffer()
+	{
+		int frameRate = (int)(1f / Time.unscaledDeltaTime);
+		Debug.Log(frameRate);
+
+		FPS_Buffer[fpsBufferIndex++] = (int)(1f / Time.unscaledDeltaTime);
+		if (fpsBufferIndex >= frameRange)
+		{
+			fpsBufferIndex = 0;
+		}
+	}
+
+	void CalculateFPS () {
+		int sum = 0;
+		for (int i = 0; i < frameRange; i++)
+		{
+			sum += FPS_Buffer[i];
+		}
+		AverageFPS = sum / frameRange;
+	}
+
+	public void Update()
+	{
+		if (FPS_Buffer == null || FPS_Buffer.Length != frameRange)
+		{
+			InitializeBuffer();
+		}
+		UpdateBuffer();
+		CalculateFPS();
+		FPS_UI.GetComponent<TextMeshProUGUI>().text = AverageFPS.ToString();
 	}
 
 	public void BeforePlaced()
