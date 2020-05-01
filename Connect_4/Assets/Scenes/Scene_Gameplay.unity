@@ -5261,7 +5261,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 145.1, y: -77.3}
+  m_AnchoredPosition: {x: 145.10004, y: -77.299805}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1190509421
@@ -9382,7 +9382,10 @@ MonoBehaviour:
   FPS_UI: {fileID: 1190509419}
   Room_Text: {fileID: 46565575}
   UIInformPanelText: {fileID: 409680469}
-  FPS: 0
+  frameRange: 60
+  FPS_Buffer: 
+  fpsBufferIndex: 0
+  AverageFPS: 0
   IsInGame: 0
 --- !u!1 &1001302865706884
 GameObject:
@@ -9869,9 +9872,9 @@ MonoBehaviour:
   _showWarnings: 0
   _showPickTriggerGesture: 1
   _showDropTriggerGesture: 1
-  _showClickTriggerGesture: 1
-  _showGrabTriggerGesture: 1
-  _showReleaseTriggerGesture: 1
+  _showClickTriggerGesture: 0
+  _showGrabTriggerGesture: 0
+  _showReleaseTriggerGesture: 0
   _showSmoothingSlider: 0
   _showDepthEstimation: 0
   triggerObjectPool: []
